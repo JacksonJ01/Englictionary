@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Englictionary Menu</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(15, 23, 42, 0.9);
+      --panel-2: rgba(2, 6, 23, 0.52);
+      --border: rgba(148, 163, 184, 0.18);
+      --border-strong: rgba(56, 189, 248, 0.38);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.16);
+      --good: #34d399;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Segoe UI, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 35%),
+        radial-gradient(circle at 85% 0%, rgba(99, 102, 241, 0.14), transparent 30%),
+        linear-gradient(135deg, #020617, var(--bg) 58%);
+      color: var(--text);
+    }
+    .shell { display: grid; grid-template-columns: 360px 1fr; min-height: 100vh; }
+    .sidebar {
+      padding: 18px;
+      border-right: 1px solid rgba(148, 163, 184, 0.12);
+      background: rgba(2, 6, 23, 0.34);
+      backdrop-filter: blur(12px);
+    }
+    .brand { font-size: 28px; font-weight: 800; letter-spacing: 0.01em; }
+    .brand-sub { margin-top: 6px; color: var(--muted); line-height: 1.45; font-size: 13px; }
+    .tab-strip { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .tab-btn.active { background: var(--accent-soft); border-color: var(--border-strong); }
+    .panel {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.2);
+    }
+    .panel-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .source-list, .run-list { display: grid; gap: 8px; }
+    .source-card, .run-card {
+      width: 100%;
+      text-align: left;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      background: rgba(15, 23, 42, 0.72);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .source-card.active, .run-card.active { border-color: var(--border-strong); background: var(--accent-soft); }
+    .card-title { font-size: 13px; font-weight: 800; }
+    .card-meta { font-size: 12px; color: var(--muted); line-height: 1.35; margin-top: 4px; }
+    .menu-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .menu-btn {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      background: rgba(15, 23, 42, 0.84);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .menu-btn.primary { background: linear-gradient(135deg, #0ea5e9, #2563eb); border-color: rgba(56, 189, 248, 0.5); }
+    .menu-note { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .main { display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+    .header {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 18px 20px 0 20px;
+    }
+    .header-title { font-size: 18px; font-weight: 800; }
+    .header-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .content { padding: 16px 20px 20px; min-height: 0; }
+    .sphere-stage {
+      position: relative;
+      height: calc(100vh - 118px);
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(56, 189, 248, 0.24), rgba(15, 23, 42, 0.88) 28%, rgba(2, 6, 23, 0.98) 60%),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+    }
+    .sphere-stage::before {
+      content: "";
+      position: absolute;
+      inset: 8% 18%;
+      border-radius: 50%;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: inset 0 0 90px rgba(56, 189, 248, 0.08);
+    }
+    .sphere-stage::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(58vw, 58vh); height: min(58vw, 58vh);
+      border-radius: 50%;
+      border: 2px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 0 0 0 22px rgba(15, 23, 42, 0.4), inset 0 0 70px rgba(56, 189, 248, 0.06);
+    }
+    .vacant-copy {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      text-align: center; pointer-events: none; z-index: 2;
+      padding: 24px;
+    }
+    .vacant-title { font-size: 42px; font-weight: 900; letter-spacing: 0.03em; }
+    .vacant-sub { margin-top: 10px; font-size: 14px; color: var(--muted); max-width: 520px; line-height: 1.55; }
+    .hidden { display: none !important; }
+    .config-browser { display: grid; gap: 10px; }
+    .config-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .config-name { font-size: 16px; font-weight: 800; word-break: break-word; }
+    .arrow-btn {
+      width: 34px; height: 34px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.2);
+      background: rgba(15,23,42,0.9); color: var(--text); cursor: pointer; font-size: 18px;
+    }
+    .field-meta { color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .field-control { display: grid; gap: 8px; margin-top: 8px; }
+    .field-input { width: 100%; box-sizing: border-box; }
+    input[type="text"], input[type="number"] {
+      width: 100%; box-sizing: border-box; padding: 9px 10px; border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.22); background: rgba(2,6,23,0.46);
+      color: var(--text); font-family: inherit; font-size: 12px;
+    }
+    input[type="range"] { width: 100%; }
+    .toggle-row { display: flex; align-items: center; gap: 8px; }
+    .tiny { font-size: 11px; color: var(--muted); }
+    .file-chip { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(15,23,42,0.72); border: 1px solid rgba(148,163,184,0.14); }
+    .file-chip strong { display: block; font-size: 13px; }
+    .csv-preview { margin-top: 10px; font-size: 12px; color: var(--muted); line-height: 1.45; white-space: pre-wrap; }
+    iframe { width: 100%; height: 100%; border: 0; border-radius: 24px; background: #fff; box-shadow: 0 28px 70px rgba(0, 0, 0, 0.26); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">Englictionary</div>
+      <div class="brand-sub">Menu-first launcher with a vacant sphere, CSV import, config browsing, and saved run tabs.</div>
+
+      <div class="tab-strip">
+        <button class="tab-btn active" data-view="home">Home</button>
+        <button class="tab-btn" data-view="settings">Settings</button>
+        <button class="tab-btn" data-view="runs">Runs</button>
+      </div>
+
+      <div id="homePanel" class="panel">
+        <div class="panel-title">Source menu</div>
+        <div class="menu-row">
+          <button id="importCsvBtn" class="menu-btn primary" type="button">Import CSV</button>
+          <button id="clearCsvBtn" class="menu-btn" type="button">Clear source</button>
+        </div>
+        <input id="csvInput" type="file" accept=".csv,text/csv" class="hidden">
+        <div id="sourceChip" class="file-chip" style="margin-top:12px;">
+          <div>
+            <strong>Vacant sphere</strong>
+            <div class="tiny">No CSV selected yet.</div>
+          </div>
+        </div>
+        <div id="csvPreview" class="csv-preview">Import a CSV to preview its headers and row count here.</div>
+      </div>
+
+      <div id="settingsPanel" class="panel hidden">
+        <div class="panel-title">Config browser</div>
+        <div class="config-browser">
+          <div class="config-nav">
+            <button id="configPrev" class="arrow-btn" type="button">‹</button>
+            <div id="configName" class="config-name"></div>
+            <button id="configNext" class="arrow-btn" type="button">›</button>
+          </div>
+          <div id="configMeta" class="field-meta"></div>
+          <div id="configControl" class="field-control"></div>
+          <div class="menu-row">
+            <button id="savePresetBtn" class="menu-btn primary" type="button">Save preset JSON</button>
+            <button id="resetPresetBtn" class="menu-btn" type="button">Reset</button>
+          </div>
+          <div class="menu-note">These controls edit a browser-side preset for now. The menu is in place so the config can be fed back into the pipeline in the next step.</div>
+        </div>
+      </div>
+
+      <div id="runsPanel" class="panel hidden">
+        <div class="panel-title">Recent runs</div>
+        <div id="runList" class="run-list"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <div>
+          <div id="viewerTitle" class="header-title">Vacant Sphere</div>
+          <div id="viewerSub" class="header-sub">The sphere starts empty until you choose a CSV or open a saved run.</div>
+        </div>
+        <a id="openInNewTab" href="#" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;font-weight:700;">Open current view</a>
+      </div>
+      <div class="content">
+        <div id="homeView" class="sphere-stage">
+          <div class="vacant-copy">
+            <div>
+              <div class="vacant-title">Vacant sphere</div>
+              <div class="vacant-sub">Use the menu on the left to import a CSV, browse config values, or switch to a saved run. The sphere will stay empty until a dataset is selected.</div>
+            </div>
+          </div>
+        </div>
+        <div id="runView" class="hidden" style="height: calc(100vh - 118px);">
+          <iframe id="runFrame" src="file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical/sphere_surface_all_nodes.html" title="Englictionary run viewer"></iframe>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const runs = [{"visualization_mode": "spherical", "spherical_full_surface": true, "file_path": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\quizlet_scraped.csv", "use_embeddings": true, "dimensions": 3, "use_umap": true, "n_clusters": 20, "k_neighbors": 10, "source_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\quizlet_scraped.csv", "focus_column": "Word", "definition_column": "Definition", "pos_column": "", "detail_columns": [], "plot_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\runs\\20260424_014659_525255\\spherical\\sphere_surface_all_nodes.html", "nodes_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\surface_points.csv", "edges_file": "", "archive_dir": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\runs\\20260424_014659_525255", "points_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\runs\\20260424_014659_525255\\spherical\\surface_points.csv", "plot_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/runs/20260424_014659_525255/spherical/sphere_surface_all_nodes.html", "points_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/runs/20260424_014659_525255/spherical/surface_points.csv", "launcher_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical_launcher.html", "run_label": "20260424_014659_525255"}, {"visualization_mode": "spherical", "spherical_full_surface": true, "file_path": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\quizlet_scraped.csv", "use_embeddings": true, "dimensions": 3, "use_umap": true, "n_clusters": 20, "k_neighbors": 10, "source_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\quizlet_scraped.csv", "focus_column": "Word", "definition_column": "Definition", "pos_column": "", "detail_columns": [], "plot_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\sphere_surface_all_nodes.html", "nodes_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\surface_points.csv", "edges_file": "", "archive_dir": "current", "points_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\surface_points.csv", "plot_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical/sphere_surface_all_nodes.html", "points_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical/surface_points.csv", "launcher_uri": "file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical_launcher.html", "run_label": "current"}];
+    const configSchema = [{"name": "CAMERA_EYE_X", "value": 1.8, "kind": "float", "category": "pipeline", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "CAMERA_EYE_Y", "value": 1.8, "kind": "float", "category": "pipeline", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "CAMERA_EYE_Z", "value": 1.4, "kind": "float", "category": "pipeline", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "COORDINATE_SCALE", "value": 3.0, "kind": "float", "category": "pipeline", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "DEFINITION_COLUMN", "value": "Definition", "kind": "text", "category": "pipeline"}, {"name": "DIMENSIONS", "value": 3, "kind": "int", "category": "pipeline", "min": 0, "max": 10, "step": 1}, {"name": "DISPLAY_DISTANCE_NEIGHBORS", "value": 6, "kind": "int", "category": "pipeline", "min": 0, "max": 24, "step": 1}, {"name": "DISPLAY_DISTANCE_PASSES", "value": 2, "kind": "int", "category": "pipeline", "min": 0, "max": 10, "step": 1}, {"name": "DISPLAY_MIN_DISTANCE", "value": 0.15, "kind": "float", "category": "pipeline", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "EDGES_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\edges.csv", "kind": "text", "category": "output"}, {"name": "EMBEDDING_MODEL", "value": "all-MiniLM-L6-v2", "kind": "text", "category": "pipeline"}, {"name": "ENABLE_3D_NODE_SPREAD", "value": true, "kind": "bool", "category": "pipeline"}, {"name": "FIGURE_HEIGHT", "value": 1000, "kind": "int", "category": "pipeline", "min": 0, "max": 2000, "step": 1}, {"name": "FIGURE_WIDTH", "value": 1400, "kind": "int", "category": "pipeline", "min": 0, "max": 2800, "step": 1}, {"name": "FILE_PATH", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\dictionary.csv", "kind": "text", "category": "pipeline"}, {"name": "FOCUS_COLUMN", "value": "Word", "kind": "text", "category": "pipeline"}, {"name": "GRAPH_SEARCH_DIMS", "value": 64, "kind": "int", "category": "pipeline", "min": 0, "max": 128, "step": 1}, {"name": "K_NEIGHBORS", "value": 10, "kind": "int", "category": "pipeline", "min": 0, "max": 20, "step": 1}, {"name": "LARGE_DATA_THRESHOLD", "value": 50000, "kind": "int", "category": "pipeline", "min": 0, "max": 100000, "step": 1}, {"name": "MARKER_OPACITY_3D", "value": 0.55, "kind": "float", "category": "pipeline", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "MARKER_SIZE_3D", "value": 2, "kind": "int", "category": "pipeline", "min": 0, "max": 10, "step": 1}, {"name": "MAX_DISPLAY_ADJUST_POINTS", "value": 12000, "kind": "int", "category": "pipeline", "min": 0, "max": 24000, "step": 1}, {"name": "MAX_EDGE_RENDER", "value": 2000, "kind": "int", "category": "pipeline", "min": 0, "max": 4000, "step": 1}, {"name": "MAX_FEATURES", "value": 5000, "kind": "int", "category": "pipeline", "min": 0, "max": 10000, "step": 1}, {"name": "MAX_RECENT_RUNS", "value": 8, "kind": "int", "category": "pipeline", "min": 0, "max": 16, "step": 1}, {"name": "NODES_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\nodes.csv", "kind": "text", "category": "output"}, {"name": "N_CLUSTERS", "value": 20, "kind": "int", "category": "pipeline", "min": 0, "max": 40, "step": 1}, {"name": "OUTPUT_DIR", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output", "kind": "text", "category": "output"}, {"name": "PLOT_2D_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\semantic_map_2d.html", "kind": "text", "category": "output"}, {"name": "PLOT_3D_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\semantic_map_3d.html", "kind": "text", "category": "output"}, {"name": "PLOT_AUTO_OPEN", "value": true, "kind": "bool", "category": "output"}, {"name": "POS_COLUMN", "value": "POS", "kind": "text", "category": "pipeline"}, {"name": "PREVIEW_POINT_THRESHOLD", "value": 10000, "kind": "int", "category": "pipeline", "min": 0, "max": 20000, "step": 1}, {"name": "RANDOM_STATE", "value": 42, "kind": "int", "category": "pipeline", "min": 0, "max": 168, "step": 1}, {"name": "RUN_HISTORY_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\run_history.json", "kind": "text", "category": "output"}, {"name": "RUN_METADATA_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\run_metadata.json", "kind": "text", "category": "output"}, {"name": "SCENE_ASPECTMODE", "value": "cube", "kind": "text", "category": "pipeline"}, {"name": "SOURCE_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\dictionary.csv", "kind": "text", "category": "output"}, {"name": "SPHERE_CLUSTER_ANGULAR_PADDING", "value": 0.022, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_CLUSTER_COUNT", "value": 56, "kind": "int", "category": "spherical", "min": 0, "max": 112, "step": 1}, {"name": "SPHERE_CLUSTER_MAX_ANGULAR_RADIUS", "value": 0.5, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_CLUSTER_REPEL_STEPS", "value": 220, "kind": "int", "category": "spherical", "min": 0, "max": 440, "step": 1}, {"name": "SPHERE_DEFINITION_MAX_POINTS", "value": 25000, "kind": "int", "category": "spherical", "min": 0, "max": 50000, "step": 1}, {"name": "SPHERE_FULL_SURFACE", "value": true, "kind": "bool", "category": "spherical"}, {"name": "SPHERE_INCLUDE_DEFINITION_IN_HTML", "value": false, "kind": "bool", "category": "spherical"}, {"name": "SPHERE_LOCAL_EDGE_K", "value": 5, "kind": "int", "category": "spherical", "min": 0, "max": 20, "step": 1}, {"name": "SPHERE_MIN_SUBCLUSTER_SIZE", "value": 30, "kind": "int", "category": "spherical", "min": 0, "max": 60, "step": 1}, {"name": "SPHERE_NODE_ANGULAR_SPACING", "value": 0.0032, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_NODE_PIXEL_SIZE", "value": 2.6, "kind": "float", "category": "spherical", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "SPHERE_PATCH_RADIUS_SUB", "value": 0.14, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_PATCH_RADIUS_WORD", "value": 0.08, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_POINT_LIFT", "value": 1.012, "kind": "float", "category": "spherical", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "SPHERE_RENDER_RADIUS", "value": 285.0, "kind": "float", "category": "spherical", "min": 0.0, "max": 570.0, "step": 0.1}, {"name": "SPHERE_SECONDARY_MEMBERSHIPS", "value": 2, "kind": "int", "category": "spherical", "min": 0, "max": 10, "step": 1}, {"name": "SPHERE_SUBCLUSTERS_PER_CLUSTER", "value": 6, "kind": "int", "category": "spherical", "min": 0, "max": 12, "step": 1}, {"name": "SPHERE_SUB_RADIUS", "value": 1.08, "kind": "float", "category": "spherical", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "SPHERE_TOP_CLUSTERS", "value": 12, "kind": "int", "category": "spherical", "min": 0, "max": 24, "step": 1}, {"name": "SPHERE_TOP_RADIUS", "value": 1.0, "kind": "float", "category": "spherical", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "SPHERE_WORD_RADIUS", "value": 1.16, "kind": "float", "category": "spherical", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "SPHERICAL_COORDS_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\spherical_coords.csv", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_HIERARCHY_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\hierarchy_nodes.csv", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_LAUNCHER_HTML", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical_launcher.html", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_MEMBERSHIPS_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\secondary_memberships.csv", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_OUTPUT_DIR", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_ROOT_HTML", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\sphere_level0.html", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_RUNS_DIR", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\runs", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_SURFACE_HTML", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\sphere_surface_all_nodes.html", "kind": "text", "category": "spherical"}, {"name": "SPHERICAL_SURFACE_POINTS_FILE", "value": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\surface_points.csv", "kind": "text", "category": "spherical"}, {"name": "UMAP_MIN_DIST", "value": 0.45, "kind": "float", "category": "pipeline", "min": 0.0, "max": 1.0, "step": 0.01}, {"name": "UMAP_N_NEIGHBORS", "value": 30, "kind": "int", "category": "pipeline", "min": 0, "max": 60, "step": 1}, {"name": "UMAP_SPREAD", "value": 2.0, "kind": "float", "category": "pipeline", "min": 0.0, "max": 10.0, "step": 0.1}, {"name": "USE_EMBEDDINGS", "value": true, "kind": "bool", "category": "pipeline"}, {"name": "USE_UMAP", "value": true, "kind": "bool", "category": "pipeline"}, {"name": "VISUALIZATION_MODE", "value": "spherical", "kind": "text", "category": "pipeline"}];
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    const panels = { home: document.getElementById('homePanel'), settings: document.getElementById('settingsPanel'), runs: document.getElementById('runsPanel') };
+    const homeView = document.getElementById('homeView');
+    const runView = document.getElementById('runView');
+    const runFrame = document.getElementById('runFrame');
+    const viewerTitle = document.getElementById('viewerTitle');
+    const viewerSub = document.getElementById('viewerSub');
+    const openInNewTab = document.getElementById('openInNewTab');
+    const importCsvBtn = document.getElementById('importCsvBtn');
+    const clearCsvBtn = document.getElementById('clearCsvBtn');
+    const csvInput = document.getElementById('csvInput');
+    const sourceChip = document.getElementById('sourceChip');
+    const csvPreview = document.getElementById('csvPreview');
+    const runList = document.getElementById('runList');
+    const configName = document.getElementById('configName');
+    const configMeta = document.getElementById('configMeta');
+    const configControl = document.getElementById('configControl');
+    const configPrev = document.getElementById('configPrev');
+    const configNext = document.getElementById('configNext');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const resetPresetBtn = document.getElementById('resetPresetBtn');
+
+    const localStorageKey = 'englictionary.launcher';
+    const state = {
+      view: 'home',
+      source: null,
+      configIndex: 0,
+      configOverrides: {},
+      activeRunIndex: null,
+    };
+
+    function loadState() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(localStorageKey) || '{}');
+        if (stored && typeof stored === 'object') {
+          if (stored.source) state.source = stored.source;
+          if (typeof stored.configIndex === 'number') state.configIndex = stored.configIndex;
+          if (stored.configOverrides && typeof stored.configOverrides === 'object') state.configOverrides = stored.configOverrides;
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(localStorageKey, JSON.stringify({
+        source: state.source,
+        configIndex: state.configIndex,
+        configOverrides: state.configOverrides,
+      }));
+    }
+
+    function setView(view) {
+      state.view = view;
+      tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.view === view));
+      Object.entries(panels).forEach(([name, panel]) => panel.classList.toggle('hidden', name !== view));
+      homeView.classList.toggle('hidden', view !== 'home');
+      runView.classList.toggle('hidden', view === 'home' || view === 'settings');
+      if (view === 'home') {
+        viewerTitle.textContent = 'Vacant Sphere';
+        viewerSub.textContent = 'The sphere starts empty until you choose a CSV or open a saved run.';
+        openInNewTab.href = 'file:///C:/Users/BB/VSCodeProjects/Englictionary/output/spherical/sphere_surface_all_nodes.html';
+      }
+      if (view === 'settings') {
+        viewerTitle.textContent = 'Configuration';
+        viewerSub.textContent = 'Browse and edit config values with the arrows on the left.';
+      }
+      if (view === 'runs') {
+        viewerTitle.textContent = 'Saved Runs';
+        viewerSub.textContent = 'Pick a saved run to load its archived HTML in the viewer.';
+      }
+    }
+
+    function renderSourceChip() {
+      if (!state.source) {
+        sourceChip.innerHTML = '<div><strong>Vacant sphere</strong><div class="tiny">No CSV selected yet.</div></div>';
+        csvPreview.textContent = 'Import a CSV to preview its headers and row count here.';
+        return;
+      }
+
+      const headers = state.source.headers.length ? state.source.headers.join(', ') : 'No headers detected';
+      sourceChip.innerHTML = `
+        <div>
+          <strong>${state.source.name}</strong>
+          <div class="tiny">${state.source.rows} data rows · ${state.source.headers.length} columns</div>
+        </div>
+        <div class="tiny">CSV loaded</div>
+      `;
+      csvPreview.textContent = `Headers:
+${headers}
+
+Preview rows:
+${state.source.preview.join('
+')}`;
+    }
+
+    function parseCsvPreview(text) {
+      const lines = String(text || '').replace(//g, '').split('
+').filter((line) => line.trim() !== '');
+      const headerLine = lines[0] || '';
+      const headers = parseCsvLine(headerLine);
+      const preview = lines.slice(1, 4);
+      return {
+        headers,
+        rows: Math.max(0, lines.length - 1),
+        preview,
+      };
+    }
+
+    function parseCsvLine(line) {
+      const values = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i];
+        if (char === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            current += '"';
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+          continue;
+        }
+        if (char === ',' && !inQuotes) {
+          values.push(current.trim());
+          current = '';
+          continue;
+        }
+        current += char;
+      }
+      values.push(current.trim());
+      return values;
+    }
+
+    function renderRuns() {
+      if (!runs.length) {
+        runList.innerHTML = '<div class="card-meta">No archived runs yet.</div>';
+        return;
+      }
+      runList.innerHTML = runs.map((run, index) => `
+        <button class="run-card ${state.activeRunIndex === index ? 'active' : ''}" data-index="${index}">
+          <div class="card-title">${run.run_label || ('Run ' + (index + 1))}</div>
+          <div class="card-meta">${run.run_timestamp || 'n/a'}<br>${run.source_row_count || run.count || run.row_count || 'n/a'} rows</div>
+        </button>
+      `).join('');
+
+      runList.querySelectorAll('.run-card').forEach((button) => {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.index);
+          const run = runs[index];
+          state.activeRunIndex = index;
+          setView('runs');
+          runFrame.src = run.plot_uri;
+          viewerTitle.textContent = run.run_label || 'Saved Run';
+          viewerSub.textContent = `${run.run_timestamp || 'n/a'} · ${run.source_file || 'saved output'}`;
+          openInNewTab.href = run.plot_uri;
+          tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.view === 'runs'));
+          renderRuns();
+          saveState();
+        });
+      });
+    }
+
+    function renderConfigField() {
+      if (!configSchema.length) {
+        configName.textContent = 'No config fields found';
+        configMeta.textContent = '';
+        configControl.innerHTML = '';
+        return;
+      }
+
+      const field = configSchema[state.configIndex % configSchema.length];
+      const value = Object.prototype.hasOwnProperty.call(state.configOverrides, field.name)
+        ? state.configOverrides[field.name]
+        : field.value;
+      configName.textContent = field.name;
+      configMeta.textContent = `Category: ${field.category} · Type: ${field.kind}`;
+
+      if (field.kind === 'bool') {
+        const checked = String(value).toLowerCase() === 'true';
+        configControl.innerHTML = `
+          <label class="toggle-row"><input id="cfgBool" type="checkbox" ${checked ? 'checked' : ''}> Enable</label>
+          <input id="cfgText" class="field-input" type="text" value="${checked}">
+        `;
+        const boolInput = document.getElementById('cfgBool');
+        const textInput = document.getElementById('cfgText');
+        boolInput.addEventListener('change', () => {
+          state.configOverrides[field.name] = boolInput.checked;
+          textInput.value = String(boolInput.checked);
+          saveState();
+        });
+        textInput.addEventListener('change', () => {
+          const nextValue = String(textInput.value).trim().toLowerCase() === 'true';
+          state.configOverrides[field.name] = nextValue;
+          boolInput.checked = nextValue;
+          saveState();
+        });
+        return;
+      }
+
+      if (field.kind === 'int' || field.kind === 'float') {
+        const numericValue = Number(value);
+        const minValue = field.min ?? 0;
+        const maxValue = field.max ?? Math.max(10, numericValue * 2 || 10);
+        const stepValue = field.step ?? (field.kind === 'int' ? 1 : 0.1);
+        configControl.innerHTML = `
+          <input id="cfgRange" type="range" min="${minValue}" max="${maxValue}" step="${stepValue}" value="${Number.isFinite(numericValue) ? numericValue : minValue}">
+          <input id="cfgNumber" class="field-input" type="text" value="${value}">
+        `;
+        const rangeInput = document.getElementById('cfgRange');
+        const numberInput = document.getElementById('cfgNumber');
+        const updateValue = (next) => {
+          state.configOverrides[field.name] = field.kind === 'int' ? Math.round(Number(next)) : Number(next);
+          numberInput.value = String(state.configOverrides[field.name]);
+          rangeInput.value = String(state.configOverrides[field.name]);
+          saveState();
+        };
+        rangeInput.addEventListener('input', () => updateValue(rangeInput.value));
+        numberInput.addEventListener('change', () => updateValue(numberInput.value));
+        return;
+      }
+
+      configControl.innerHTML = `
+        <input id="cfgText" class="field-input" type="text" value="${String(value).replace(/"/g, '&quot;')}">
+      `;
+      const textInput = document.getElementById('cfgText');
+      textInput.addEventListener('change', () => {
+        state.configOverrides[field.name] = textInput.value;
+        saveState();
+      });
+    }
+
+    function exportPreset() {
+      const payload = {
+        configOverrides: state.configOverrides,
+        source: state.source,
+        savedAt: new Date().toISOString(),
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'englictionary_preset.json';
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    tabs.forEach((tab) => tab.addEventListener('click', () => {
+      setView(tab.dataset.view);
+      if (tab.dataset.view === 'runs') {
+        state.activeRunIndex = state.activeRunIndex ?? 0;
+        if (runs[state.activeRunIndex]) {
+          runFrame.src = runs[state.activeRunIndex].plot_uri;
+          viewerTitle.textContent = runs[state.activeRunIndex].run_label || 'Saved Run';
+          viewerSub.textContent = `${runs[state.activeRunIndex].run_timestamp || 'n/a'} · ${runs[state.activeRunIndex].source_file || 'saved output'}`;
+          openInNewTab.href = runs[state.activeRunIndex].plot_uri;
+        }
+      }
+      saveState();
+    }));
+
+    importCsvBtn.addEventListener('click', () => csvInput.click());
+    csvInput.addEventListener('change', async () => {
+      const file = csvInput.files && csvInput.files[0];
+      if (!file) return;
+      const text = await file.text();
+      const parsed = parseCsvPreview(text);
+      state.source = {
+        name: file.name,
+        rows: parsed.rows,
+        headers: parsed.headers,
+        preview: parsed.preview,
+      };
+      state.activeRunIndex = null;
+      renderSourceChip();
+      saveState();
+    });
+
+    clearCsvBtn.addEventListener('click', () => {
+      state.source = null;
+      renderSourceChip();
+      saveState();
+    });
+
+    configPrev.addEventListener('click', () => {
+      state.configIndex = (state.configIndex - 1 + configSchema.length) % configSchema.length;
+      renderConfigField();
+      saveState();
+    });
+    configNext.addEventListener('click', () => {
+      state.configIndex = (state.configIndex + 1) % configSchema.length;
+      renderConfigField();
+      saveState();
+    });
+    savePresetBtn.addEventListener('click', exportPreset);
+    resetPresetBtn.addEventListener('click', () => {
+      state.configOverrides = {};
+      state.configIndex = 0;
+      renderConfigField();
+      saveState();
+    });
+
+    loadState();
+    renderSourceChip();
+    renderRuns();
+    renderConfigField();
+    setView('home');
+    if (state.source) {
+      renderSourceChip();
+    }
+  </script>
+</body>
+</html>

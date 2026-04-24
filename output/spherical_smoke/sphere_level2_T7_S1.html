@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spherical Semantic Globe - Level 2 (Subcluster 7.1: Abashment)</title>
+  <style>
+        body { margin: 0; background: #f5f7fb; overflow: hidden; }
+        #viewport { width: 100vw; height: 100vh; display: block; }
+        #tooltip {
+            position: fixed;
+            display: none;
+            pointer-events: none;
+            z-index: 10001;
+            max-width: 320px;
+            padding: 8px 10px;
+            background: rgba(17, 24, 39, 0.92);
+            color: #ffffff;
+            border-radius: 8px;
+            font-family: Segoe UI, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.35;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+        }
+  </style>
+</head>
+<body>
+  <aside style="position:fixed;top:18px;left:18px;z-index:9999;max-width:360px;padding:14px 16px;background:rgba(255,255,255,0.95);border:1px solid rgba(0,0,0,0.08);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,0.12);font-family:Segoe UI,Arial,sans-serif;"><div style="font-weight:700;margin-bottom:6px;">Spherical Semantic Globe - Level 2 (Subcluster 7.1: Abashment)</div><div style="font-size:13px;line-height:1.45;">Click a cluster to open its child level. Hover to inspect nodes.</div><div style="margin-top:10px;font-size:12px;"><a href="sphere_level0.html" style="margin-right:8px;color:#1d4ed8;text-decoration:none;">Level 0</a><a href="sphere_level1_T7.html" style="margin-right:8px;color:#1d4ed8;text-decoration:none;">Level 1 Cluster 7: Abawed</a></div><a href="sphere_level1_T7.html" style="display:inline-block;margin-top:8px;color:#0f766e;text-decoration:none;">Zoom out</a></aside>
+    <div id="tooltip"></div>
+    <div id="status" style="position:fixed;right:18px;bottom:18px;z-index:10002;padding:8px 10px;background:rgba(15,23,42,0.9);color:#fff;border-radius:8px;font-family:Segoe UI,Arial,sans-serif;font-size:12px;display:none;"></div>
+    <canvas id="viewport"></canvas>
+    <script>
+    (async function() {
+        const statusBox = document.getElementById('status');
+        function showStatus(message) {
+            statusBox.textContent = message;
+            statusBox.style.display = 'block';
+        }
+
+        async function ensureThree() {
+            if (window.THREE) return true;
+            const urls = [
+                'https://unpkg.com/three@0.160.0/build/three.min.js',
+                'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js'
+            ];
+
+            for (const url of urls) {
+                const ok = await new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.async = true;
+                    script.onload = () => resolve(true);
+                    script.onerror = () => resolve(false);
+                    document.head.appendChild(script);
+                });
+                if (ok && window.THREE) return true;
+            }
+            return false;
+        }
+
+        const threeReady = await ensureThree();
+        if (!threeReady) {
+            showStatus('Three.js failed to load from available CDNs. Check network/firewall settings.');
+            return;
+        }
+
+        try {
+        const nodes = [{"node_id": "T7", "parent_id": "ROOT", "label": "Cluster 7: Abawed", "node_type": "cluster", "size": 5, "depth": 0, "next_page": "", "color": "#1d4ed8", "x": 1.0669136014173066, "y": 9.697087376945817, "z": 2.19731523903123, "r": 0.45999999999999996}, {"node_id": "T7_S1", "parent_id": "T7", "label": "Subcluster 7.1: Abashment", "node_type": "subcluster", "size": 4, "depth": 1, "next_page": "", "color": "#1d4ed8", "x": -0.34213229795309696, "y": 10.379385336482772, "z": 2.315362936453756, "r": 0.43295381560673907}, {"node_id": "W16", "parent_id": "T7_S1", "label": "Aaron's rod", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.2394903152498202, "y": 10.898890672290955, "z": 2.6298756380960437, "r": 0.3049571149930551}, {"node_id": "W48", "parent_id": "T7_S1", "label": "Abaist", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": 0.03834565175571672, "y": 10.918271036739752, "z": 2.8334232262902894, "r": 0.3049571149930551}, {"node_id": "W92", "parent_id": "T7_S1", "label": "Abashedly", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": 0.04113525889966916, "y": 10.97002937719739, "z": 2.6258643060717075, "r": 0.3049571149930551}, {"node_id": "W93", "parent_id": "T7_S1", "label": "Abashment", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -0.28630372522751063, "y": 11.145710750197443, "z": 1.71159634547809, "r": 0.3049571149930551}];
+        const edges = [{"sx": 1.0669136014173066, "sy": 9.697087376945817, "sz": 2.19731523903123, "tx": -0.34213229795309696, "ty": 10.379385336482772, "tz": 2.315362936453756, "secondary": false}, {"sx": -0.34213229795309696, "sy": 10.379385336482772, "sz": 2.315362936453756, "tx": -1.2394903152498202, "ty": 10.898890672290955, "tz": 2.6298756380960437, "secondary": false}, {"sx": -0.34213229795309696, "sy": 10.379385336482772, "sz": 2.315362936453756, "tx": 0.03834565175571672, "ty": 10.918271036739752, "tz": 2.8334232262902894, "secondary": false}, {"sx": -0.34213229795309696, "sy": 10.379385336482772, "sz": 2.315362936453756, "tx": 0.04113525889966916, "ty": 10.97002937719739, "tz": 2.6258643060717075, "secondary": false}, {"sx": -0.34213229795309696, "sy": 10.379385336482772, "sz": 2.315362936453756, "tx": -0.28630372522751063, "ty": 11.145710750197443, "tz": 1.71159634547809, "secondary": false}, {"sx": -1.2394903152498202, "sy": 10.898890672290955, "sz": 2.6298756380960437, "tx": 0.03834565175571672, "ty": 10.918271036739752, "tz": 2.8334232262902894, "secondary": false}, {"sx": -1.2394903152498202, "sy": 10.898890672290955, "sz": 2.6298756380960437, "tx": 0.04113525889966916, "ty": 10.97002937719739, "tz": 2.6258643060717075, "secondary": false}, {"sx": -1.2394903152498202, "sy": 10.898890672290955, "sz": 2.6298756380960437, "tx": -0.28630372522751063, "ty": 11.145710750197443, "tz": 1.71159634547809, "secondary": false}, {"sx": 0.03834565175571672, "sy": 10.918271036739752, "sz": 2.8334232262902894, "tx": 0.04113525889966916, "ty": 10.97002937719739, "tz": 2.6258643060717075, "secondary": false}, {"sx": 0.03834565175571672, "sy": 10.918271036739752, "sz": 2.8334232262902894, "tx": -0.28630372522751063, "ty": 11.145710750197443, "tz": 1.71159634547809, "secondary": false}, {"sx": 0.04113525889966916, "sy": 10.97002937719739, "sz": 2.6258643060717075, "tx": -0.28630372522751063, "ty": 11.145710750197443, "tz": 1.71159634547809, "secondary": false}];
+
+        const canvas = document.getElementById('viewport');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf5f7fb);
+
+        const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 5000);
+        camera.position.set(0, 0, 32);
+
+        let dragging = false;
+        let lastX = 0;
+        let lastY = 0;
+        let yaw = 0;
+        let pitch = 0;
+        let cameraDistance = 32;
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+        const directional = new THREE.DirectionalLight(0xffffff, 0.78);
+        directional.position.set(18, 24, 20);
+        scene.add(directional);
+
+        // Earth-like globe surface
+        const globe = new THREE.Mesh(
+            new THREE.SphereGeometry(10, 64, 64),
+            new THREE.MeshPhongMaterial({
+                color: 0x5b84b1,
+                emissive: 0x0b2440,
+                shininess: 18,
+                transparent: true,
+                opacity: 0.88,
+            })
+        );
+        scene.add(globe);
+
+        const wire = new THREE.Mesh(
+            new THREE.SphereGeometry(10.01, 32, 24),
+            new THREE.MeshBasicMaterial({ color: 0xd8e5f3, wireframe: true, transparent: true, opacity: 0.16 })
+        );
+        scene.add(wire);
+
+        const nodeMeshes = [];
+        for (const node of nodes) {
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(node.r, 14, 12),
+                new THREE.MeshStandardMaterial({ color: node.color, roughness: 0.42, metalness: 0.12 })
+            );
+            mesh.position.set(node.x, node.y, node.z);
+            mesh.userData = node;
+            scene.add(mesh);
+            nodeMeshes.push(mesh);
+        }
+
+        for (const edge of edges) {
+            const geometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(edge.sx, edge.sy, edge.sz),
+                new THREE.Vector3(edge.tx, edge.ty, edge.tz),
+            ]);
+            const material = new THREE.LineBasicMaterial({
+                color: edge.secondary ? 0xb08fd3 : 0x8ea4bf,
+                transparent: true,
+                opacity: edge.secondary ? 0.18 : 0.34,
+            });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+        }
+
+        const tooltip = document.getElementById('tooltip');
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function setMouseFromEvent(evt) {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((evt.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((evt.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+
+        function hoverNode(evt) {
+            setMouseFromEvent(evt);
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(nodeMeshes, false);
+            if (!hits.length) {
+                tooltip.style.display = 'none';
+                renderer.domElement.style.cursor = 'grab';
+                return;
+            }
+
+            const node = hits[0].object.userData;
+            const clickable = node.next_page && node.next_page.length > 0;
+            tooltip.innerHTML = `<b>${node.label}</b><br>type: ${node.node_type}<br>size: ${node.size}<br>depth: ${node.depth}${clickable ? '<br><i>click to zoom in</i>' : ''}`;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (evt.clientX + 14) + 'px';
+            tooltip.style.top = (evt.clientY + 14) + 'px';
+            renderer.domElement.style.cursor = clickable ? 'pointer' : 'default';
+        }
+
+        function clickNode(evt) {
+            setMouseFromEvent(evt);
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(nodeMeshes, false);
+            if (!hits.length) return;
+            const node = hits[0].object.userData;
+            if (node.next_page && node.next_page.length > 0) {
+                window.location.href = node.next_page;
+            }
+        }
+
+        renderer.domElement.addEventListener('mousemove', hoverNode);
+        renderer.domElement.addEventListener('click', clickNode);
+        renderer.domElement.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+            renderer.domElement.style.cursor = 'grab';
+        });
+
+        renderer.domElement.addEventListener('mousedown', (evt) => {
+            dragging = true;
+            lastX = evt.clientX;
+            lastY = evt.clientY;
+            renderer.domElement.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mouseup', () => {
+            dragging = false;
+            renderer.domElement.style.cursor = 'grab';
+        });
+
+        window.addEventListener('mousemove', (evt) => {
+            if (!dragging) return;
+            const dx = evt.clientX - lastX;
+            const dy = evt.clientY - lastY;
+            lastX = evt.clientX;
+            lastY = evt.clientY;
+            yaw -= dx * 0.004;
+            pitch -= dy * 0.004;
+            pitch = Math.max(-1.3, Math.min(1.3, pitch));
+        });
+
+        renderer.domElement.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            cameraDistance *= evt.deltaY > 0 ? 1.06 : 0.94;
+            cameraDistance = Math.max(8, Math.min(140, cameraDistance));
+        }, { passive: false });
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onResize);
+
+        renderer.domElement.style.cursor = 'grab';
+        (function animate() {
+            requestAnimationFrame(animate);
+            camera.position.x = cameraDistance * Math.cos(pitch) * Math.sin(yaw);
+            camera.position.y = cameraDistance * Math.sin(pitch);
+            camera.position.z = cameraDistance * Math.cos(pitch) * Math.cos(yaw);
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        })();
+        } catch (error) {
+            showStatus('Renderer error: ' + (error && error.message ? error.message : error));
+            console.error(error);
+        }
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1329 @@
+Word,Definition
+AAA,"Authentication, Authorization, and Accounting"
+AAAA,"Authentication, Authorization, Accounting, and Auditing"
+ACL,Access Control List
+ADF,Automatic Document Feeder
+AES,Advanced Encryption Standard
+AMD,"Advanced Micro Devices, Inc."
+APFS,Apple File System
+APIPA,Automatic Private Internet Protocol Addressing
+ARM,Advanced RISC [Reduced Instruction Set Computer] Machine
+ATX,Advanced Technology Extended
+BEC,Business Email Compromise
+BIOS,Basic Input/Output System
+BSOD,Blue Screen of Death
+BYOD,Bring Your Own Device
+CAC,Calling-card Authorization Computer
+CIFS,Common Internet File System
+CMDB,Configuration Management Database
+CNAME,Canonical Name
+CPU,Central Processing Unit
+DB-9,"Serial Communications D-Shell Connector, 9 pins"
+DDoS,Distributed Denial of Service
+DDR,Double Data Rate
+DHCP,Dynamic Host Configuration Protocol
+DIMM,Dual In-Line Memory Module
+DKIM,Domain Keys Identified Mail
+DLP,Data Loss Prevention
+DMARC,"Domain-based Message Authentication, Reporting, and Conformance"
+DNS,Domain Name System
+DoS,Denial of Service
+DRM,Digital Rights Management
+DSL,Digital Subscriber Line
+DVI,Digital Visual Interface
+ECC,Error-Correcting Code
+EDR,Endpoint Detection and Response
+EFS,Encrypting File System
+EOL,End-of-Life
+eSATA,External Serial Advanced Technology Attachment
+ESD,Electrostatic Discharge
+EULA,End-User License Agreement
+exFAT,Extended File Allocation Table
+FAT32,32-bit File Allocation Table
+FRT,Facial Recognition Technology
+FTP,File Transfer Protocol
+GFS,Grandfather-Father-Son
+GPS,Global Positioning System
+GPT,GUID [Globally Unique Identifier] Partition Table
+GUID,Globally Unique Identifier
+HDD,Hard Disk Drive
+HDMI,High-Definition Media Interface
+HSM,Hardware Security Module
+HTTP,Hypertext Transfer Protocol
+HTTPS,Hypertext Transfer Protocol Secure
+IaaS,Infrastructure as a Service
+IAM,Identity and Access Management
+IMAP,Internet Mail Access Protocol
+IOPS,Input/Output Operations Per Second
+IoT,Internet of Things
+IP,Internet Protocol
+IPS,In-Plane Switching
+ISO,International Organization for Standardization
+ITX,Information Technology eXtended
+KVM,Keyboard Video Mouse
+LAN,Local Area Network
+LC,Lucent Connector
+LCD,Liquid Crystal Display
+LDAP,Lightweight Directory Access Protocol
+LED,Light-Emitting Diode
+MAC,Media Access Control
+MAN,Metropolitan Area Network
+MBR,Master Boot Record
+MDM,Mobile Device Management
+MDR,Managed Detection and Response
+MFA,Multifactor Authentication
+MMC,Microsoft Management Console
+MNDA,Mutual Non-Disclosure Agreement
+mSATA,Mini-Serial Advanced Technology Attachment
+MSDS,Material Safety Data Sheet
+MX,Mail Exchange
+NDA,Non-Disclosure Agreement
+NetBIOS,Network Basic Input/Output System
+NFC,Near-Field Communication
+NIC,Network Interface Card
+NTFS,New Technology File System
+NTP,Network Time Protocol
+NVME,Non-Volatile Memory Express
+OLED,Organic Light-Emitting Diode
+ONT,Optical Network Terminal
+OS,Operating System
+OTP,One-Time PAssword
+PaaS,Platform as a Service
+PAM,Privileged Access Management
+PAN,Personal Area Network
+PC,Personal Computer
+PCI,Peripheral Component Interconnect
+PCIe,Peripheral Component Interconnect Express
+PII,Personally Identifiable Information
+PIN,Personal Identification Number
+PIV,Personal Identitiy Verification
+PoE,Power over Ethernet
+POP,Post Office Protocol
+POST,Power On Self Test
+PUP,Potentially Unwanted Program
+RADIUS,Remote Authentication Dial-in User Server
+RAID,Redundant Array of Independent Disks
+RAM,Random Access Memory
+RDP,Remote Desktop Protocol
+ReFS,Resilient File System
+RFID,Radio-Frequency Identification
+RJ11,Registered Jack Function 11
+RJ45,Registered Jack Function 45
+RMM,Remote Monitoring and Management
+RSR,Rapid Security Response
+SaaS,Software as a Service
+SAN,Storage Area Network
+SAML,Security Assertions Markup Language
+SAS,Serial Attached SCSI [Small Computer System Interface]
+SATA,Serial Advanced Technology Attachment
+SC,Subscriber Connectro
+SCADA,Supervisory Control and Data Acquisition
+SCSI,Small Computer System Interface
+SIM,Subscriber Identity Module
+SLA,Service-Level Agreement
+S.M.A.R.T.,Self-Monitoring Analysis and Reporting Technology
+SMB,Server Message Block
+SMS,Short Message Service
+SMTP,Simple Mail Transfer Protocol
+SODIMM,Small Outline Dual In-Line Memory Module
+SOHO,Small Office/Home Office
+SOP,Standard Operating Procedure
+SPF,Sender Policy Framework
+SPICE,Software Process Improvement and Capability Determination
+SQL,Structured Query Language
+SSD,Solid State Drive
+SSH,Secure Shell
+SSID,Service Set Identifier
+SSO,Single Sign-On
+ST,Straight Tip
+TACACS,Terminal Access Controller Access-Control System
+TCP,Transmission Control Protocol
+TKIP,Temporal Key Integrity Protocol
+TN,Twisted Nematic
+TOTP,Time-based One Time Password
+TPM,Trusted Platform Module
+UAC,User Account Control
+UDP,User Datagram Protocol
+UEFI,Unified Extensible Firmware Interface
+UPnP,Universal Plug and Play
+UPS,Uninterruptible Power Supply
+USB,Universal Serial Bus
+UTM,Unified Threat Management
+VA,Vertical Alignment
+VDI,Virtual Desktop Infrastructure
+VGA,Video Graphics Array
+VLAN,Virtual LAN [Local Area Network]
+VNC,Virtual Network Computer
+VoIP,Voice over Internet Protocol
+VPN,Virtual Private Network
+VRAM,Video Random Access Memory
+WAN,Wide Area Network
+WinRM,Windows Remote Management
+WISP,Written Internet Service Provider
+WLAN,Wireless LAN [Local Area Network]
+WPA,Wi-Fi Protected Access
+WWAN,Wireless Wide Area Network
+XDR,Extended Detection and Response
+XFS,Extended File System
+XXS,Cross-Site Scripting
+AC,"Alternating Current: an electric current that reverses its direction many times a second at regular intervals, typically used in power supplies."
+ACL,"access control lists. <br>An ACL is a list attached to a resource, giving permissions, or rules about exactly who can access it."
+ACPI,"Advanced Configuration Power Interface: provides an open standard that operating systems can use to discover and configure computer hardware components, to perform power management by (for example) putting unused components to sleep, and to perform status monitoring."
+ADF,"automatic document feeder (ADF) is a feature in printers, photocopiers, fax machines or scanners wherein a stack of paper put into the machine and is then automatically fed through it, allowing the user to print, scan or copy without having to manually place each page into the machine"
+ADSL,Asymmetric Digital Subscriber Line: ADSL is a technology that will oterm-5ffer faster connection speeds than the traditional Internet via dial-up telephone lines could offer. ADSL is the technology that drives many Internet connections worldwide.
+AES,Advanced Encryption Standard: is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.
+AHCI,The Advanced Host Controller Interface (AHCI) is a technical standard defined by Intel that specifies the operation of Serial ATA (SATA) host controllers in a non-implementation-specific manner in its motherboard chipsets.
+AP,"In computer networking, a wireless access point (WAP), or more generally just access point (AP), is a networking hardware device that allows other Wi-Fi devices to connect to a wired network."
+APIPA,APIPA stands for Automatic Private IP Addressing (APIPA). It is a feature or characteristic in operating systems (eg. Windows) which enables computers to self-configure an IP address and subnet mask automatically when their DHCP(Dynamic Host Configuration Protocol) server isn't reachable.
+APM,Advanced Power Management (APM) is an application programming interface (API) developed jointly by Microsoft and Intel. It allows an operating system to communicate with the computer's BIOS in order to achieve efficient power management.
+ARP,"ARP stands for Address Resolution Protocol. When you try to ping an IP address on your local network, say 192.168. ... If there is a value cached, ARP is not used. If the IP address is not found in the ARP table, the system will then send a broadcast packet to the network using the ARP protocol to ask ""who has 192.168."
+ASR,"Automated system recovery (ASR) is a feature of the Windows XP operating system that can be used to simplify recovery of a computer's system or boot volumes. ASR consists of two parts: an automated backup, and an automated restore. The backup portion can be accessed in the Backup utility under System Tools."
+ATA,"Stands for ""Advanced Technology Attachment."" It is a type of disk drive that integrates the drive controller directly on the drive itself. Computers can use ATA hard drives without a specific controller to support the drive."
+ATAPI,Advanced Technology Attachment Packet Interface (ATAPI) is a protocol that allows a greater variety of devices to be connected to a computer than ATA (PATA / IDE and SATA) on its own would allow. ATAPI allows IDE and SATA controllers to support optical drives.
+ATM,"Asynchronous Transfer Mode (ATM) is a telecommunications standard defined by ANSI and ITU (formerly CCITT) for digital transmission of multiple types of traffic, including telephony (voice), data, and video signals in one network without the use of separate overlay networks."
+ATX,"Short for Advanced Technology eXtended, ATX is a specification used to outline motherboard configuration and dimensions to improve standardization."
+AUP,An acceptable use policy (AUP) is a document stipulating constraints and practices that a user must agree to for access to a corporate network or the Internet.
+A/V,"(Audio/Video) Equipment and applications that deal with sound and sight. The A/V world includes microphones, tape and disk recorders, audio mixers, still and video cameras, film projectors, data projectors, slide projectors, VCRs, CD/DVD/Blu-ray players/recorders, amplifiers and speakers."
+BD-R,Blu-ray Disc Recordable (BD-R) refers to two direct to disc optical disc recording technologies that can be recorded on to a Blu-ray-based optical disc with an optical disc recorder.
+BIOS,"BIOS (basic input/output system) is the program a computer's microprocessor uses to start the computer system after it is powered on. It also manages data flow between the computer's operating system (OS) and attached devices, such as the hard disk, video adapter, keyboard, mouse and printer."
+BD-RE,Blu-ray Disc Recordable Erasable (BD-RE) optical disc recording technology that can be erased and re-recorded multiple times.
+BNC,"The BNC connector (initialism of ""Bayonet Neill-Concelman"") is a miniature quick connect/disconnect radio frequency connector used for coaxial cable."
+BSOD,"A stop error or exception error, commonly called the blue screen of death (BSoD) or blue screen, is an error screen displayed on Windows computers following a fatal system error. It indicates a system crash, in which the operating system has reached a condition where it can no longer operate safely."
+BYOD,Bring your own device (BYOD) refers to the trend of employees using personal devices to connect to their organizational networks and access work-related systems and potentially sensitive or confidential data.
+CAD,"Computer-aided design (CAD) is the use of computers (or workstations) to aid in the creation, modification, analysis, or optimization of a design."
+CAPTCHA,"CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart. In other words, CAPTCHA determines whether the user is real or a spam robot. CAPTCHAs stretch or manipulate letters and numbers, and rely on human ability to determine which symbols they are"
+CD,"Compact disc (CD), a molded plastic disc containing digital data that is scanned by a laser beam for the reproduction of recorded sound and other information."
+CD-ROM,a compact disc used as a read-only optical memory device for a computer system.
+CD-RW,"Stands for ""Compact Disc Re-Writable."" A CD-RW is a blank CD that can be written to by a CD burner. Unlike a CD-R (CD-Recordable), a CD-RW can be written to multiple times. The data burned on a CD-RW cannot be changed, but it can be erased."
+CDFS,"CDfs is a virtual file system for Unix-like operating systems; it provides access to data and audio tracks on Compact Discs. When the CDfs driver mounts a Compact Disc, it represents each track as a file. This is consistent with the Unix convention ""everything is a file""."
+CERT,"A Computer Emergency Response Team (CERT) is a group of information security experts responsible for the protection against, detection of and response to an organization's cybersecurity incidents."
+CFS,"Central File System, Common File System, or Command File System<br><br>A file system is a way of organizing information on a storage device like a computer hard drive. Common ones include NTFS, FAT, etc."
+CGA,"Computer Graphics and Applications<br><br>Computer graphics is the branch of computer science that deals with generating images with the aid of computers. Today, computer graphics is a core technology in digital photography, film, video games, cell phone and computer displays, and many specialized applications."
+CIDR,Classless inter-domain routing (CIDR) is a set of Internet protocol (IP) standards that is used to create unique identifiers for networks and individual devices.
+CIFS,"Common Internet File System (CIFS) is a network filesystem protocol used for providing shared access to files and printers between machines on the network. A CIFS client application can read, write, edit and even remove files on the remote server."
+CMOS,"Stands for ""Complementary Metal Oxide Semiconductor."" It is a technology used to produce integrated circuits. CMOS circuits are found in several types of electronic components, including microprocessors, batteries, and digital camera image sensors."
+CNR,"Communications and networking riser (CNR) is a slot found on certain PC motherboards and used for specialized networking, audio, and telephony equipment. A motherboard manufacturer can choose to provide audio, networking, or modem functionality in any combination on a CNR card."
+COMx,"Alternatively referred to as the com port, the communications port is a serial communication used to connect devices such as your modem. Usually, communication ports are designated as COM1, COM2, COM3, and COM4 on computers running Microsoft Windows"
+CPU,"The central processing unit (CPU) or processor, is the unit which performs most of the processing inside a computer. It processes all instructions received by software running on the PC and by other hardware components, and acts as a powerful calculator."
+CRT,"The cathode-ray tube (CRT) is a vacuum tube that contains one or more electron guns and a phosphorescent screen, and is used to display images. It modulates, accelerates, and deflects electron beam(s) onto the screen to create the images."
+DaaS,"Data as a service (DaaS) is a data management strategy that uses the cloud to deliver data storage, integration, processing, and/or analytics services via a network connection."
+DAC,"In computer security, discretionary access control (DAC) is a type of access control defined by the Trusted Computer System Evaluation Criteria ""as a means of restricting access to objects based on the identity of subjects and/or groups to which they belong."
+DB-25,DB-25 is part of the D-subminiature (D-Sub) connector plug and socket family for computer and communication devices. DB-25 is a 25-pin electrical connector for serial and parallel computer ports. It is arranged in rows of two with one 13-pin row above another 12-pin row
+DB-9,"The term ""DB9"" refers to a common connector type, one of the D-Subminiature or D-Sub types of connectors. DB9 has the smallest ""footprint"" of the D-Subminiature connectors, and houses 9 pins (for the male connector) or 9 holes (for the female connector)."
+Dbaas,"The term ""Database-as-a-Service"" (DBaaS) refers to software and/or services that enables users to set up, operate and scale databases without the need for setting up physical hardware, installing software or configuring for performance."
+DC,di·rect cur·rent<br><br>an electric current flowing in one direction only.
+DDoS,A distributed denial-of-service (DDoS) attack occurs when multiple machines are operating together to attack one target. DDoS attackers often leverage the use of a botnet—a group of hijacked internet-connected devices to carry out large scale attacks.
+DDR,"Double Data Rate Random Access Memory<br><br> RAM that transfers data on both 0-1 and 1-0 clock transitions, theoretically yielding twice the data transfer rate of normal RAM"
+DFS,"Software that keeps track of files stored across multiple servers or networks. When data are requested, a distributed file system (DFS) converts the file names into the physical location of the files so they can be accessed"
+DHCP,Dynamic Host Configuration Protocol (DHCP) A protocol that provides a means to dynamically allocate IP addresses to computers on a local area network. The system administrator assigns a range of IP addresses to DHCP and each client computer on the LAN has its TCP/IP software configured to request an IP address from the DHCP server. The request and grant process uses a lease concept with a controllable time period.
+DIMM,"Dual Inline Memory Module<br><br>Small circuit boards carrying memory integrated circuits, with signal and power pins on both sides of the board, in contrast to single-in-line memory modules (SIMM)."
+DIN,"Deutsche Industrie Norm<br><br>DIN, the German Institute for Standardization, is the independent platform for standardization in Germany and worldwide."
+DLT,Digital Linear Tape<br> (DLT); previously called CompacTape) is a magnetic tape data storage technology developed by Digital Equipment Corporation (DEC) from 1984 onwards.
+DLP,"Data loss prevention (DLP) is a set of tools and processes used to ensure that sensitive data is not lost, misused, or accessed by unauthorized users."
+DMZ,"demilitarized zone (sometimes referred to as a perimeter network or screened subnet) is a physical or logical subnetwork that contains and exposes an organization's external-facing services to an untrusted, usually larger, network such as the Internet."
+DNS,"Domain Name Service or Domain Name Server<br><br>A system used on the Internet to map the easily remembered names of host computers (domain names) to their respective Internet Protocol (IP) numbers.<br>A software database program that converts domain names to Internet Protocol addresses, and vice versa."
+DoS,denial of service<br><br>A condition in which a system can no longer respond to normal requests.
+DRAM,"Dynamic random-access memory (dynamic RAM or DRAM) is a type of random-access semiconductor memory that stores each bit of data in a memory cell consisting of a tiny capacitor and a transistor, both typically based on metal-oxide-semiconductor (MOS) technology."
+DRM,Digital rights management (DRM) is a systematic approach to copyright protection for digital media. The purpose of DRM is to prevent unauthorized redistribution of digital media and restrict the ways consumers can copy content they've purchased.
+DSL,"DSL (Digital Subscriber Line) is a modem technology that uses existing telephone lines to transport high-bandwidth data, such as multimedia and video, to service subscribers. DSL provides dedicated, point-to-point, public network access."
+DVD,"Digital Versatile Disc<br><br>a type of compact disc able to store large amounts of data, especially high-resolution audiovisual material."
+DVD-RAM,"Digital Versatile Disc-Random Access Memory<br><br>a blank DVD on which data, including music and movies, can be permanently recorded and read using the DVD-RAM format. A DVD-RAM discs can be recorded over many times, but will only play back in a DVD-RAM drive."
+DVD-ROM,Digital Versatile Disc-Read Only Memory<br><br>a DVD used as a read-only optical memory device for a computer system.
+DVD-R,"Digital Versatile Disc-Recordable<br><br>a blank DVD on which data, including music and movies, can be permanently recorded and read using the DVD-R format.<br>a format for recordable DVDs used by some companies."
+DVD-RW,"Digital Versatile Disc-Rewritable<br><br>a blank DVD that can be recorded, erased, and rerecorded with data many times and read using the DVD-RW format.<br>a format for rewritable DVDs used by some companies.<br>a disc drive that can read and record DVDs."
+DVI,"Digital Visual Interface (DVI) is a video display interface developed by the Digital Display Working Group (DDWG). The digital interface is used to connect a video source, such as a video display controller, to a display device, such as a computer monitor."
+DVI-D,"Digital Visual Interface-Digital<br><br>DVI-D provides a digital only signal, while DVI-I can support digital and analog signals."
+ECC,An error-correcting code is an algorithm for expressing a sequence of numbers such that any errors which are introduced can be detected and corrected (within certain limitations) based on the remaining numbers.
+ECP,The Extended Capabilities Port (ECP) is a parallel port for personal computers (PCs) that supports bi-directional communication between a computer and a peripheral device such as a printer.
+EEPROM,"EEPROM (also E2PROM) stands for electrically erasable programmable read-only memory and is a type of non-volatile memory used in computers, integrated in microcontrollers for smart cards and remote keyless systems, and other electronic devices to store relatively small amounts of data but allowing individual bytes to be erased and reprogrammed."
+EFS,Encrypting File System (EFS) on Microsoft Windows is a feature introduced in version 3.0 of NTFS that provides filesystem-level encryption. The technology enables files to be transparently encrypted to protect confidential data from attackers with physical access to the computer.
+EIDE,Enhanced Integrated Drive Electronics<br>is a standard electronic interface between your computer and its mass storage drives. improved version of the IDE drive interface that provides faster data transfer
+EMI,"Electromagnetic interference (EMI), also called radio-frequency interference (RFI) when in the radio frequency spectrum, is a disturbance generated by an external source that affects an electrical circuit by electromagnetic induction, electrostatic coupling, or conduction."
+EMP,"An electromagnetic pulse (EMP), also sometimes called a transient electromagnetic disturbance, is a short burst of electromagnetic energy. Such a pulse's origin may be a natural occurrence or man-made"
+EPROM,"An EPROM , or erasable programmable read-only memory, is a type of programmable read-only memory (PROM) chip that retains its data when its power supply is switched off."
+EPP,"Enhanced Parallel Port is a standard signaling method for bi-directional parallel communication between a computer and peripheral devices, higher rates of data transfer"
+ERD,"Short for Emergency Repair Disk, an ERD is a diskette that creates backups of system files and settings and helps troubleshoot and fix issues"
+eSATA,External serial advanced technology attachment (eSATA) is a bus interface for connecting external storage devices
+ESD,(Electrostatic Discharge)<br><br>Static electricity that can build up and discharge causing damage to electronic components. Antistatic devices help prevent ESD damage.
+EULA,"(End User License Agreement)<br><br>Agreement that accompanies a piece of software, to which the user must agree before using the software. Outlines the terms of use for the software and also lists any actions on the part of the user that violate the<br>agreement."
+EVGA,(extended video graphics adapter/array)<br><br>Extended Video Graphics Array (or EVGA) is a standard created by VESA in 1991 denoting a non-interlaced resolution of 1024x768 at a maximum of 70 Hz refresh rate.
+ext2,"filesystem is the second extended filesystem which is the traditional filesystem used in Linux, it supports access control lists (individual user permissions)."
+exFAT,Extended File Allocation Table<br><br>A 64-bit version of the file allocation table file system designed for use on large USB flash drives.
+File Allocation Table (FAT),The file system component in the FAT file system in which the OS creates a table that serves as a map of where files reside on disk. Also called the FAT table.
+FAT12,"A version of the FAT file system for very small drives—mainly for floppy drives, using a 12-bit file allocation table. (10)"
+FAT16,"A version of the FAT file system used by MS-DOS for hard drives, using a 16-bit file allocation table. (10)"
+FAT32,"A version of the FAT file system used by hard drives and some flash drives (thumb drives, etc.), using a 32-bit file allocation table. (10)"
+FDD,floppy disk drive
+FPM,"Short for Fast Page Mode RAM, a type of Dynamic RAM (DRAM) that allows faster access to data in the same row or page."
+FSB,"Front Side Bus<br>Was a computer communication interface (bus) often used in Intel-chip-based computers during the 1990s and 2000s. The competing EV6 bus served the same function for AMD CPUs. Both typically carry data between the CPU and a memory controller hub, known as the northbridge."
+File Transfer Protocol (FTP),A communications method for transferring data between computers on the Internet
+FQDN (Fully Qualified Domain Name),"The complete DNS name of a system, from its host name to the top-level domain name."
+GDDR,(Graphics Double Data Rate) GDDR is double data rate (DDR) memory specialized for fast rendering on graphics cards (GPUs).
+GDI,Graphics Device Interface<br>Is a Microsoft Windows application programming interface and core operating system component responsible for representing graphical objects and transmitting them to output devices such as monitors and printers.
+Graphical User Interface (GUI),A user interface which displays images and pictures that allows a computer user to interact with a computer easily.
+Globally Unique Identifier,"An identifier that is one of a kind to a specific user. For example, biometric data or a loginID for a social network."
+Global Positioning System (GPS),Satellite-based system for determining the absolute location of places or geographic features.
+GUID Partition Table (GPT),A disk partitioning style that allows more partitions and advanced partition<br>information when compared to the older MBR style disk partition scheme. Desktop computers only use GPT in specialized and limited cases due to its limited applicability.
+Graphics Processing Unit (GPU),"A set of processors on a video card in a computer performing data parallel calculations to render objects (windows, etc.) on screen."
+Global System for Mobile Communications (GSM),GSM stands for Global System for Mobile Communication and is now considered the standard for communication globally
+Hardware Abstraction Layer (HAL),A component of the Windows operating system that resides in a file and is loaded into memory during the kernel loading phase of the Windows startup. (10)
+hardware-assisted virtualization (HAV),A feature of a processor whereby it can provide enhanced support for hypervisor software to run virtual machines on a system. The feature must be enabled in UEFI/BIOS setup.
+Hardware Compatibility List (HCL),A list of hardware components that have been tested and deemed compatible with a given operating system.
+High-Bandwidth Digital Content Protection (HDCP),A feature of HDMI that prevents people from illegally copying HD DVDs. See also High-Definition Multimedia Interface (HDMI). (3)
+hard disk drive (HDD),"The computer's nonvolatile, primary storage device for permanent storage of software and documents."
+HDMI (High-Definition Multimedia Interface),"HDMI transfers uncompressed digital data. Typically, it is used for<br>connecting high definition video and audio devices."
+host intrusion prevention systems (HIPS),Intrusion prevention systems that are installed on local systems.
+HPFS (High-Performance File System),the file system introduced with IBM's OS/2 Version 1.2. HPFS is noted for handling large files across multiple hard disk volumes and long file names.
+Hypertext Markup Language (HTML),"links documents, allowing users to move from one to another simply by clicking on a hot spot or link"
+Home Theater PC (HTPC),"A PC that is designed to play and possibly record music, photos, movies, and video on a television or extra-large monitor screen."
+Hypertext Transfer Protocol (HTTP),The set of rules that controls the transfer of web pages. It is a protocol that allows web browsers to talk to web servers.
+HTTPS (Hypertext Transfer Protocol Secure),An encrypted version of HTTP. It uses port 443.
+I&O,input and output
+IaaS (Infrastructure as a Service),Cloud-hosted provider of virtualized servers and networks.
+ICMP (Internet Control Message Protocol),A protocol used with IP that attempts to report on the condition of a connection between two nodes.
+intelligent character recognition (ICR),software that can interpret handprinted text written on paper forms
+Integrated Drive Electronics (IDE),An early PC hard drive interface. (1)
+Intrusion Detection System (IDS),A device designed to be active security; it can detect an attack as it occurs.
+IEEE,"Institute of Electrical and Electronic Engineers. International organization with a focus on electrical, electronics, and information technology topics. IEEE standards are well respected and followed by vendors around the world."
+IIS (Internet Information Services),"a set of Internet-based services for servers created by Microsoft for use with Microsoft Windows. It is the world's second most popular web server in terms of overall websites behind the industry leader Apache HTTP Server. The servers currently include FTP, SMTP, NNTP, and HTTP/HTTPS."
+IMAP (Internet Message Access Protocol),a common protocol for retrieving email messages via the Internet
+IMEI (International Mobile Equipment Identity),A unique number that identifies a mobile phone or tablet device worldwide. The number can usually be found imprinted on the device or reported in the About menu of the OS.
+IMSI (International Mobile Subscriber Identity),"A unique number that represents the actual user associated with a particular SIM card. The IMSI is usually available from the carrier, to ensure that stolen phones are not misused. The IMSI number can be used to unlock a phone as well"
+IP address,A number that uniquely identifies each computer or device connected to the Internet.
+IPCONFIG (Internet Protocol Configuration),Displays all current TCP/IP network configuration values and refreshes DHCP and DNS settings.
+IPP (Internet Printing Protocol),"Allows programs to sent one or more print jobs to the printer or print server and perform administration such as querying the status of a printer, obtaining the status of print jobs, or canceling individual print jobs."
+IPS (Intrusion Prevention System),"A dedicated device or software running on a workstation, server, or switch, that stands between the attacker and the network or host, and can prevent traffic from reaching the protected network or host."
+IPSec (Internet Protocol Security),"A Layer 3 protocol that defines encryption, authentication, and key management for TCP/IP transmissions. IPSec is an enhancement to IPv4 and is native to IPv6. IPSec is unique among authentication methods in that it adds security information to the header of all IP packets."
+IR (infrared),"A line-of-sight wireless standard. It allows devices to transmit and receive data using LEDs and IR sensors, similarly to how TV remote controllers work."
+IrDA (Infrared Data Association),An organization that develops and maintains IR standards.
+IRP (Incident Response Plan),The optimum approach for escalation is based on a thorough integration of this monitoring process.
+IRQ (Interrupt Request),A microprocessor priority system that assigns a number to each expansion adapter or port to facilitate orderly communication.
+ISA (Industry Standard Architecture),"Industry Standard<br>Architecture design was found in the original IBM PC for the<br>slots that allowed additional hardware to be connected to the<br>computer's motherboard. An 8-bit, 8.33-MHz expansion bus<br>was designed by IBM for its AT computer and released to the<br>public domain. An improved 16-bit bus was also released to<br>the public domain. Replaced by PCI in the mid-1990s."
+ISDN (Integrated Services Digital Network),A broadband telephone line that can carry data at about five times the speed of regular telephone lines. Two channels (telephone numbers) share a single pair of wires. ISDN has been replaced by DSL.
+International Organization for Standardization ISO,A federation of national standards organizations that develops and publishes international standards.
+ISP,(Internet Service Provider) A company that provides access to the Internet.
+JBOD (Just a Bunch of Disks),A colloquial term for a drive array that is not configured to use RAID or any other type of special fault-tolerance mechanism.
+KB (Knowledge Base),"A central website that usually provides a wealth of knowledge, documentation, and other support information about a particular product"
+KVM (Kernel-based Virtual Machine),An open source virtualization package designed for use with Linux systems.
+KVM (keyboard video mouse),"A switch that allows multiple computers to share a single keyboard, video display, and monitor."
+LAN (Local Area Network),"A network of computers and other devices that is confined to a relatively small space, such as one building or even one office."
+LBA (logical block addressing),Translation (algorithm) of IDE drives promoted by Western Digital as a standardized method for breaking the 504-MB limit in IDE drives. Subsequently universally adopted by the PC industry and standard on all EIDE drives.
+LC (Lucent Connector),Connector used with fiber cables. It was developed by Lucent Technologies and is a miniaturized version of the SC connector.
+LCD (liquid crystal display),Type of display commonly used on portable computers. LCDs have also replaced CRTs as the display of choice for desktop computer users. LCDs use liquid crystals and electricity to produce images on the screen.
+LDAP (Lightweight Directory Access Protocol),"A communications protocol that defines how a client can access information, perform operations, and share directory data on a server."
+LED (light-emitting diode),A technology used in an LCD monitor that uses less mercury than earlier technologies.
+LPD/LPR (line printer daemon/line printer remote),A UNIX-based protocol used to print to printers over a network.
+LPT (Line Printer Terminal),Assignments of system resources that are made to a parallel port and that are used to manage a print job. Two possible LPT configurations are referred to as LPT1: and LPT2:.
+LVD (low voltage differential),"Sometimes called LVD signaling (LVDS), a standard that transmits data as the difference in voltages between two wires in a pair. It is used by SATA, FireWire, AMDs HyperTransport, and PCIe."
+Media Access Control (MAC),An address for communications on the physical network segment.
+Mandatory Access Control (MAC),A means of restricting access to data based on varying degrees of security requirements for information contained in the objects and the corresponding security clearance of users or programs acting on their behalf.
+MAN (Metropolitan Area Network),"A network that is larger than a LAN, typically connecting clients and servers from multiple buildings, but within a limited geographic area. For example, a ____ could connect multiple city government buildings around a city's center."
+MAPI (Messaging Application Programming Interface),A Windows programming interface that provides applications with a standard way to communicate when sending e-mail.
+mATX,Micro Advanced Technology Extended. Fits cases that follows ATX 2.1 or higher.
+Media Access Unit (MAU),A unit in a Token Ring topology which passes packets to computers on the network.
+MBR (Master Boot Record),Tiny bit of code that takes control of the boot process<br>from the system BIOS.
+MBSA (Microsoft Baseline Security Analyzer),Uses Windows Update Agent (WUA) to remotely scan state of computers on network.
+MDM (mobile device management),Software suites designed to manage use of smartphones and tablets within an enterprise.
+Multi-factor authentication (MFA),"Multi-factor authentication involves a combination of multiple methods of authentication. For example, an authentication method that uses smart cards as well as usernames and passwords can be referred to as multi-factor authentication."
+MFP,multi-function product
+MicroDIMM,Micro dual inline memory module (MicroDIMM) is a type of memory module commonly used in laptops due to its 172-pin count. It is part of SDRAM.
+AC,Alternating Current
+ACL,Access Control List
+ACPI,Advanced Configuration Power Interface
+ADF,Automatic Document Feeder
+ADSL,Asymmetrical Digital Subscriber Line
+AES,Advanced Encryption Standard
+AHCI,Advanced Host Controller Interface
+AP,Access Point
+APIPA,Automatic Private Internet Protocol Addressing
+APM,Advanced Power Management
+ARP,Address Resolution Protocol
+ASR,Automated System Recovery
+ATA,Advanced Technology Attachment
+ATAPI,Advanced Technology Attachment Packet Interface
+ATM,Asynchronous Transfer Mode
+ATX,Advanced Technology Extended
+AUP,Acceptable Use Policy
+A/V,Audio Video
+BD-R,Blu-ray Disc Recordable
+BIOS,Basic Input/Output System
+BD-RE,Blu-ray Disc Rewritable
+BNC,Bayonet-Neill-Concelman
+BSOD,Blue Screen of Death
+BYOD,Bring Your Own Device
+CAD,Computer-Aided Design
+CAPTCHA,Completely Automated Public Turing test to tell Computers and Humans Apart
+CD,Compact Disc
+CD-ROM,Compact Disc-Read-Only Memory
+CD-RW,Compact Disc-Rewritable
+CDFS,Compact Disc File System
+CERT,Computer Emergency Response Team
+CFS,"Central File System, Common File System, or Command File System"
+CGA,Computer Graphics and Applications
+CIDR,Classless Inter-Domain Routing
+CIFS,Common Internet File System
+CMOS,Complementary Metal-Oxide Semiconductor
+CNR,Communications and Networking Riser
+COMx,Communication port (x=port number)
+CPU,Central Processing Unit
+CRT,Cathode-Ray Tube
+DaaS,Data as a Service
+DAC,Discretionary Access Control
+DB-25,"Serial Communications D-Shell Connector, 25 pins"
+DB-9 S,"erial Communications D-Shell Connector, 9 pins"
+DBaaS,Database as a Service
+DC,Direct Current
+DDoS,Distributed Denial of Service
+DDR,Double Data Rate
+DDR RAM,Double Data Rate Random Access Memory
+DFS,Distributed File System
+DHCP,Dynamic Host Configuration Protocol
+DIMM,Dual Inline Memory Module
+DIN,Deutsche Industrie Norm
+DLT,Digital Linear Tape
+DLP,Digital Light Processing or Data Loss Prevention
+DMA,Direct Memory Access
+DMZ,Demilitarized Zone
+DNS,Domain Name Service or Domain Name Server
+DoS,Denial of Service
+DRAM,Dynamic Random Access Memory
+DRM,Digital Rights Management
+DSL,Digital Subscriber Line
+DVD,Digital Versatile Disc
+DVD-RAM,Digital Versatile Disc-Random Access Memory
+DVD-ROM,Digital Versatile Disc-Read Only Memory
+DVD-R,Digital Versatile Disc-Recordable
+DVD-RW,Digital Versatile Disc-Rewritable
+DVI,Digital Visual Interface
+DVI-D,Digital Visual Interface--Digital
+ECC,Error Correcting Code
+ECP,Extended Capabilities Port
+EEPROM,Electrically Erasable Programmable Read-Only Memory
+EFS,Encrypting File System
+EIDE,Enhanced Integrated Drive Electronics
+EMI,Electromagnetic Interference
+EMP,Electromagnetic Pulse
+EPROM,Erasable Programmable Read-Only Memory
+EPP,Enhanced Parallel Port
+ERD,Emergency Repair Disk
+eSATA,External Serial Advanced Technology Attachment
+ESD,Electrostatic Discharge
+EULA,End User License Agreement
+EVGA,Extended Video Graphics Adapter/Array
+Ext2,Second Extended File System
+exFAT,Extended File Allocation Table
+FAT,File Allocation Table
+FAT12,12-bit File Allocation Table
+FAT16,16-bit File Allocation Table
+FAT32,32-bit File Allocation Table
+FDD,Floppy Disk Drive
+FPM,Fast Page Mode
+FSB,Front-Side Bus
+FTP,File Transfer Protocol
+FQDN,Fully Qualified Domain Name
+GDDR,Graphics Double Data Rate
+GDI,Graphics Device Interface
+GUI,Graphical User Interface
+GUID,Globally Unique Identifier
+GPS,Global Positioning System
+GPT,GUID Partition Table
+GPU,Graphics Processing Unit
+GSM,Global System for Mobile Communications
+HAL,Hardware Abstraction Layer
+HAV,Hardware Assisted Virtualization
+HCL,Hardware Compatibility List
+HDCP,High-Bandwidth Digital Content Protection
+HDD,Hard Disk Drive
+HDMI,High Definition Media Interface
+HIPS,Host Intrusion Prevention System
+HPFS,High Performance File System
+HTML,Hypertext Markup Language
+HTPC,Home Theater PC
+HTTP,Hypertext Transfer Protocol
+HTTPS,Hypertext Transfer Protocol Secure
+I/O,Input/Output
+IaaS,Infrastructure as a Service
+ICMP,Internet Control Message Protocol
+ICR,Intelligent Character Recognition
+IDE,Integrated Drive Electronics
+IDS,Intrusion Detection System
+IEEE,Institute of Electrical and Electronics Engineers
+IIS,Internet Information Services
+IMAP,Internet Mail Access Protocol
+IMEI,International Mobile Equipment Identity
+IMSI,International Mobile Subscriber Identity
+IP,Internet Protocol
+IPConfig,Internet Protocol Configuration
+IPP,Internet Printing Protocol
+IPS,Intrusion Prevention System
+IPSec,Internet Protocol Security
+IR,Infrared
+IrDA,Infrared Data Association
+IRP,Incident Response Plan
+IRQ,Interrupt Request
+ISA,Industry Standard Architecture
+ISDN,Integrated Services Digital Network
+ISO,International Organization for Standardization
+ISP,Internet Service Provider
+JBOD,Just a Bunch of Disks
+KB,Knowledge Base
+KVM,Kernel-based Virtual Machine
+KVM,Keyboard-Video-Mouse
+LAN,Local Area Network
+LBA,Logical Block Addressing
+LC,Lucent Connector
+LCD,Liquid Crystal Display
+LDAP,Lightweight Directory Access Protocol
+LED,Light Emitting Diode
+LPD/LPR,Line Printer Daemon/Line Printer Remote
+LPT,Line Printer Terminal
+LVD,Low Voltage Differential
+MAC,Media Access Control/Mandatory Access Control
+MAN,Metropolitan Area Network
+MAPI,Messaging Application Programming Interface
+mATX,Micro Advanced Technology Extended
+MAU,Media Access Unit/Media Attachment Unit
+MBR,Master Boot Record
+MBSA,Microsoft Baseline Security Analyzer
+MDM,Mobile Device Management
+MFA,Multifactor Authentication
+MFD,Multifunction Device
+MFP,Multifunction Product
+MicroDIMM,Micro Dual Inline Memory Module
+MIDI,Musical Instrument Digital Interface
+MIME,Multipurpose Internet Mail Extension
+MIMO,Multiple Input Multiple Output
+MMC,Microsoft Management Console
+MP3,Moving Picture Experts Group Layer 3 Audio
+MP4,Moving Picture Experts Group Layer 4
+MPEG,Moving Picture Experts Group
+MSConfig,Microsoft Configuration
+MSDS,Material Safety Data Sheet
+MT-RJ,Mechanical Transfer Registered Jack
+MUI,Multilingual User Interface
+NaaS,Network as a Service
+NAC,Network Access Control
+NAS,Network-Attached Storage
+NAT,Network Address Translation
+NetBIOS,Networked Basic Input/Output System
+NetBEUI,Networked Basic Input/Output System Extended User Interface
+NFC,Near Field Communication
+NFS,Network File System
+NIC,Network Interface Card
+NiCd,Nickel Cadmium
+NiMH,Nickel Metal Hydride
+NLX,New Low-profile Extended
+NNTP,Network News Transfer Protocol
+NTFS,New Technology File System
+NTLDR,New Technology Loader
+NTP,Network Time Protocol
+NTSC,National Transmission Standards Committee
+NVMe,Non-volatile Memory Express
+OCR,Optical Character Recognition
+OEM,Original Equipment Manufacturer
+OLED,Organic Light Emitting Diode
+OS,Operating System
+PaaS,Platform as a Service
+PAL,Phase Alternating Line
+PAN,Personal Area Network
+PAT,Port Address Translation
+PC,Personal Computer
+PCI,Peripheral Component Interconnect
+PCI,Payment Card Industry
+PCIe,Peripheral Component Interconnect Express
+PCIX,Peripheral Component Interconnect Extended
+PCL,Printer Command Language
+PCMCIA,Personal Computer Memory Card International Association
+PE,Preinstallation Environment
+PGA,Pin Grid Array
+PGA2,Pin Grid Array 2
+PGP,Pretty Good Protection
+PII,Personally Identifiable Information
+PIN,Personal Identification Number
+PHI,Personal Health Information
+PKI,Public Key Infrastructure
+PnP,Plug and Play
+PoE,Power over Ethernet
+POP3,Post Office Protocol 3
+PoS,Point of Sale
+POST,Power-On Self-Test
+POTS,Plain Old Telephone Service
+PPM,Pages Per Minute
+PPP,Point-to-Point Protocol
+PPTP,Point-to-Point Tunneling Protocol
+PRI,Primary Rate Interface
+PROM,Programmable Read-Only Memory
+PS/2,Personal System/2 connector
+PSTN,Public Switched Telephone Network
+PSU,Power Supply Unit
+PVA,Patterned Vertical Alignment
+PVC,Permanent Virtual Circuit
+PXE,Preboot Execution Environment
+QoS,Quality of Service
+RADIUS,Remote Authentication Dial-In User Server
+RAID,Redundant Array of Independent (or Inexpensive) Disks
+RAM,Random Access Memory
+RAS,Remote Access Service
+RDP,Remote Desktop Protocol
+RF,Radio Frequency
+RFI,Radio Frequency Interference
+RFID,Radio Frequency Identification
+RGB,Red Green Blue
+RIP,Routing Information Protocol
+RIS,Remote Installation Service
+RISC,Reduced Instruction Set Computer
+RJ-11,Registered Jack Function 11
+RJ-45,Registered Jack Function 45
+RMA,Returned Materials Authorization
+ROM,Read-Only Memory
+RPO,Recovery Point Objective
+RTC,Real-Time Clock
+RT,Recovery Time Objective
+Saas S,oftware as a Service
+SAN,Storage Area Network
+SAS,Serial Attached SCSI
+SATA,Serial Advanced Technology Attachment
+SC,Subscription Channel
+SCP,Secure Copy Protection
+SCSI,Small Computer System Interface
+SCSI ID,Small Computer System Interface Identifier
+SD,card Secure Digital Card
+SEC,Single Edge Connector
+SFC,System File Checker
+SFF,Small Form Factor
+SFTP,Secure File Transfer Protocol
+SIM,Subscriber Identity Module
+SIMM,Single In-Line Memory Module
+SLI,Scalable Link Interface or System Level Integration or Scanline Interleave Mode
+S.M.A.R.T.,"Self-Monitoring, Analysis, and Reporting Technology"
+SMB,Server Message Block
+SMTP,Simple Mail Transfer Protocol
+SNMP,Simple Network Management Protocol
+SoDIMM,Small Outline Dual Inline Memory Module
+SOHO,Small Office/Home Office
+SP,Service Pack
+SPDIF,Sony-Philips Digital Interface Format
+SPGA,Staggered Pin Grid Array
+SRAM,Static Random Access Memory
+SSD,Solid State Drive
+SSH,Secure Shell
+SSID,Service Set Identifier
+SSL,Secure Sockets Layer
+SSO,Single Sign-on
+ST,Straight Tip
+STP,Shielded Twisted Pair
+SXGA,Super Extended Graphics Array
+TACACS,Terminal Access Controller Access-Control System
+TCP,Transmission Control Protocol
+TCP/IP,Transmission Control Protocol/Internet Protocol
+TDR,Time Domain Reflectometer
+TFTP,Trivial File Transfer Protocol
+TKIP,Temporal Key Integrity Protocol
+TLS,Transport Layer Security
+TN,Twisted Nematic
+TPM,Trusted Platform Module
+UAC,User Account Control
+UDF,User Defined Functions or Universal
+Disk,Format or Universal Data Format
+UDP,User Datagram Protocol
+UEFI,Unified Extensible Firmware Interface
+UNC,Universal Naming Convention
+UPnP,Universal Plug and Play
+UPS,Uninterruptible Power Supply
+URL,Uniform Resource Locator
+USB,Universal Serial Bus
+USMT,User State Migration Tool
+UTM,Unified Threat Management
+UTP,Unshielded Twisted Pair
+UXGA,Ultra Extended Graphics Array
+VA,Vertical Alignment
+VDC,Volts DC
+VDI,Virtual Desktop Infrastructure
+VESA,Video Electronics Standards Association
+VFAT,Virtual File Allocation Table
+VGA,Video Graphics Array
+VLAN,Virtual LAN
+VM,Virtual Machine
+VNC,Virtual Network Computer
+VoIP,Voice over Internet Protocol
+VPN,Virtual Private Network
+VRAM,Video Random Access Memory
+WAN,Wide Area Network
+WAP,Wireless Access Protocol/Wireless Access Point
+WEP,Wired Equivalent Privacy
+WIFI,Wireless Fidelity
+WINS,Windows Internet Name Service
+WLAN,Wireless Local Area Network
+WMN,Wireless Mesh Network
+WPA,Wireless Protected Access
+WPA2,WiFi Protected Access 2
+WPS,WiFi Protected Setup
+WUXGA,Wide Ultra Extended Graphics Array
+WWAN,Wireless Wide Area Network
+XGA,Extended Graphics Array
+ZIF,Zero-Insertion-Force
+ZIP,Zigzag Inline Package
+AAA,"Authentication, Authorization, and Accounting"
+AAAA,"Authentication, Authorization, Accounting, and Auditing"
+ACL,Access Control List
+ADF,Automatic Document Feeder
+AES,Advanced Encryption Standard
+AMD,"Advanced Micro Devices, Inc."
+APFS,Apple File System
+APIPA,Automatic Private Internet Protocol Addressing
+ARM,Advanced RISC [Reduced Instruction Set Computer] Machine
+ATX,Advanced Technology Extended
+BEC,Business Email Compromise
+BIOS,Basic Input/Output System
+BSOD,Blue Screen of Death
+BYOD,Bring Your Own Device
+CAC,Calling-card Authorization Computer
+CIFS,Common Internet File System
+CMDB,Configuration Management Database
+CNAME,Canonical Name
+CPU,Central Processing Unit
+DB-9,"Serial Communications D-Shell Connector, 9 pins"
+DDoS,Distributed Denial of Service
+DDR,Double Data Rate
+DHCP,Dynamic Host Configuration Protocol
+DIMM,Dual In-Line Memory Module
+DKIM,Domain Keys Identified Mail
+DLP,Data Loss Prevention
+DMARC,"Domain-based Message Authentication, Reporting, and Conformance"
+DNS,Domain Name System
+DoS,Denial of Service
+DRM,Digital Rights Management
+DSL,Digital Subscriber Line
+DVI,Digital Visual Interface
+ECC,Error-Correcting Code
+EDR,Endpoint Detection and Response
+EFS,Encrypting File System
+EOL,End-of-Life
+eSATA,External Serial Advanced Technology Attachment
+ESD,Electrostatic Discharge
+EULA,End-User License Agreement
+exFAT,Extended File Allocation Table
+FAT32,32-bit File Allocation Table
+FRT,Facial Recognition Technology
+FTP,File Transfer Protocol
+GFS,Grandfather-Father-Son
+GPS,Global Positioning System
+GPT,GUID [Globally Unique Identifier] Partition Table
+GUID,Globally Unique Identifier
+HDD,Hard Disk Drive
+HDMI,High-Definition Media Interface
+HSM,Hardware Security Module
+HTTP,Hypertext Transfer Protocol
+HTTPS,Hypertext Transfer Protocol Secure
+IaaS,Infrastructure as a Service
+IAM,Identity and Access Management
+IMAP,Internet Mail Access Protocol
+IOPS,Input/Output Operations Per Second
+IoT,Internet of Things
+IP,Internet Protocol
+IPS,In-Plane Switching
+ISO,International Organization for Standardization
+ITX,Information Technology eXtended
+KVM,Keyboard Video Mouse
+LAN,Local Area Network
+LC,Lucent Connector
+LCD,Liquid Crystal Display
+LDAP,Lightweight Directory Access Protocol
+LED,Light-Emitting Diode
+MAC,Media Access Control
+MAN,Metropolitan Area Network
+MBR,Master Boot Record
+MDM,Mobile Device Management
+MDR,Managed Detection and Response
+MFA,Multifactor Authentication
+MMC,Microsoft Management Console
+MNDA,Mutual Non-Disclosure Agreement
+mSATA,Mini-Serial Advanced Technology Attachment
+MSDS,Material Safety Data Sheet
+MX,Mail Exchange
+NDA,Non-Disclosure Agreement
+NetBIOS,Network Basic Input/Output System
+NFC,Near-Field Communication
+NIC,Network Interface Card
+NTFS,New Technology File System
+NTP,Network Time Protocol
+NVME,Non-Volatile Memory Express
+OLED,Organic Light-Emitting Diode
+ONT,Optical Network Terminal
+OS,Operating System
+OTP,One-Time PAssword
+PaaS,Platform as a Service
+PAM,Privileged Access Management
+PAN,Personal Area Network
+PC,Personal Computer
+PCI,Peripheral Component Interconnect
+PCIe,Peripheral Component Interconnect Express
+PII,Personally Identifiable Information
+PIN,Personal Identification Number
+PIV,Personal Identitiy Verification
+PoE,Power over Ethernet
+POP,Post Office Protocol
+POST,Power On Self Test
+PUP,Potentially Unwanted Program
+RADIUS,Remote Authentication Dial-in User Server
+RAID,Redundant Array of Independent Disks
+RAM,Random Access Memory
+RDP,Remote Desktop Protocol
+ReFS,Resilient File System
+RFID,Radio-Frequency Identification
+RJ11,Registered Jack Function 11
+RJ45,Registered Jack Function 45
+RMM,Remote Monitoring and Management
+RSR,Rapid Security Response
+SaaS,Software as a Service
+SAN,Storage Area Network
+SAML,Security Assertions Markup Language
+SAS,Serial Attached SCSI [Small Computer System Interface]
+SATA,Serial Advanced Technology Attachment
+SC,Subscriber Connectro
+SCADA,Supervisory Control and Data Acquisition
+SCSI,Small Computer System Interface
+SIM,Subscriber Identity Module
+SLA,Service-Level Agreement
+S.M.A.R.T.,Self-Monitoring Analysis and Reporting Technology
+SMB,Server Message Block
+SMS,Short Message Service
+SMTP,Simple Mail Transfer Protocol
+SODIMM,Small Outline Dual In-Line Memory Module
+SOHO,Small Office/Home Office
+SOP,Standard Operating Procedure
+SPF,Sender Policy Framework
+SPICE,Software Process Improvement and Capability Determination
+SQL,Structured Query Language
+SSD,Solid State Drive
+SSH,Secure Shell
+SSID,Service Set Identifier
+SSO,Single Sign-On
+ST,Straight Tip
+TACACS,Terminal Access Controller Access-Control System
+TCP,Transmission Control Protocol
+TKIP,Temporal Key Integrity Protocol
+TN,Twisted Nematic
+TOTP,Time-based One Time Password
+TPM,Trusted Platform Module
+UAC,User Account Control
+UDP,User Datagram Protocol
+UEFI,Unified Extensible Firmware Interface
+UPnP,Universal Plug and Play
+UPS,Uninterruptible Power Supply
+USB,Universal Serial Bus
+UTM,Unified Threat Management
+VA,Vertical Alignment
+VDI,Virtual Desktop Infrastructure
+VGA,Video Graphics Array
+VLAN,Virtual LAN [Local Area Network]
+VNC,Virtual Network Computer
+VoIP,Voice over Internet Protocol
+VPN,Virtual Private Network
+VRAM,Video Random Access Memory
+WAN,Wide Area Network
+WinRM,Windows Remote Management
+WISP,Written Internet Service Provider
+WLAN,Wireless LAN [Local Area Network]
+WPA,Wi-Fi Protected Access
+WWAN,Wireless Wide Area Network
+XDR,Extended Detection and Response
+XFS,Extended File System
+XXS,Cross-Site Scripting
+AC,"Alternating Current: an electric current that reverses its direction many times a second at regular intervals, typically used in power supplies."
+ACL,"access control lists. <br>An ACL is a list attached to a resource, giving permissions, or rules about exactly who can access it."
+ACPI,"Advanced Configuration Power Interface: provides an open standard that operating systems can use to discover and configure computer hardware components, to perform power management by (for example) putting unused components to sleep, and to perform status monitoring."
+ADF,"automatic document feeder (ADF) is a feature in printers, photocopiers, fax machines or scanners wherein a stack of paper put into the machine and is then automatically fed through it, allowing the user to print, scan or copy without having to manually place each page into the machine"
+ADSL,Asymmetric Digital Subscriber Line: ADSL is a technology that will oterm-5ffer faster connection speeds than the traditional Internet via dial-up telephone lines could offer. ADSL is the technology that drives many Internet connections worldwide.
+AES,Advanced Encryption Standard: is a specification for the encryption of electronic data established by the U.S. National Institute of Standards and Technology (NIST) in 2001.
+AHCI,The Advanced Host Controller Interface (AHCI) is a technical standard defined by Intel that specifies the operation of Serial ATA (SATA) host controllers in a non-implementation-specific manner in its motherboard chipsets.
+AP,"In computer networking, a wireless access point (WAP), or more generally just access point (AP), is a networking hardware device that allows other Wi-Fi devices to connect to a wired network."
+APIPA,APIPA stands for Automatic Private IP Addressing (APIPA). It is a feature or characteristic in operating systems (eg. Windows) which enables computers to self-configure an IP address and subnet mask automatically when their DHCP(Dynamic Host Configuration Protocol) server isn't reachable.
+APM,Advanced Power Management (APM) is an application programming interface (API) developed jointly by Microsoft and Intel. It allows an operating system to communicate with the computer's BIOS in order to achieve efficient power management.
+ARP,"ARP stands for Address Resolution Protocol. When you try to ping an IP address on your local network, say 192.168. ... If there is a value cached, ARP is not used. If the IP address is not found in the ARP table, the system will then send a broadcast packet to the network using the ARP protocol to ask ""who has 192.168."
+ASR,"Automated system recovery (ASR) is a feature of the Windows XP operating system that can be used to simplify recovery of a computer's system or boot volumes. ASR consists of two parts: an automated backup, and an automated restore. The backup portion can be accessed in the Backup utility under System Tools."
+ATA,"Stands for ""Advanced Technology Attachment."" It is a type of disk drive that integrates the drive controller directly on the drive itself. Computers can use ATA hard drives without a specific controller to support the drive."
+ATAPI,Advanced Technology Attachment Packet Interface (ATAPI) is a protocol that allows a greater variety of devices to be connected to a computer than ATA (PATA / IDE and SATA) on its own would allow. ATAPI allows IDE and SATA controllers to support optical drives.
+ATM,"Asynchronous Transfer Mode (ATM) is a telecommunications standard defined by ANSI and ITU (formerly CCITT) for digital transmission of multiple types of traffic, including telephony (voice), data, and video signals in one network without the use of separate overlay networks."
+ATX,"Short for Advanced Technology eXtended, ATX is a specification used to outline motherboard configuration and dimensions to improve standardization."
+AUP,An acceptable use policy (AUP) is a document stipulating constraints and practices that a user must agree to for access to a corporate network or the Internet.
+A/V,"(Audio/Video) Equipment and applications that deal with sound and sight. The A/V world includes microphones, tape and disk recorders, audio mixers, still and video cameras, film projectors, data projectors, slide projectors, VCRs, CD/DVD/Blu-ray players/recorders, amplifiers and speakers."
+BD-R,Blu-ray Disc Recordable (BD-R) refers to two direct to disc optical disc recording technologies that can be recorded on to a Blu-ray-based optical disc with an optical disc recorder.
+BIOS,"BIOS (basic input/output system) is the program a computer's microprocessor uses to start the computer system after it is powered on. It also manages data flow between the computer's operating system (OS) and attached devices, such as the hard disk, video adapter, keyboard, mouse and printer."
+BD-RE,Blu-ray Disc Recordable Erasable (BD-RE) optical disc recording technology that can be erased and re-recorded multiple times.
+BNC,"The BNC connector (initialism of ""Bayonet Neill-Concelman"") is a miniature quick connect/disconnect radio frequency connector used for coaxial cable."
+BSOD,"A stop error or exception error, commonly called the blue screen of death (BSoD) or blue screen, is an error screen displayed on Windows computers following a fatal system error. It indicates a system crash, in which the operating system has reached a condition where it can no longer operate safely."
+BYOD,Bring your own device (BYOD) refers to the trend of employees using personal devices to connect to their organizational networks and access work-related systems and potentially sensitive or confidential data.
+CAD,"Computer-aided design (CAD) is the use of computers (or workstations) to aid in the creation, modification, analysis, or optimization of a design."
+CAPTCHA,"CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart. In other words, CAPTCHA determines whether the user is real or a spam robot. CAPTCHAs stretch or manipulate letters and numbers, and rely on human ability to determine which symbols they are"
+CD,"Compact disc (CD), a molded plastic disc containing digital data that is scanned by a laser beam for the reproduction of recorded sound and other information."
+CD-ROM,a compact disc used as a read-only optical memory device for a computer system.
+CD-RW,"Stands for ""Compact Disc Re-Writable."" A CD-RW is a blank CD that can be written to by a CD burner. Unlike a CD-R (CD-Recordable), a CD-RW can be written to multiple times. The data burned on a CD-RW cannot be changed, but it can be erased."
+CDFS,"CDfs is a virtual file system for Unix-like operating systems; it provides access to data and audio tracks on Compact Discs. When the CDfs driver mounts a Compact Disc, it represents each track as a file. This is consistent with the Unix convention ""everything is a file""."
+CERT,"A Computer Emergency Response Team (CERT) is a group of information security experts responsible for the protection against, detection of and response to an organization's cybersecurity incidents."
+CFS,"Central File System, Common File System, or Command File System<br><br>A file system is a way of organizing information on a storage device like a computer hard drive. Common ones include NTFS, FAT, etc."
+CGA,"Computer Graphics and Applications<br><br>Computer graphics is the branch of computer science that deals with generating images with the aid of computers. Today, computer graphics is a core technology in digital photography, film, video games, cell phone and computer displays, and many specialized applications."
+CIDR,Classless inter-domain routing (CIDR) is a set of Internet protocol (IP) standards that is used to create unique identifiers for networks and individual devices.
+CIFS,"Common Internet File System (CIFS) is a network filesystem protocol used for providing shared access to files and printers between machines on the network. A CIFS client application can read, write, edit and even remove files on the remote server."
+CMOS,"Stands for ""Complementary Metal Oxide Semiconductor."" It is a technology used to produce integrated circuits. CMOS circuits are found in several types of electronic components, including microprocessors, batteries, and digital camera image sensors."
+CNR,"Communications and networking riser (CNR) is a slot found on certain PC motherboards and used for specialized networking, audio, and telephony equipment. A motherboard manufacturer can choose to provide audio, networking, or modem functionality in any combination on a CNR card."
+COMx,"Alternatively referred to as the com port, the communications port is a serial communication used to connect devices such as your modem. Usually, communication ports are designated as COM1, COM2, COM3, and COM4 on computers running Microsoft Windows"
+CPU,"The central processing unit (CPU) or processor, is the unit which performs most of the processing inside a computer. It processes all instructions received by software running on the PC and by other hardware components, and acts as a powerful calculator."
+CRT,"The cathode-ray tube (CRT) is a vacuum tube that contains one or more electron guns and a phosphorescent screen, and is used to display images. It modulates, accelerates, and deflects electron beam(s) onto the screen to create the images."
+DaaS,"Data as a service (DaaS) is a data management strategy that uses the cloud to deliver data storage, integration, processing, and/or analytics services via a network connection."
+DAC,"In computer security, discretionary access control (DAC) is a type of access control defined by the Trusted Computer System Evaluation Criteria ""as a means of restricting access to objects based on the identity of subjects and/or groups to which they belong."
+DB-25,DB-25 is part of the D-subminiature (D-Sub) connector plug and socket family for computer and communication devices. DB-25 is a 25-pin electrical connector for serial and parallel computer ports. It is arranged in rows of two with one 13-pin row above another 12-pin row
+DB-9,"The term ""DB9"" refers to a common connector type, one of the D-Subminiature or D-Sub types of connectors. DB9 has the smallest ""footprint"" of the D-Subminiature connectors, and houses 9 pins (for the male connector) or 9 holes (for the female connector)."
+Dbaas,"The term ""Database-as-a-Service"" (DBaaS) refers to software and/or services that enables users to set up, operate and scale databases without the need for setting up physical hardware, installing software or configuring for performance."
+DC,di·rect cur·rent<br><br>an electric current flowing in one direction only.
+DDoS,A distributed denial-of-service (DDoS) attack occurs when multiple machines are operating together to attack one target. DDoS attackers often leverage the use of a botnet—a group of hijacked internet-connected devices to carry out large scale attacks.
+DDR,"Double Data Rate Random Access Memory<br><br> RAM that transfers data on both 0-1 and 1-0 clock transitions, theoretically yielding twice the data transfer rate of normal RAM"
+DFS,"Software that keeps track of files stored across multiple servers or networks. When data are requested, a distributed file system (DFS) converts the file names into the physical location of the files so they can be accessed"
+DHCP,Dynamic Host Configuration Protocol (DHCP) A protocol that provides a means to dynamically allocate IP addresses to computers on a local area network. The system administrator assigns a range of IP addresses to DHCP and each client computer on the LAN has its TCP/IP software configured to request an IP address from the DHCP server. The request and grant process uses a lease concept with a controllable time period.
+DIMM,"Dual Inline Memory Module<br><br>Small circuit boards carrying memory integrated circuits, with signal and power pins on both sides of the board, in contrast to single-in-line memory modules (SIMM)."
+DIN,"Deutsche Industrie Norm<br><br>DIN, the German Institute for Standardization, is the independent platform for standardization in Germany and worldwide."
+DLT,Digital Linear Tape<br> (DLT); previously called CompacTape) is a magnetic tape data storage technology developed by Digital Equipment Corporation (DEC) from 1984 onwards.
+DLP,"Data loss prevention (DLP) is a set of tools and processes used to ensure that sensitive data is not lost, misused, or accessed by unauthorized users."
+DMZ,"demilitarized zone (sometimes referred to as a perimeter network or screened subnet) is a physical or logical subnetwork that contains and exposes an organization's external-facing services to an untrusted, usually larger, network such as the Internet."
+DNS,"Domain Name Service or Domain Name Server<br><br>A system used on the Internet to map the easily remembered names of host computers (domain names) to their respective Internet Protocol (IP) numbers.<br>A software database program that converts domain names to Internet Protocol addresses, and vice versa."
+DoS,denial of service<br><br>A condition in which a system can no longer respond to normal requests.
+DRAM,"Dynamic random-access memory (dynamic RAM or DRAM) is a type of random-access semiconductor memory that stores each bit of data in a memory cell consisting of a tiny capacitor and a transistor, both typically based on metal-oxide-semiconductor (MOS) technology."
+DRM,Digital rights management (DRM) is a systematic approach to copyright protection for digital media. The purpose of DRM is to prevent unauthorized redistribution of digital media and restrict the ways consumers can copy content they've purchased.
+DSL,"DSL (Digital Subscriber Line) is a modem technology that uses existing telephone lines to transport high-bandwidth data, such as multimedia and video, to service subscribers. DSL provides dedicated, point-to-point, public network access."
+DVD,"Digital Versatile Disc<br><br>a type of compact disc able to store large amounts of data, especially high-resolution audiovisual material."
+DVD-RAM,"Digital Versatile Disc-Random Access Memory<br><br>a blank DVD on which data, including music and movies, can be permanently recorded and read using the DVD-RAM format. A DVD-RAM discs can be recorded over many times, but will only play back in a DVD-RAM drive."
+DVD-ROM,Digital Versatile Disc-Read Only Memory<br><br>a DVD used as a read-only optical memory device for a computer system.
+DVD-R,"Digital Versatile Disc-Recordable<br><br>a blank DVD on which data, including music and movies, can be permanently recorded and read using the DVD-R format.<br>a format for recordable DVDs used by some companies."
+DVD-RW,"Digital Versatile Disc-Rewritable<br><br>a blank DVD that can be recorded, erased, and rerecorded with data many times and read using the DVD-RW format.<br>a format for rewritable DVDs used by some companies.<br>a disc drive that can read and record DVDs."
+DVI,"Digital Visual Interface (DVI) is a video display interface developed by the Digital Display Working Group (DDWG). The digital interface is used to connect a video source, such as a video display controller, to a display device, such as a computer monitor."
+DVI-D,"Digital Visual Interface-Digital<br><br>DVI-D provides a digital only signal, while DVI-I can support digital and analog signals."
+ECC,An error-correcting code is an algorithm for expressing a sequence of numbers such that any errors which are introduced can be detected and corrected (within certain limitations) based on the remaining numbers.
+ECP,The Extended Capabilities Port (ECP) is a parallel port for personal computers (PCs) that supports bi-directional communication between a computer and a peripheral device such as a printer.
+EEPROM,"EEPROM (also E2PROM) stands for electrically erasable programmable read-only memory and is a type of non-volatile memory used in computers, integrated in microcontrollers for smart cards and remote keyless systems, and other electronic devices to store relatively small amounts of data but allowing individual bytes to be erased and reprogrammed."
+EFS,Encrypting File System (EFS) on Microsoft Windows is a feature introduced in version 3.0 of NTFS that provides filesystem-level encryption. The technology enables files to be transparently encrypted to protect confidential data from attackers with physical access to the computer.
+EIDE,Enhanced Integrated Drive Electronics<br>is a standard electronic interface between your computer and its mass storage drives. improved version of the IDE drive interface that provides faster data transfer
+EMI,"Electromagnetic interference (EMI), also called radio-frequency interference (RFI) when in the radio frequency spectrum, is a disturbance generated by an external source that affects an electrical circuit by electromagnetic induction, electrostatic coupling, or conduction."
+EMP,"An electromagnetic pulse (EMP), also sometimes called a transient electromagnetic disturbance, is a short burst of electromagnetic energy. Such a pulse's origin may be a natural occurrence or man-made"
+EPROM,"An EPROM , or erasable programmable read-only memory, is a type of programmable read-only memory (PROM) chip that retains its data when its power supply is switched off."
+EPP,"Enhanced Parallel Port is a standard signaling method for bi-directional parallel communication between a computer and peripheral devices, higher rates of data transfer"
+ERD,"Short for Emergency Repair Disk, an ERD is a diskette that creates backups of system files and settings and helps troubleshoot and fix issues"
+eSATA,External serial advanced technology attachment (eSATA) is a bus interface for connecting external storage devices
+ESD,(Electrostatic Discharge)<br><br>Static electricity that can build up and discharge causing damage to electronic components. Antistatic devices help prevent ESD damage.
+EULA,"(End User License Agreement)<br><br>Agreement that accompanies a piece of software, to which the user must agree before using the software. Outlines the terms of use for the software and also lists any actions on the part of the user that violate the<br>agreement."
+EVGA,(extended video graphics adapter/array)<br><br>Extended Video Graphics Array (or EVGA) is a standard created by VESA in 1991 denoting a non-interlaced resolution of 1024x768 at a maximum of 70 Hz refresh rate.
+ext2,"filesystem is the second extended filesystem which is the traditional filesystem used in Linux, it supports access control lists (individual user permissions)."
+exFAT,Extended File Allocation Table<br><br>A 64-bit version of the file allocation table file system designed for use on large USB flash drives.
+File Allocation Table (FAT),The file system component in the FAT file system in which the OS creates a table that serves as a map of where files reside on disk. Also called the FAT table.
+FAT12,"A version of the FAT file system for very small drives—mainly for floppy drives, using a 12-bit file allocation table. (10)"
+FAT16,"A version of the FAT file system used by MS-DOS for hard drives, using a 16-bit file allocation table. (10)"
+FAT32,"A version of the FAT file system used by hard drives and some flash drives (thumb drives, etc.), using a 32-bit file allocation table. (10)"
+FDD,floppy disk drive
+FPM,"Short for Fast Page Mode RAM, a type of Dynamic RAM (DRAM) that allows faster access to data in the same row or page."
+FSB,"Front Side Bus<br>Was a computer communication interface (bus) often used in Intel-chip-based computers during the 1990s and 2000s. The competing EV6 bus served the same function for AMD CPUs. Both typically carry data between the CPU and a memory controller hub, known as the northbridge."
+File Transfer Protocol (FTP),A communications method for transferring data between computers on the Internet
+FQDN (Fully Qualified Domain Name),"The complete DNS name of a system, from its host name to the top-level domain name."
+GDDR,(Graphics Double Data Rate) GDDR is double data rate (DDR) memory specialized for fast rendering on graphics cards (GPUs).
+GDI,Graphics Device Interface<br>Is a Microsoft Windows application programming interface and core operating system component responsible for representing graphical objects and transmitting them to output devices such as monitors and printers.
+Graphical User Interface (GUI),A user interface which displays images and pictures that allows a computer user to interact with a computer easily.
+Globally Unique Identifier,"An identifier that is one of a kind to a specific user. For example, biometric data or a loginID for a social network."
+Global Positioning System (GPS),Satellite-based system for determining the absolute location of places or geographic features.
+GUID Partition Table (GPT),A disk partitioning style that allows more partitions and advanced partition<br>information when compared to the older MBR style disk partition scheme. Desktop computers only use GPT in specialized and limited cases due to its limited applicability.
+Graphics Processing Unit (GPU),"A set of processors on a video card in a computer performing data parallel calculations to render objects (windows, etc.) on screen."
+Global System for Mobile Communications (GSM),GSM stands for Global System for Mobile Communication and is now considered the standard for communication globally
+Hardware Abstraction Layer (HAL),A component of the Windows operating system that resides in a file and is loaded into memory during the kernel loading phase of the Windows startup. (10)
+hardware-assisted virtualization (HAV),A feature of a processor whereby it can provide enhanced support for hypervisor software to run virtual machines on a system. The feature must be enabled in UEFI/BIOS setup.
+Hardware Compatibility List (HCL),A list of hardware components that have been tested and deemed compatible with a given operating system.
+High-Bandwidth Digital Content Protection (HDCP),A feature of HDMI that prevents people from illegally copying HD DVDs. See also High-Definition Multimedia Interface (HDMI). (3)
+hard disk drive (HDD),"The computer's nonvolatile, primary storage device for permanent storage of software and documents."
+HDMI (High-Definition Multimedia Interface),"HDMI transfers uncompressed digital data. Typically, it is used for<br>connecting high definition video and audio devices."
+host intrusion prevention systems (HIPS),Intrusion prevention systems that are installed on local systems.
+HPFS (High-Performance File System),the file system introduced with IBM's OS/2 Version 1.2. HPFS is noted for handling large files across multiple hard disk volumes and long file names.
+Hypertext Markup Language (HTML),"links documents, allowing users to move from one to another simply by clicking on a hot spot or link"
+Home Theater PC (HTPC),"A PC that is designed to play and possibly record music, photos, movies, and video on a television or extra-large monitor screen."
+Hypertext Transfer Protocol (HTTP),The set of rules that controls the transfer of web pages. It is a protocol that allows web browsers to talk to web servers.
+HTTPS (Hypertext Transfer Protocol Secure),An encrypted version of HTTP. It uses port 443.
+I&O,input and output
+IaaS (Infrastructure as a Service),Cloud-hosted provider of virtualized servers and networks.
+ICMP (Internet Control Message Protocol),A protocol used with IP that attempts to report on the condition of a connection between two nodes.
+intelligent character recognition (ICR),software that can interpret handprinted text written on paper forms
+Integrated Drive Electronics (IDE),An early PC hard drive interface. (1)
+Intrusion Detection System (IDS),A device designed to be active security; it can detect an attack as it occurs.
+IEEE,"Institute of Electrical and Electronic Engineers. International organization with a focus on electrical, electronics, and information technology topics. IEEE standards are well respected and followed by vendors around the world."
+IIS (Internet Information Services),"a set of Internet-based services for servers created by Microsoft for use with Microsoft Windows. It is the world's second most popular web server in terms of overall websites behind the industry leader Apache HTTP Server. The servers currently include FTP, SMTP, NNTP, and HTTP/HTTPS."
+IMAP (Internet Message Access Protocol),a common protocol for retrieving email messages via the Internet
+IMEI (International Mobile Equipment Identity),A unique number that identifies a mobile phone or tablet device worldwide. The number can usually be found imprinted on the device or reported in the About menu of the OS.
+IMSI (International Mobile Subscriber Identity),"A unique number that represents the actual user associated with a particular SIM card. The IMSI is usually available from the carrier, to ensure that stolen phones are not misused. The IMSI number can be used to unlock a phone as well"
+IP address,A number that uniquely identifies each computer or device connected to the Internet.
+IPCONFIG (Internet Protocol Configuration),Displays all current TCP/IP network configuration values and refreshes DHCP and DNS settings.
+IPP (Internet Printing Protocol),"Allows programs to sent one or more print jobs to the printer or print server and perform administration such as querying the status of a printer, obtaining the status of print jobs, or canceling individual print jobs."
+IPS (Intrusion Prevention System),"A dedicated device or software running on a workstation, server, or switch, that stands between the attacker and the network or host, and can prevent traffic from reaching the protected network or host."
+IPSec (Internet Protocol Security),"A Layer 3 protocol that defines encryption, authentication, and key management for TCP/IP transmissions. IPSec is an enhancement to IPv4 and is native to IPv6. IPSec is unique among authentication methods in that it adds security information to the header of all IP packets."
+IR (infrared),"A line-of-sight wireless standard. It allows devices to transmit and receive data using LEDs and IR sensors, similarly to how TV remote controllers work."
+IrDA (Infrared Data Association),An organization that develops and maintains IR standards.
+IRP (Incident Response Plan),The optimum approach for escalation is based on a thorough integration of this monitoring process.
+IRQ (Interrupt Request),A microprocessor priority system that assigns a number to each expansion adapter or port to facilitate orderly communication.
+ISA (Industry Standard Architecture),"Industry Standard<br>Architecture design was found in the original IBM PC for the<br>slots that allowed additional hardware to be connected to the<br>computer's motherboard. An 8-bit, 8.33-MHz expansion bus<br>was designed by IBM for its AT computer and released to the<br>public domain. An improved 16-bit bus was also released to<br>the public domain. Replaced by PCI in the mid-1990s."
+ISDN (Integrated Services Digital Network),A broadband telephone line that can carry data at about five times the speed of regular telephone lines. Two channels (telephone numbers) share a single pair of wires. ISDN has been replaced by DSL.
+International Organization for Standardization ISO,A federation of national standards organizations that develops and publishes international standards.
+ISP,(Internet Service Provider) A company that provides access to the Internet.
+JBOD (Just a Bunch of Disks),A colloquial term for a drive array that is not configured to use RAID or any other type of special fault-tolerance mechanism.
+KB (Knowledge Base),"A central website that usually provides a wealth of knowledge, documentation, and other support information about a particular product"
+KVM (Kernel-based Virtual Machine),An open source virtualization package designed for use with Linux systems.
+KVM (keyboard video mouse),"A switch that allows multiple computers to share a single keyboard, video display, and monitor."
+LAN (Local Area Network),"A network of computers and other devices that is confined to a relatively small space, such as one building or even one office."
+LBA (logical block addressing),Translation (algorithm) of IDE drives promoted by Western Digital as a standardized method for breaking the 504-MB limit in IDE drives. Subsequently universally adopted by the PC industry and standard on all EIDE drives.
+LC (Lucent Connector),Connector used with fiber cables. It was developed by Lucent Technologies and is a miniaturized version of the SC connector.
+LCD (liquid crystal display),Type of display commonly used on portable computers. LCDs have also replaced CRTs as the display of choice for desktop computer users. LCDs use liquid crystals and electricity to produce images on the screen.
+LDAP (Lightweight Directory Access Protocol),"A communications protocol that defines how a client can access information, perform operations, and share directory data on a server."
+LED (light-emitting diode),A technology used in an LCD monitor that uses less mercury than earlier technologies.
+LPD/LPR (line printer daemon/line printer remote),A UNIX-based protocol used to print to printers over a network.
+LPT (Line Printer Terminal),Assignments of system resources that are made to a parallel port and that are used to manage a print job. Two possible LPT configurations are referred to as LPT1: and LPT2:.
+LVD (low voltage differential),"Sometimes called LVD signaling (LVDS), a standard that transmits data as the difference in voltages between two wires in a pair. It is used by SATA, FireWire, AMDs HyperTransport, and PCIe."
+Media Access Control (MAC),An address for communications on the physical network segment.
+Mandatory Access Control (MAC),A means of restricting access to data based on varying degrees of security requirements for information contained in the objects and the corresponding security clearance of users or programs acting on their behalf.
+MAN (Metropolitan Area Network),"A network that is larger than a LAN, typically connecting clients and servers from multiple buildings, but within a limited geographic area. For example, a ____ could connect multiple city government buildings around a city's center."
+MAPI (Messaging Application Programming Interface),A Windows programming interface that provides applications with a standard way to communicate when sending e-mail.
+mATX,Micro Advanced Technology Extended. Fits cases that follows ATX 2.1 or higher.
+Media Access Unit (MAU),A unit in a Token Ring topology which passes packets to computers on the network.
+MBR (Master Boot Record),Tiny bit of code that takes control of the boot process<br>from the system BIOS.
+MBSA (Microsoft Baseline Security Analyzer),Uses Windows Update Agent (WUA) to remotely scan state of computers on network.
+MDM (mobile device management),Software suites designed to manage use of smartphones and tablets within an enterprise.
+Multi-factor authentication (MFA),"Multi-factor authentication involves a combination of multiple methods of authentication. For example, an authentication method that uses smart cards as well as usernames and passwords can be referred to as multi-factor authentication."
+MFP,multi-function product
+MicroDIMM,Micro dual inline memory module (MicroDIMM) is a type of memory module commonly used in laptops due to its 172-pin count. It is part of SDRAM.
+AC,Alternating Current
+ACL,Access Control List
+ACPI,Advanced Configuration Power Interface
+ADF,Automatic Document Feeder
+ADSL,Asymmetrical Digital Subscriber Line
+AES,Advanced Encryption Standard
+AHCI,Advanced Host Controller Interface
+AP,Access Point
+APIPA,Automatic Private Internet Protocol Addressing
+APM,Advanced Power Management
+ARP,Address Resolution Protocol
+ASR,Automated System Recovery
+ATA,Advanced Technology Attachment
+ATAPI,Advanced Technology Attachment Packet Interface
+ATM,Asynchronous Transfer Mode
+ATX,Advanced Technology Extended
+AUP,Acceptable Use Policy
+A/V,Audio Video
+BD-R,Blu-ray Disc Recordable
+BIOS,Basic Input/Output System
+BD-RE,Blu-ray Disc Rewritable
+BNC,Bayonet-Neill-Concelman
+BSOD,Blue Screen of Death
+BYOD,Bring Your Own Device
+CAD,Computer-Aided Design
+CAPTCHA,Completely Automated Public Turing test to tell Computers and Humans Apart
+CD,Compact Disc
+CD-ROM,Compact Disc-Read-Only Memory
+CD-RW,Compact Disc-Rewritable
+CDFS,Compact Disc File System
+CERT,Computer Emergency Response Team
+CFS,"Central File System, Common File System, or Command File System"
+CGA,Computer Graphics and Applications
+CIDR,Classless Inter-Domain Routing
+CIFS,Common Internet File System
+CMOS,Complementary Metal-Oxide Semiconductor
+CNR,Communications and Networking Riser
+COMx,Communication port (x=port number)
+CPU,Central Processing Unit
+CRT,Cathode-Ray Tube
+DaaS,Data as a Service
+DAC,Discretionary Access Control
+DB-25,"Serial Communications D-Shell Connector, 25 pins"
+DB-9 S,"erial Communications D-Shell Connector, 9 pins"
+DBaaS,Database as a Service
+DC,Direct Current
+DDoS,Distributed Denial of Service
+DDR,Double Data Rate
+DDR RAM,Double Data Rate Random Access Memory
+DFS,Distributed File System
+DHCP,Dynamic Host Configuration Protocol
+DIMM,Dual Inline Memory Module
+DIN,Deutsche Industrie Norm
+DLT,Digital Linear Tape
+DLP,Digital Light Processing or Data Loss Prevention
+DMA,Direct Memory Access
+DMZ,Demilitarized Zone
+DNS,Domain Name Service or Domain Name Server
+DoS,Denial of Service
+DRAM,Dynamic Random Access Memory
+DRM,Digital Rights Management
+DSL,Digital Subscriber Line
+DVD,Digital Versatile Disc
+DVD-RAM,Digital Versatile Disc-Random Access Memory
+DVD-ROM,Digital Versatile Disc-Read Only Memory
+DVD-R,Digital Versatile Disc-Recordable
+DVD-RW,Digital Versatile Disc-Rewritable
+DVI,Digital Visual Interface
+DVI-D,Digital Visual Interface--Digital
+ECC,Error Correcting Code
+ECP,Extended Capabilities Port
+EEPROM,Electrically Erasable Programmable Read-Only Memory
+EFS,Encrypting File System
+EIDE,Enhanced Integrated Drive Electronics
+EMI,Electromagnetic Interference
+EMP,Electromagnetic Pulse
+EPROM,Erasable Programmable Read-Only Memory
+EPP,Enhanced Parallel Port
+ERD,Emergency Repair Disk
+eSATA,External Serial Advanced Technology Attachment
+ESD,Electrostatic Discharge
+EULA,End User License Agreement
+EVGA,Extended Video Graphics Adapter/Array
+Ext2,Second Extended File System
+exFAT,Extended File Allocation Table
+FAT,File Allocation Table
+FAT12,12-bit File Allocation Table
+FAT16,16-bit File Allocation Table
+FAT32,32-bit File Allocation Table
+FDD,Floppy Disk Drive
+FPM,Fast Page Mode
+FSB,Front-Side Bus
+FTP,File Transfer Protocol
+FQDN,Fully Qualified Domain Name
+GDDR,Graphics Double Data Rate
+GDI,Graphics Device Interface
+GUI,Graphical User Interface
+GUID,Globally Unique Identifier
+GPS,Global Positioning System
+GPT,GUID Partition Table
+GPU,Graphics Processing Unit
+GSM,Global System for Mobile Communications
+HAL,Hardware Abstraction Layer
+HAV,Hardware Assisted Virtualization
+HCL,Hardware Compatibility List
+HDCP,High-Bandwidth Digital Content Protection
+HDD,Hard Disk Drive
+HDMI,High Definition Media Interface
+HIPS,Host Intrusion Prevention System
+HPFS,High Performance File System
+HTML,Hypertext Markup Language
+HTPC,Home Theater PC
+HTTP,Hypertext Transfer Protocol
+HTTPS,Hypertext Transfer Protocol Secure
+I/O,Input/Output
+IaaS,Infrastructure as a Service
+ICMP,Internet Control Message Protocol
+ICR,Intelligent Character Recognition
+IDE,Integrated Drive Electronics
+IDS,Intrusion Detection System
+IEEE,Institute of Electrical and Electronics Engineers
+IIS,Internet Information Services
+IMAP,Internet Mail Access Protocol
+IMEI,International Mobile Equipment Identity
+IMSI,International Mobile Subscriber Identity
+IP,Internet Protocol
+IPConfig,Internet Protocol Configuration
+IPP,Internet Printing Protocol
+IPS,Intrusion Prevention System
+IPSec,Internet Protocol Security
+IR,Infrared
+IrDA,Infrared Data Association
+IRP,Incident Response Plan
+IRQ,Interrupt Request
+ISA,Industry Standard Architecture
+ISDN,Integrated Services Digital Network
+ISO,International Organization for Standardization
+ISP,Internet Service Provider
+JBOD,Just a Bunch of Disks
+KB,Knowledge Base
+KVM,Kernel-based Virtual Machine
+KVM,Keyboard-Video-Mouse
+LAN,Local Area Network
+LBA,Logical Block Addressing
+LC,Lucent Connector
+LCD,Liquid Crystal Display
+LDAP,Lightweight Directory Access Protocol
+LED,Light Emitting Diode
+LPD/LPR,Line Printer Daemon/Line Printer Remote
+LPT,Line Printer Terminal
+LVD,Low Voltage Differential
+MAC,Media Access Control/Mandatory Access Control
+MAN,Metropolitan Area Network
+MAPI,Messaging Application Programming Interface
+mATX,Micro Advanced Technology Extended
+MAU,Media Access Unit/Media Attachment Unit
+MBR,Master Boot Record
+MBSA,Microsoft Baseline Security Analyzer
+MDM,Mobile Device Management
+MFA,Multifactor Authentication
+MFD,Multifunction Device
+MFP,Multifunction Product
+MicroDIMM,Micro Dual Inline Memory Module
+MIDI,Musical Instrument Digital Interface
+MIME,Multipurpose Internet Mail Extension
+MIMO,Multiple Input Multiple Output
+MMC,Microsoft Management Console
+MP3,Moving Picture Experts Group Layer 3 Audio
+MP4,Moving Picture Experts Group Layer 4
+MPEG,Moving Picture Experts Group
+MSConfig,Microsoft Configuration
+MSDS,Material Safety Data Sheet
+MT-RJ,Mechanical Transfer Registered Jack
+MUI,Multilingual User Interface
+NaaS,Network as a Service
+NAC,Network Access Control
+NAS,Network-Attached Storage
+NAT,Network Address Translation
+NetBIOS,Networked Basic Input/Output System
+NetBEUI,Networked Basic Input/Output System Extended User Interface
+NFC,Near Field Communication
+NFS,Network File System
+NIC,Network Interface Card
+NiCd,Nickel Cadmium
+NiMH,Nickel Metal Hydride
+NLX,New Low-profile Extended
+NNTP,Network News Transfer Protocol
+NTFS,New Technology File System
+NTLDR,New Technology Loader
+NTP,Network Time Protocol
+NTSC,National Transmission Standards Committee
+NVMe,Non-volatile Memory Express
+OCR,Optical Character Recognition
+OEM,Original Equipment Manufacturer
+OLED,Organic Light Emitting Diode
+OS,Operating System
+PaaS,Platform as a Service
+PAL,Phase Alternating Line
+PAN,Personal Area Network
+PAT,Port Address Translation
+PC,Personal Computer
+PCI,Peripheral Component Interconnect
+PCI,Payment Card Industry
+PCIe,Peripheral Component Interconnect Express
+PCIX,Peripheral Component Interconnect Extended
+PCL,Printer Command Language
+PCMCIA,Personal Computer Memory Card International Association
+PE,Preinstallation Environment
+PGA,Pin Grid Array
+PGA2,Pin Grid Array 2
+PGP,Pretty Good Protection
+PII,Personally Identifiable Information
+PIN,Personal Identification Number
+PHI,Personal Health Information
+PKI,Public Key Infrastructure
+PnP,Plug and Play
+PoE,Power over Ethernet
+POP3,Post Office Protocol 3
+PoS,Point of Sale
+POST,Power-On Self-Test
+POTS,Plain Old Telephone Service
+PPM,Pages Per Minute
+PPP,Point-to-Point Protocol
+PPTP,Point-to-Point Tunneling Protocol
+PRI,Primary Rate Interface
+PROM,Programmable Read-Only Memory
+PS/2,Personal System/2 connector
+PSTN,Public Switched Telephone Network
+PSU,Power Supply Unit
+PVA,Patterned Vertical Alignment
+PVC,Permanent Virtual Circuit
+PXE,Preboot Execution Environment
+QoS,Quality of Service
+RADIUS,Remote Authentication Dial-In User Server
+RAID,Redundant Array of Independent (or Inexpensive) Disks
+RAM,Random Access Memory
+RAS,Remote Access Service
+RDP,Remote Desktop Protocol
+RF,Radio Frequency
+RFI,Radio Frequency Interference
+RFID,Radio Frequency Identification
+RGB,Red Green Blue
+RIP,Routing Information Protocol
+RIS,Remote Installation Service
+RISC,Reduced Instruction Set Computer
+RJ-11,Registered Jack Function 11
+RJ-45,Registered Jack Function 45
+RMA,Returned Materials Authorization
+ROM,Read-Only Memory
+RPO,Recovery Point Objective
+RTC,Real-Time Clock
+RT,Recovery Time Objective
+Saas S,oftware as a Service
+SAN,Storage Area Network
+SAS,Serial Attached SCSI
+SATA,Serial Advanced Technology Attachment
+SC,Subscription Channel
+SCP,Secure Copy Protection
+SCSI,Small Computer System Interface
+SCSI ID,Small Computer System Interface Identifier
+SD,card Secure Digital Card
+SEC,Single Edge Connector
+SFC,System File Checker
+SFF,Small Form Factor
+SFTP,Secure File Transfer Protocol
+SIM,Subscriber Identity Module
+SIMM,Single In-Line Memory Module
+SLI,Scalable Link Interface or System Level Integration or Scanline Interleave Mode
+S.M.A.R.T.,"Self-Monitoring, Analysis, and Reporting Technology"
+SMB,Server Message Block
+SMTP,Simple Mail Transfer Protocol
+SNMP,Simple Network Management Protocol
+SoDIMM,Small Outline Dual Inline Memory Module
+SOHO,Small Office/Home Office
+SP,Service Pack
+SPDIF,Sony-Philips Digital Interface Format
+SPGA,Staggered Pin Grid Array
+SRAM,Static Random Access Memory
+SSD,Solid State Drive
+SSH,Secure Shell
+SSID,Service Set Identifier
+SSL,Secure Sockets Layer
+SSO,Single Sign-on
+ST,Straight Tip
+STP,Shielded Twisted Pair
+SXGA,Super Extended Graphics Array
+TACACS,Terminal Access Controller Access-Control System
+TCP,Transmission Control Protocol
+TCP/IP,Transmission Control Protocol/Internet Protocol
+TDR,Time Domain Reflectometer
+TFTP,Trivial File Transfer Protocol
+TKIP,Temporal Key Integrity Protocol
+TLS,Transport Layer Security
+TN,Twisted Nematic
+TPM,Trusted Platform Module
+UAC,User Account Control
+UDF,User Defined Functions or Universal
+Disk,Format or Universal Data Format
+UDP,User Datagram Protocol
+UEFI,Unified Extensible Firmware Interface
+UNC,Universal Naming Convention
+UPnP,Universal Plug and Play
+UPS,Uninterruptible Power Supply
+URL,Uniform Resource Locator
+USB,Universal Serial Bus
+USMT,User State Migration Tool
+UTM,Unified Threat Management
+UTP,Unshielded Twisted Pair
+UXGA,Ultra Extended Graphics Array
+VA,Vertical Alignment
+VDC,Volts DC
+VDI,Virtual Desktop Infrastructure
+VESA,Video Electronics Standards Association
+VFAT,Virtual File Allocation Table
+VGA,Video Graphics Array
+VLAN,Virtual LAN
+VM,Virtual Machine
+VNC,Virtual Network Computer
+VoIP,Voice over Internet Protocol
+VPN,Virtual Private Network
+VRAM,Video Random Access Memory
+WAN,Wide Area Network
+WAP,Wireless Access Protocol/Wireless Access Point
+WEP,Wired Equivalent Privacy
+WIFI,Wireless Fidelity
+WINS,Windows Internet Name Service
+WLAN,Wireless Local Area Network
+WMN,Wireless Mesh Network
+WPA,Wireless Protected Access
+WPA2,WiFi Protected Access 2
+WPS,WiFi Protected Setup
+WUXGA,Wide Ultra Extended Graphics Array
+WWAN,Wireless Wide Area Network
+XGA,Extended Graphics Array
+ZIF,Zero-Insertion-Force
+ZIP,Zigzag Inline Package

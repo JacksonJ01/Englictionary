@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spherical Semantic Globe - Level 2 (Subcluster 2.0: Abate)</title>
+  <style>
+        body { margin: 0; background: #f5f7fb; overflow: hidden; }
+        #viewport { width: 100vw; height: 100vh; display: block; }
+        #tooltip {
+            position: fixed;
+            display: none;
+            pointer-events: none;
+            z-index: 10001;
+            max-width: 320px;
+            padding: 8px 10px;
+            background: rgba(17, 24, 39, 0.92);
+            color: #ffffff;
+            border-radius: 8px;
+            font-family: Segoe UI, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.35;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+        }
+  </style>
+</head>
+<body>
+  <aside style="position:fixed;top:18px;left:18px;z-index:9999;max-width:360px;padding:14px 16px;background:rgba(255,255,255,0.95);border:1px solid rgba(0,0,0,0.08);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,0.12);font-family:Segoe UI,Arial,sans-serif;"><div style="font-weight:700;margin-bottom:6px;">Spherical Semantic Globe - Level 2 (Subcluster 2.0: Abate)</div><div style="font-size:13px;line-height:1.45;">Click a cluster to open its child level. Hover to inspect nodes.</div><div style="margin-top:10px;font-size:12px;"><a href="sphere_level0.html" style="margin-right:8px;color:#1d4ed8;text-decoration:none;">Level 0</a><a href="sphere_level1_T2.html" style="margin-right:8px;color:#1d4ed8;text-decoration:none;">Level 1 Cluster 2: Abate</a></div><a href="sphere_level1_T2.html" style="display:inline-block;margin-top:8px;color:#0f766e;text-decoration:none;">Zoom out</a></aside>
+    <div id="tooltip"></div>
+    <div id="status" style="position:fixed;right:18px;bottom:18px;z-index:10002;padding:8px 10px;background:rgba(15,23,42,0.9);color:#fff;border-radius:8px;font-family:Segoe UI,Arial,sans-serif;font-size:12px;display:none;"></div>
+    <canvas id="viewport"></canvas>
+    <script>
+    (async function() {
+        const statusBox = document.getElementById('status');
+        function showStatus(message) {
+            statusBox.textContent = message;
+            statusBox.style.display = 'block';
+        }
+
+        async function ensureThree() {
+            if (window.THREE) return true;
+            const urls = [
+                'https://unpkg.com/three@0.160.0/build/three.min.js',
+                'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js'
+            ];
+
+            for (const url of urls) {
+                const ok = await new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.src = url;
+                    script.async = true;
+                    script.onload = () => resolve(true);
+                    script.onerror = () => resolve(false);
+                    document.head.appendChild(script);
+                });
+                if (ok && window.THREE) return true;
+            }
+            return false;
+        }
+
+        const threeReady = await ensureThree();
+        if (!threeReady) {
+            showStatus('Three.js failed to load from available CDNs. Check network/firewall settings.');
+            return;
+        }
+
+        try {
+        const nodes = [{"node_id": "T2", "parent_id": "ROOT", "label": "Cluster 2: Abate", "node_type": "cluster", "size": 36, "depth": 0, "next_page": "", "color": "#1d4ed8", "x": -0.0405510837160625, "y": 9.02715614970989, "z": 4.302187223895648, "r": 0.45999999999999996}, {"node_id": "T2_S0", "parent_id": "T2", "label": "Subcluster 2.0: Abate", "node_type": "subcluster", "size": 24, "depth": 1, "next_page": "", "color": "#1d4ed8", "x": -1.517927747527121, "y": 9.505500527215771, "z": 4.533316124029731, "r": 0.412370893688052}, {"node_id": "W100", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.3170102466919937, "y": 10.234127351643773, "z": 4.5570298836462655, "r": 0.2027061915645823}, {"node_id": "W101", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.5711801777868055, "y": 10.20497322644308, "z": 4.541840408524906, "r": 0.2027061915645823}, {"node_id": "W102", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.54701048424709, "y": 10.048966889843815, "z": 4.885020266943865, "r": 0.2027061915645823}, {"node_id": "W104", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.3953244597412013, "y": 10.265294369915116, "z": 4.462645084592424, "r": 0.2027061915645823}, {"node_id": "W107", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.4925101180318312, "y": 10.147293239824434, "z": 4.695024329285843, "r": 0.2027061915645823}, {"node_id": "W131", "parent_id": "T2_S0", "label": "Abbatial", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -2.0109584900824244, "y": 10.010743364133917, "z": 4.793689940809083, "r": 0.2027061915645823}, {"node_id": "W155", "parent_id": "T2_S0", "label": "Abbreviatory", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.8848574248665197, "y": 9.959875343902004, "z": 4.948393236380721, "r": 0.2027061915645823}, {"node_id": "W171", "parent_id": "T2_S0", "label": "Abdicate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.9305732791289134, "y": 10.128555330872299, "z": 4.574238048393611, "r": 0.2027061915645823}, {"node_id": "W173", "parent_id": "T2_S0", "label": "Abdicate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.1485233621802533, "y": 9.990126162817461, "z": 5.110447469401896, "r": 0.2027061915645823}, {"node_id": "W174", "parent_id": "T2_S0", "label": "Abdicate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.5830247907443853, "y": 10.000595840770794, "z": 4.97197298277521, "r": 0.2027061915645823}, {"node_id": "W195", "parent_id": "T2_S0", "label": "Abduce", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.5743243289506068, "y": 10.316499706826018, "z": 4.281324176739352, "r": 0.2027061915645823}, {"node_id": "W199", "parent_id": "T2_S0", "label": "Abduct", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -2.1017184877027075, "y": 10.25634336783778, "z": 4.198642652031561, "r": 0.2027061915645823}, {"node_id": "W29", "parent_id": "T2_S0", "label": "Abactinal", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.6188158001108377, "y": 10.07630074754446, "z": 4.804789136928538, "r": 0.2027061915645823}, {"node_id": "W49", "parent_id": "T2_S0", "label": "Abalienate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.5839326138687513, "y": 10.058235013795441, "z": 4.854015438992989, "r": 0.2027061915645823}, {"node_id": "W50", "parent_id": "T2_S0", "label": "Abalienate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.4083265831622611, "y": 10.200855955306224, "z": 4.604080148547809, "r": 0.2027061915645823}, {"node_id": "W54", "parent_id": "T2_S0", "label": "Aband", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.4727154876067876, "y": 10.079675064432907, "z": 4.844549482460939, "r": 0.2027061915645823}, {"node_id": "W55", "parent_id": "T2_S0", "label": "Aband", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.012113356513258, "y": 9.986473984251035, "z": 5.1462961356148895, "r": 0.2027061915645823}, {"node_id": "W58", "parent_id": "T2_S0", "label": "Abandon", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -0.8990897526167914, "y": 9.97690212765765, "z": 5.185697788328945, "r": 0.2027061915645823}, {"node_id": "W59", "parent_id": "T2_S0", "label": "Abandon", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.5175397223903173, "y": 10.068125458404136, "z": 4.854721716514972, "r": 0.2027061915645823}, {"node_id": "W67", "parent_id": "T2_S0", "label": "Abandonee", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -2.076753070125181, "y": 9.694053536713529, "z": 5.380596873308533, "r": 0.2027061915645823}, {"node_id": "W72", "parent_id": "T2_S0", "label": "Abandonment", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -2.245740340190272, "y": 9.69324390351374, "z": 5.313762598332352, "r": 0.2027061915645823}, {"node_id": "W9", "parent_id": "T2_S0", "label": "A-", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -2.311979041347821, "y": 9.965228549473748, "z": 4.752617475572983, "r": 0.2027061915645823}, {"node_id": "W91", "parent_id": "T2_S0", "label": "Abash", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.4742556039241457, "y": 10.131251573998814, "z": 4.73526260714702, "r": 0.2027061915645823}, {"node_id": "W99", "parent_id": "T2_S0", "label": "Abate", "node_type": "word", "size": 1, "depth": 2, "next_page": "", "color": "#1d4ed8", "x": -1.405238615818183, "y": 10.139435834267337, "z": 4.7387282466278675, "r": 0.2027061915645823}];
+        const edges = [{"sx": -0.0405510837160625, "sy": 9.02715614970989, "sz": 4.302187223895648, "tx": -1.517927747527121, "ty": 9.505500527215771, "tz": 4.533316124029731, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.3170102466919937, "ty": 10.234127351643773, "tz": 4.5570298836462655, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.5711801777868055, "ty": 10.20497322644308, "tz": 4.541840408524906, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.54701048424709, "ty": 10.048966889843815, "tz": 4.885020266943865, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.3953244597412013, "ty": 10.265294369915116, "tz": 4.462645084592424, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.4925101180318312, "ty": 10.147293239824434, "tz": 4.695024329285843, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -2.0109584900824244, "ty": 10.010743364133917, "tz": 4.793689940809083, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.8848574248665197, "ty": 9.959875343902004, "tz": 4.948393236380721, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.9305732791289134, "ty": 10.128555330872299, "tz": 4.574238048393611, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.1485233621802533, "ty": 9.990126162817461, "tz": 5.110447469401896, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.5830247907443853, "ty": 10.000595840770794, "tz": 4.97197298277521, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.5743243289506068, "ty": 10.316499706826018, "tz": 4.281324176739352, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.6188158001108377, "ty": 10.07630074754446, "tz": 4.804789136928538, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.5839326138687513, "ty": 10.058235013795441, "tz": 4.854015438992989, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.4083265831622611, "ty": 10.200855955306224, "tz": 4.604080148547809, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.4727154876067876, "ty": 10.079675064432907, "tz": 4.844549482460939, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -2.076753070125181, "ty": 9.694053536713529, "tz": 5.380596873308533, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -2.245740340190272, "ty": 9.69324390351374, "tz": 5.313762598332352, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.517927747527121, "sy": 9.505500527215771, "sz": 4.533316124029731, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.5711801777868055, "ty": 10.20497322644308, "tz": 4.541840408524906, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.54701048424709, "ty": 10.048966889843815, "tz": 4.885020266943865, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.3953244597412013, "ty": 10.265294369915116, "tz": 4.462645084592424, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.4925101180318312, "ty": 10.147293239824434, "tz": 4.695024329285843, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -2.0109584900824244, "ty": 10.010743364133917, "tz": 4.793689940809083, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.8848574248665197, "ty": 9.959875343902004, "tz": 4.948393236380721, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.9305732791289134, "ty": 10.128555330872299, "tz": 4.574238048393611, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.1485233621802533, "ty": 9.990126162817461, "tz": 5.110447469401896, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.5830247907443853, "ty": 10.000595840770794, "tz": 4.97197298277521, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.5743243289506068, "ty": 10.316499706826018, "tz": 4.281324176739352, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.6188158001108377, "ty": 10.07630074754446, "tz": 4.804789136928538, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.5839326138687513, "ty": 10.058235013795441, "tz": 4.854015438992989, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.4083265831622611, "ty": 10.200855955306224, "tz": 4.604080148547809, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.4727154876067876, "ty": 10.079675064432907, "tz": 4.844549482460939, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -2.076753070125181, "ty": 9.694053536713529, "tz": 5.380596873308533, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.3170102466919937, "sy": 10.234127351643773, "sz": 4.5570298836462655, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -1.3953244597412013, "ty": 10.265294369915116, "tz": 4.462645084592424, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -2.0109584900824244, "ty": 10.010743364133917, "tz": 4.793689940809083, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -1.9305732791289134, "ty": 10.128555330872299, "tz": 4.574238048393611, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -1.5830247907443853, "ty": 10.000595840770794, "tz": 4.97197298277521, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -1.5839326138687513, "ty": 10.058235013795441, "tz": 4.854015438992989, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.5711801777868055, "sy": 10.20497322644308, "sz": 4.541840408524906, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.54701048424709, "sy": 10.048966889843815, "sz": 4.885020266943865, "tx": -1.3953244597412013, "ty": 10.265294369915116, "tz": 4.462645084592424, "secondary": false}, {"sx": -1.54701048424709, "sy": 10.048966889843815, "sz": 4.885020266943865, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.54701048424709, "sy": 10.048966889843815, "sz": 4.885020266943865, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.54701048424709, "sy": 10.048966889843815, "sz": 4.885020266943865, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.4925101180318312, "ty": 10.147293239824434, "tz": 4.695024329285843, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -2.0109584900824244, "ty": 10.010743364133917, "tz": 4.793689940809083, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.1485233621802533, "ty": 9.990126162817461, "tz": 5.110447469401896, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.5743243289506068, "ty": 10.316499706826018, "tz": 4.281324176739352, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.6188158001108377, "ty": 10.07630074754446, "tz": 4.804789136928538, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.4727154876067876, "ty": 10.079675064432907, "tz": 4.844549482460939, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.3953244597412013, "sy": 10.265294369915116, "sz": 4.462645084592424, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -1.4925101180318312, "sy": 10.147293239824434, "sz": 4.695024329285843, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.4925101180318312, "sy": 10.147293239824434, "sz": 4.695024329285843, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.4925101180318312, "sy": 10.147293239824434, "sz": 4.695024329285843, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -2.0109584900824244, "sy": 10.010743364133917, "sz": 4.793689940809083, "tx": -1.9305732791289134, "ty": 10.128555330872299, "tz": 4.574238048393611, "secondary": false}, {"sx": -2.0109584900824244, "sy": 10.010743364133917, "sz": 4.793689940809083, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.8848574248665197, "sy": 9.959875343902004, "sz": 4.948393236380721, "tx": -1.5743243289506068, "ty": 10.316499706826018, "tz": 4.281324176739352, "secondary": false}, {"sx": -1.8848574248665197, "sy": 9.959875343902004, "sz": 4.948393236380721, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.8848574248665197, "sy": 9.959875343902004, "sz": 4.948393236380721, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.8848574248665197, "sy": 9.959875343902004, "sz": 4.948393236380721, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.9305732791289134, "sy": 10.128555330872299, "sz": 4.574238048393611, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.9305732791289134, "sy": 10.128555330872299, "sz": 4.574238048393611, "tx": -1.4083265831622611, "ty": 10.200855955306224, "tz": 4.604080148547809, "secondary": false}, {"sx": -1.9305732791289134, "sy": 10.128555330872299, "sz": 4.574238048393611, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.9305732791289134, "sy": 10.128555330872299, "sz": 4.574238048393611, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.9305732791289134, "sy": 10.128555330872299, "sz": 4.574238048393611, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.1485233621802533, "sy": 9.990126162817461, "sz": 5.110447469401896, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.1485233621802533, "sy": 9.990126162817461, "sz": 5.110447469401896, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.1485233621802533, "sy": 9.990126162817461, "sz": 5.110447469401896, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.5830247907443853, "sy": 10.000595840770794, "sz": 4.97197298277521, "tx": -1.5839326138687513, "ty": 10.058235013795441, "tz": 4.854015438992989, "secondary": false}, {"sx": -1.5830247907443853, "sy": 10.000595840770794, "sz": 4.97197298277521, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.5830247907443853, "sy": 10.000595840770794, "sz": 4.97197298277521, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.5830247907443853, "sy": 10.000595840770794, "sz": 4.97197298277521, "tx": -2.245740340190272, "ty": 9.69324390351374, "tz": 5.313762598332352, "secondary": false}, {"sx": -1.5743243289506068, "sy": 10.316499706826018, "sz": 4.281324176739352, "tx": -2.1017184877027075, "ty": 10.25634336783778, "tz": 4.198642652031561, "secondary": false}, {"sx": -1.5743243289506068, "sy": 10.316499706826018, "sz": 4.281324176739352, "tx": -1.4083265831622611, "ty": 10.200855955306224, "tz": 4.604080148547809, "secondary": false}, {"sx": -1.5743243289506068, "sy": 10.316499706826018, "sz": 4.281324176739352, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -2.1017184877027075, "sy": 10.25634336783778, "sz": 4.198642652031561, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.6188158001108377, "sy": 10.07630074754446, "sz": 4.804789136928538, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.6188158001108377, "sy": 10.07630074754446, "sz": 4.804789136928538, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.6188158001108377, "sy": 10.07630074754446, "sz": 4.804789136928538, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.5839326138687513, "sy": 10.058235013795441, "sz": 4.854015438992989, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.5839326138687513, "sy": 10.058235013795441, "sz": 4.854015438992989, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.5839326138687513, "sy": 10.058235013795441, "sz": 4.854015438992989, "tx": -2.076753070125181, "ty": 9.694053536713529, "tz": 5.380596873308533, "secondary": false}, {"sx": -1.5839326138687513, "sy": 10.058235013795441, "sz": 4.854015438992989, "tx": -2.245740340190272, "ty": 9.69324390351374, "tz": 5.313762598332352, "secondary": false}, {"sx": -1.5839326138687513, "sy": 10.058235013795441, "sz": 4.854015438992989, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.4083265831622611, "sy": 10.200855955306224, "sz": 4.604080148547809, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.4083265831622611, "sy": 10.200855955306224, "sz": 4.604080148547809, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.4083265831622611, "sy": 10.200855955306224, "sz": 4.604080148547809, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.4727154876067876, "sy": 10.079675064432907, "sz": 4.844549482460939, "tx": -1.012113356513258, "ty": 9.986473984251035, "tz": 5.1462961356148895, "secondary": false}, {"sx": -1.4727154876067876, "sy": 10.079675064432907, "sz": 4.844549482460939, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.4727154876067876, "sy": 10.079675064432907, "sz": 4.844549482460939, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.012113356513258, "sy": 9.986473984251035, "sz": 5.1462961356148895, "tx": -0.8990897526167914, "ty": 9.97690212765765, "tz": 5.185697788328945, "secondary": false}, {"sx": -1.012113356513258, "sy": 9.986473984251035, "sz": 5.1462961356148895, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -1.012113356513258, "sy": 9.986473984251035, "sz": 5.1462961356148895, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -0.8990897526167914, "sy": 9.97690212765765, "sz": 5.185697788328945, "tx": -1.5175397223903173, "ty": 10.068125458404136, "tz": 4.854721716514972, "secondary": false}, {"sx": -0.8990897526167914, "sy": 9.97690212765765, "sz": 5.185697788328945, "tx": -2.076753070125181, "ty": 9.694053536713529, "tz": 5.380596873308533, "secondary": false}, {"sx": -0.8990897526167914, "sy": 9.97690212765765, "sz": 5.185697788328945, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -0.8990897526167914, "sy": 9.97690212765765, "sz": 5.185697788328945, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -1.5175397223903173, "sy": 10.068125458404136, "sz": 4.854721716514972, "tx": -2.076753070125181, "ty": 9.694053536713529, "tz": 5.380596873308533, "secondary": false}, {"sx": -1.5175397223903173, "sy": 10.068125458404136, "sz": 4.854721716514972, "tx": -2.245740340190272, "ty": 9.69324390351374, "tz": 5.313762598332352, "secondary": false}, {"sx": -1.5175397223903173, "sy": 10.068125458404136, "sz": 4.854721716514972, "tx": -2.311979041347821, "ty": 9.965228549473748, "tz": 4.752617475572983, "secondary": false}, {"sx": -1.5175397223903173, "sy": 10.068125458404136, "sz": 4.854721716514972, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}, {"sx": -1.5175397223903173, "sy": 10.068125458404136, "sz": 4.854721716514972, "tx": -1.405238615818183, "ty": 10.139435834267337, "tz": 4.7387282466278675, "secondary": false}, {"sx": -2.076753070125181, "sy": 9.694053536713529, "sz": 5.380596873308533, "tx": -2.245740340190272, "ty": 9.69324390351374, "tz": 5.313762598332352, "secondary": false}, {"sx": -2.245740340190272, "sy": 9.69324390351374, "sz": 5.313762598332352, "tx": -1.4742556039241457, "ty": 10.131251573998814, "tz": 4.73526260714702, "secondary": false}];
+
+        const canvas = document.getElementById('viewport');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf5f7fb);
+
+        const camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 5000);
+        camera.position.set(0, 0, 32);
+
+        let dragging = false;
+        let lastX = 0;
+        let lastY = 0;
+        let yaw = 0;
+        let pitch = 0;
+        let cameraDistance = 32;
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+        const directional = new THREE.DirectionalLight(0xffffff, 0.78);
+        directional.position.set(18, 24, 20);
+        scene.add(directional);
+
+        // Earth-like globe surface
+        const globe = new THREE.Mesh(
+            new THREE.SphereGeometry(10, 64, 64),
+            new THREE.MeshPhongMaterial({
+                color: 0x5b84b1,
+                emissive: 0x0b2440,
+                shininess: 18,
+                transparent: true,
+                opacity: 0.88,
+            })
+        );
+        scene.add(globe);
+
+        const wire = new THREE.Mesh(
+            new THREE.SphereGeometry(10.01, 32, 24),
+            new THREE.MeshBasicMaterial({ color: 0xd8e5f3, wireframe: true, transparent: true, opacity: 0.16 })
+        );
+        scene.add(wire);
+
+        const nodeMeshes = [];
+        for (const node of nodes) {
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(node.r, 14, 12),
+                new THREE.MeshStandardMaterial({ color: node.color, roughness: 0.42, metalness: 0.12 })
+            );
+            mesh.position.set(node.x, node.y, node.z);
+            mesh.userData = node;
+            scene.add(mesh);
+            nodeMeshes.push(mesh);
+        }
+
+        for (const edge of edges) {
+            const geometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(edge.sx, edge.sy, edge.sz),
+                new THREE.Vector3(edge.tx, edge.ty, edge.tz),
+            ]);
+            const material = new THREE.LineBasicMaterial({
+                color: edge.secondary ? 0xb08fd3 : 0x8ea4bf,
+                transparent: true,
+                opacity: edge.secondary ? 0.18 : 0.34,
+            });
+            const line = new THREE.Line(geometry, material);
+            scene.add(line);
+        }
+
+        const tooltip = document.getElementById('tooltip');
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+
+        function setMouseFromEvent(evt) {
+            const rect = renderer.domElement.getBoundingClientRect();
+            mouse.x = ((evt.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((evt.clientY - rect.top) / rect.height) * 2 + 1;
+        }
+
+        function hoverNode(evt) {
+            setMouseFromEvent(evt);
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(nodeMeshes, false);
+            if (!hits.length) {
+                tooltip.style.display = 'none';
+                renderer.domElement.style.cursor = 'grab';
+                return;
+            }
+
+            const node = hits[0].object.userData;
+            const clickable = node.next_page && node.next_page.length > 0;
+            tooltip.innerHTML = `<b>${node.label}</b><br>type: ${node.node_type}<br>size: ${node.size}<br>depth: ${node.depth}${clickable ? '<br><i>click to zoom in</i>' : ''}`;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (evt.clientX + 14) + 'px';
+            tooltip.style.top = (evt.clientY + 14) + 'px';
+            renderer.domElement.style.cursor = clickable ? 'pointer' : 'default';
+        }
+
+        function clickNode(evt) {
+            setMouseFromEvent(evt);
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(nodeMeshes, false);
+            if (!hits.length) return;
+            const node = hits[0].object.userData;
+            if (node.next_page && node.next_page.length > 0) {
+                window.location.href = node.next_page;
+            }
+        }
+
+        renderer.domElement.addEventListener('mousemove', hoverNode);
+        renderer.domElement.addEventListener('click', clickNode);
+        renderer.domElement.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+            renderer.domElement.style.cursor = 'grab';
+        });
+
+        renderer.domElement.addEventListener('mousedown', (evt) => {
+            dragging = true;
+            lastX = evt.clientX;
+            lastY = evt.clientY;
+            renderer.domElement.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mouseup', () => {
+            dragging = false;
+            renderer.domElement.style.cursor = 'grab';
+        });
+
+        window.addEventListener('mousemove', (evt) => {
+            if (!dragging) return;
+            const dx = evt.clientX - lastX;
+            const dy = evt.clientY - lastY;
+            lastX = evt.clientX;
+            lastY = evt.clientY;
+            yaw -= dx * 0.004;
+            pitch -= dy * 0.004;
+            pitch = Math.max(-1.3, Math.min(1.3, pitch));
+        });
+
+        renderer.domElement.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            cameraDistance *= evt.deltaY > 0 ? 1.06 : 0.94;
+            cameraDistance = Math.max(8, Math.min(140, cameraDistance));
+        }, { passive: false });
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        window.addEventListener('resize', onResize);
+
+        renderer.domElement.style.cursor = 'grab';
+        (function animate() {
+            requestAnimationFrame(animate);
+            camera.position.x = cameraDistance * Math.cos(pitch) * Math.sin(yaw);
+            camera.position.y = cameraDistance * Math.sin(pitch);
+            camera.position.z = cameraDistance * Math.cos(pitch) * Math.cos(yaw);
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        })();
+        } catch (error) {
+            showStatus('Renderer error: ' + (error && error.message ? error.message : error));
+            console.error(error);
+        }
+    })();
+    </script>
+</body>
+</html>

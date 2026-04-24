@@ -1,0 +1,21 @@
+{
+  "visualization_mode": "spherical",
+  "spherical_full_surface": true,
+  "file_path": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\dictionary.csv",
+  "use_embeddings": true,
+  "dimensions": 3,
+  "use_umap": true,
+  "n_clusters": 20,
+  "k_neighbors": 10,
+  "source_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\dictionary.csv",
+  "source_row_count": 175723,
+  "focus_column": "Word",
+  "definition_column": "Definition",
+  "pos_column": "POS",
+  "detail_columns": [],
+  "run_id": "20260424_030240_757936",
+  "run_timestamp": "2026-04-24T03:02:40",
+  "plot_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\sphere_surface_all_nodes.html",
+  "nodes_file": "c:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\surface_points.csv",
+  "edges_file": ""
+}
