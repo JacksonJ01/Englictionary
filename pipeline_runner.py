@@ -105,7 +105,11 @@ def run_from_csv(source_file, overrides=None):
             use_umap=config_module.USE_UMAP,
         )
         surface_df.to_csv(config_module.SPHERICAL_SURFACE_POINTS_FILE, index=False)
-        visualize_spherical.render_spherical_surface(surface_df, config_module.SPHERICAL_SURFACE_HTML)
+        visualize_spherical.render_spherical_surface(
+            surface_df,
+            config_module.SPHERICAL_SURFACE_HTML,
+            live_reload=bool(getattr(config_module, "LIVE_RELOAD", False)),
+        )
         plot_file = config_module.SPHERICAL_SURFACE_HTML
     else:
         edges = graph_builder.build_knn_graph(X, config_module.K_NEIGHBORS)

@@ -317,7 +317,7 @@ def _html(payload):
       max-width: 420px;
     }}
     #tooltip {{
-      position: fixed; display: none; z-index: 1001;
+      position: fixed; display: none; z-index: 1001; pointer-events: none;
       max-width: 420px; padding: 8px 10px; background: rgba(17, 24, 39, 0.92);
       color: #fff; border-radius: 8px; font-family: Segoe UI, Arial, sans-serif;
       font-size: 12px; line-height: 1.35;
@@ -337,6 +337,22 @@ def _html(payload):
     }}
     .controls-title {{ font-weight: 700; margin-bottom: 6px; }}
     .control-row {{ display: flex; align-items: center; gap: 8px; margin-top: 6px; }}
+    .legend-reset-btn {{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 7px 8px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(15,23,42,0.18);
+      background: #fff;
+      color: #0f172a;
+      font-family: Segoe UI, Arial, sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+    }}
+    .legend-reset-btn:hover {{
+      background: rgba(15,23,42,0.05);
+    }}
     #legendList {{
       margin-top: 8px;
       max-height: 260px;
@@ -364,25 +380,6 @@ def _html(payload):
       color: #334155;
       opacity: 0.9;
     }}
-    #clusterDrilldownBar {{
-      margin-top: 8px;
-      display: none;
-    }}
-    #clusterDrilldownBack {{
-      width: 100%;
-      box-sizing: border-box;
-      padding: 7px 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(15,23,42,0.18);
-      background: #fff;
-      color: #0f172a;
-      font-family: Segoe UI, Arial, sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-    }}
-    #clusterDrilldownBack:hover {{
-      background: rgba(15,23,42,0.05);
-    }}
     .legend-row {{
       display: flex;
       align-items: center;
@@ -400,6 +397,14 @@ def _html(payload):
     .legend-row.active {{
       background: rgba(30,64,175,0.14);
       outline: 1px solid rgba(30,64,175,0.3);
+    }}
+    .legend-row.selected {{
+      background: rgba(14,165,233,0.16);
+      outline: 1px solid rgba(14,165,233,0.52);
+    }}
+    .legend-row.active.selected {{
+      background: rgba(14,165,233,0.22);
+      outline: 1px solid rgba(14,165,233,0.72);
     }}
     .legend-left {{
       display: flex;
@@ -428,9 +433,7 @@ def _html(payload):
     <div>Rows plotted: <b>{payload['count']}</b></div>
     <div style=\"margin-top:4px;\">Drag to rotate, hover or click nodes for details, wheel to zoom.</div>
     <div id=\"detailHint\" style=\"margin-top:4px;color:#334155;\"></div>
-    <div id="clusterDrilldownBar">
-      <button id="clusterDrilldownBack" type="button">Back to all clusters</button>
-    </div>
+    <button id="legendBackToClusters" class="legend-reset-btn" type="button">Back to all clusters</button>
     <input id="legendSearch" type="text" placeholder="Search words in legend...">
     <div id="legendInfo"></div>
     <div style=\"margin-top:8px;font-weight:600;color:#0f172a;\">Cluster Legend</div>
@@ -454,17 +457,11 @@ def _html(payload):
     const legendList = document.getElementById('legendList');
     const legendSearchInput = document.getElementById('legendSearch');
     const legendInfo = document.getElementById('legendInfo');
-    const clusterDrilldownBar = document.getElementById('clusterDrilldownBar');
-    const clusterDrilldownBack = document.getElementById('clusterDrilldownBack');
+    const legendBackToClusters = document.getElementById('legendBackToClusters');
     const invertHorizontalCheckbox = document.getElementById('invertHorizontal');
     const invertVerticalCheckbox = document.getElementById('invertVertical');
     const invertZoomCheckbox = document.getElementById('invertZoom');
 
-    const searchableText = payload.metadata.map((m) => {{
-      const word = String(m.word || '').toLowerCase();
-      const definition = String(m.definition || '').toLowerCase();
-      return `${{word}} ${{definition}}`.trim();
-    }});
     const clusterIndicesById = new Map();
     for (let i = 0; i < payload.metadata.length; i += 1) {{
       const clusterId = payload.metadata[i].cluster;
@@ -474,6 +471,7 @@ def _html(payload):
       clusterIndicesById.get(clusterId).push(i);
     }}
     let activeClusterId = null;
+    let selectedLegendMetaIndex = null;
 
     function escapeHtml(value) {{
       return String(value)
@@ -484,20 +482,95 @@ def _html(payload):
         .replaceAll("'", '&#39;');
     }}
 
+    function normalizeSearchValue(value) {{
+      return String(value || '')
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+    }}
+
+    function getLegendMatchTier(info, query) {{
+      const normalizedQuery = normalizeSearchValue(query);
+      if (!normalizedQuery) {{
+        return null;
+      }}
+
+      const normalizedWord = normalizeSearchValue(info.word);
+      const normalizedDefinition = normalizeSearchValue(info.definition);
+
+      if (normalizedWord && normalizedWord.startsWith(normalizedQuery)) {{
+        return 0;
+      }}
+
+      if (normalizedDefinition && normalizedDefinition.startsWith(normalizedQuery)) {{
+        return 1;
+      }}
+
+      if (normalizedWord && normalizedWord.includes(normalizedQuery)) {{
+        return 2;
+      }}
+
+      if (normalizedDefinition && normalizedDefinition.includes(normalizedQuery)) {{
+        return 3;
+      }}
+
+      return null;
+    }}
+
+    function collectLegendMatches(indices, query) {{
+      const normalizedQuery = normalizeSearchValue(query);
+      if (!normalizedQuery) {{
+        return [];
+      }}
+
+      const matches = [];
+      for (const metaIndex of indices) {{
+        const info = payload.metadata[metaIndex];
+        const tier = getLegendMatchTier(info, normalizedQuery);
+        if (tier === null) {{
+          continue;
+        }}
+        matches.push({{ metaIndex, tier, word: normalizeSearchValue(info.word) }});
+      }}
+
+      matches.sort((a, b) => a.tier - b.tier || a.word.localeCompare(b.word));
+      return matches;
+    }}
+
+    function getClusterRepresentative(clusterId) {{
+      const indices = clusterIndicesById.get(clusterId) || [];
+      if (!indices.length) {{
+        return null;
+      }}
+      return payload.metadata[indices[0]] || null;
+    }}
+
     function updateDrilldownControls() {{
       const isClusterDrilldown = activeClusterId !== null;
-      clusterDrilldownBar.style.display = isClusterDrilldown ? 'block' : 'none';
       legendSearchInput.placeholder = isClusterDrilldown
         ? 'Search words in this cluster...'
         : 'Search words in legend...';
+      const hasSearch = String(legendSearchInput.value || '').trim().length > 0;
+      legendBackToClusters.style.display = (isClusterDrilldown || hasSearch) ? 'block' : 'none';
+    }}
+
+    function syncLegendSelection() {{
+      legendList.querySelectorAll('.legend-row').forEach((el) => {{
+        const metaIndex = Number(el.dataset.metaIndex);
+        const isSelected = !Number.isNaN(metaIndex) && selectedLegendMetaIndex !== null && metaIndex === selectedLegendMetaIndex;
+        el.classList.toggle('selected', isSelected);
+      }});
     }}
 
     function resetClusterDrilldown() {{
       activeClusterId = null;
       pinnedIndex = null;
+      legendSearchInput.value = '';
       tooltip.style.display = 'none';
       updateDrilldownControls();
-      renderLegendList(legendSearchInput.value);
+      renderLegendList('');
     }}
 
     function enterClusterDrilldown(clusterId) {{
@@ -510,19 +583,35 @@ def _html(payload):
     }}
 
     function renderLegendList(rawQuery) {{
-      const query = String(rawQuery || '').trim().toLowerCase();
+      const query = normalizeSearchValue(rawQuery);
       if (activeClusterId !== null) {{
         const clusterInfo = payload.cluster_summary.find((item) => item.cluster === activeClusterId);
         const clusterIndices = clusterIndicesById.get(activeClusterId) || [];
-        const matches = [];
-        for (const metaIndex of clusterIndices) {{
-          if (query && !searchableText[metaIndex].includes(query)) {{
-            continue;
-          }}
-          matches.push(metaIndex);
+        if (!query) {{
+          legendList.innerHTML = clusterIndices.map((metaIndex) => {{
+            const info = payload.metadata[metaIndex];
+            const definitionSnippet = info.definition ? `<div style="margin-top:2px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">${{escapeHtml(String(info.definition).slice(0, 60))}}</div>` : '';
+            return `<div class="legend-row" data-kind="word" data-meta-index="${{metaIndex}}" data-cluster="${{info.cluster}}">` +
+              `<div class="legend-left">` +
+                `<span class="legend-swatch" style="background:${{payload.cluster_summary.find((c) => c.cluster === info.cluster)?.color || '#0f172a'}}"></span>` +
+                `<div style="min-width:0;">` +
+                  `<div class="legend-name">${{escapeHtml(info.word)}}</div>` +
+                  `${{definitionSnippet}}` +
+                `</div>` +
+              `</div>` +
+              `<span class="legend-count">C${{info.cluster}}</span>` +
+            `</div>`;
+          }}).join('');
+
+          const clusterWordCount = clusterIndices.length;
+          legendInfo.textContent = `${{clusterInfo ? clusterInfo.name : `Cluster ${{activeClusterId}}`}} • ${{clusterWordCount}} words`;
+          syncLegendSelection();
+          return;
         }}
 
-        legendList.innerHTML = matches.map((metaIndex) => {{
+        const matches = collectLegendMatches(clusterIndices, query);
+
+        legendList.innerHTML = matches.map(({{ metaIndex }}) => {{
           const info = payload.metadata[metaIndex];
           const definitionSnippet = info.definition ? `<div style="margin-top:2px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">${{escapeHtml(String(info.definition).slice(0, 60))}}</div>` : '';
           return `<div class="legend-row" data-kind="word" data-meta-index="${{metaIndex}}" data-cluster="${{info.cluster}}">` +
@@ -539,6 +628,7 @@ def _html(payload):
 
         const clipped = matches.length > 140 ? ' (showing first 140)' : '';
         legendInfo.textContent = `${{clusterInfo ? clusterInfo.name : `Cluster ${{activeClusterId}}`}} • ${{matches.length}} words${{clipped}}`;
+        syncLegendSelection();
         return;
       }}
 
@@ -553,23 +643,16 @@ def _html(payload):
           `</div>`
         ).join('');
         legendInfo.textContent = `${{payload.cluster_summary.length}} clusters`;
+        syncLegendSelection();
         return;
       }}
 
       const maxResults = 140;
-      const matches = [];
-      let totalMatches = 0;
-      for (let i = 0; i < searchableText.length; i += 1) {{
-        if (!searchableText[i].includes(query)) {{
-          continue;
-        }}
-        totalMatches += 1;
-        if (matches.length < maxResults) {{
-          matches.push(i);
-        }}
-      }}
+      const matches = collectLegendMatches(payload.metadata.map((_, index) => index), query);
+      const totalMatches = matches.length;
+      const visibleMatches = matches.slice(0, maxResults);
 
-      legendList.innerHTML = matches.map((metaIndex) => {{
+      legendList.innerHTML = visibleMatches.map(({{ metaIndex }}) => {{
         const info = payload.metadata[metaIndex];
         const definitionSnippet = info.definition ? `<div style="margin-top:2px;color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;">${{escapeHtml(String(info.definition).slice(0, 60))}}</div>` : '';
         return `<div class="legend-row" data-kind="word" data-meta-index="${{metaIndex}}" data-cluster="${{info.cluster}}">` +
@@ -586,6 +669,57 @@ def _html(payload):
 
       const clipped = totalMatches > maxResults ? ` (showing first ${{maxResults}})` : '';
       legendInfo.textContent = `${{totalMatches}} word matches${{clipped}}`;
+      syncLegendSelection();
+    }}
+
+    function showLegendRowTooltip(evt, row) {{
+      const rowKind = row.dataset.kind;
+      if (rowKind === 'word') {{
+        const metaIndex = Number(row.dataset.metaIndex);
+        if (!Number.isNaN(metaIndex) && payload.metadata[metaIndex]) {{
+          tooltip.innerHTML = renderInfo(payload.metadata[metaIndex], false);
+          tooltip.style.display = 'block';
+          positionTooltipAtHud();
+        }}
+        return;
+      }}
+
+      const clusterId = Number(row.dataset.cluster);
+      if (Number.isNaN(clusterId)) {{
+        return;
+      }}
+
+      const representative = getClusterRepresentative(clusterId);
+      if (representative) {{
+        tooltip.innerHTML = renderInfo(representative, false);
+        tooltip.style.display = 'block';
+        positionTooltipAtHud();
+      }} else {{
+        const clusterInfo = payload.cluster_summary.find((item) => item.cluster === clusterId);
+        if (clusterInfo) {{
+          tooltip.innerHTML = `<b>${{escapeHtml(clusterInfo.name)}}</b><br>cluster number: ${{clusterInfo.cluster}}<br>cluster node count: ${{clusterInfo.count}}`;
+          tooltip.style.display = 'block';
+          positionTooltipAtHud();
+        }}
+      }}
+    }}
+
+    function positionTooltipAtHud() {{
+      const hudRect = hud.getBoundingClientRect();
+      const tooltipWidth = tooltip.offsetWidth || 420;
+      const tooltipHeight = tooltip.offsetHeight || 180;
+      const gap = 14;
+      const left = Math.min(window.innerWidth - tooltipWidth - 12, hudRect.right + gap);
+      const top = Math.max(12, Math.min(window.innerHeight - tooltipHeight - 12, hudRect.top));
+      tooltip.style.left = `${{Math.max(12, left)}}px`;
+      tooltip.style.top = `${{top}}px`;
+    }}
+
+    function hideLegendRowTooltip() {{
+      if (pinnedIndex !== null) {{
+        return;
+      }}
+      hideTooltip();
     }}
 
     renderLegendList('');
@@ -641,7 +775,7 @@ def _html(payload):
       let pinnedIndex = null;
       let invertHorizontal = false;
       let invertVertical = false;
-      let invertZoom = true;
+      let invertZoom = false;
 
       scene.add(new THREE.AmbientLight(0xffffff, 0.76));
       const dir = new THREE.DirectionalLight(0xffffff, 0.72);
@@ -855,8 +989,7 @@ def _html(payload):
       function setTooltipFromMetadata(info) {{
         tooltip.innerHTML = renderInfo(info, true);
         tooltip.style.display = 'block';
-        tooltip.style.left = '24px';
-        tooltip.style.top = '120px';
+        positionTooltipAtHud();
       }}
 
       function focusCluster(clusterId) {{
@@ -994,7 +1127,7 @@ def _html(payload):
 
       invertHorizontalCheckbox.checked = false;
       invertVerticalCheckbox.checked = false;
-      invertZoomCheckbox.checked = true;
+      invertZoomCheckbox.checked = false;
       invertHorizontalCheckbox.addEventListener('change', () => {{
         invertHorizontal = invertHorizontalCheckbox.checked;
       }});
@@ -1006,6 +1139,23 @@ def _html(payload):
       }});
       legendSearchInput.addEventListener('input', () => {{
         renderLegendList(legendSearchInput.value);
+        updateDrilldownControls();
+      }});
+
+      legendList.addEventListener('mousemove', (evt) => {{
+        if (pinnedIndex !== null) {{
+          return;
+        }}
+        const row = evt.target.closest('.legend-row');
+        if (!row) {{
+          hideLegendRowTooltip();
+          return;
+        }}
+        showLegendRowTooltip(evt, row);
+      }});
+
+      legendList.addEventListener('mouseleave', () => {{
+        hideLegendRowTooltip();
       }});
 
       legendList.addEventListener('click', (evt) => {{
@@ -1017,13 +1167,11 @@ def _html(payload):
         const rowKind = row.dataset.kind;
         if (rowKind === 'word') {{
           const metaIndex = Number(row.dataset.metaIndex);
-          const clusterId = Number(row.dataset.cluster);
           if (!Number.isNaN(metaIndex) && payload.metadata[metaIndex]) {{
+            selectedLegendMetaIndex = metaIndex;
             pinnedIndex = metaIndex;
             setTooltipFromMetadata(payload.metadata[metaIndex]);
-          }}
-          if (!Number.isNaN(clusterId)) {{
-            focusCluster(clusterId);
+            syncLegendSelection();
           }}
           return;
         }}
@@ -1038,6 +1186,10 @@ def _html(payload):
         tooltip.style.display = 'none';
       }});
 
+      legendBackToClusters.addEventListener('click', () => {{
+        resetClusterDrilldown();
+      }});
+
       legendList.addEventListener('dblclick', (evt) => {{
         const row = evt.target.closest('.legend-row');
         if (!row || row.dataset.kind !== 'cluster') {{
@@ -1048,11 +1200,14 @@ def _html(payload):
         if (Number.isNaN(clusterId)) {{
           return;
         }}
-        enterClusterDrilldown(clusterId);
-      }});
 
-      clusterDrilldownBack.addEventListener('click', () => {{
-        resetClusterDrilldown();
+        const drilldownFile = String(row.dataset.drilldownFile || '').trim();
+        if (drilldownFile) {{
+          window.location.href = drilldownFile;
+          return;
+        }}
+
+        enterClusterDrilldown(clusterId);
       }});
 
       renderer.domElement.addEventListener('mousemove', onHover);
@@ -1091,6 +1246,12 @@ def _html(payload):
         camera.lookAt(0, 0, 0);
         renderer.render(scene, camera);
       }})();
+
+      if (payload.live_reload) {{
+        setInterval(() => {{
+          location.reload();
+        }}, 2000);
+      }}
     }} catch (err) {{
       showStatus('Renderer error: ' + (err && err.message ? err.message : err));
       console.error(err);
@@ -1102,13 +1263,14 @@ def _html(payload):
 """
 
 
-def render_spherical_surface(surface_df, output_html_path):
+def render_spherical_surface(surface_df, output_html_path, live_reload=False):
     output_html_path.parent.mkdir(parents=True, exist_ok=True)
     definition_lookup = _load_definition_lookup(
         source_file=surface_df.attrs.get("source_file"),
         definition_column=surface_df.attrs.get("definition_column"),
     )
     payload = _build_render_payload(surface_df, definition_lookup=definition_lookup)
+    payload["live_reload"] = bool(live_reload)
     drilldown_files = _write_cluster_drilldown_pages(
         surface_df=surface_df,
         output_dir=output_html_path.parent,

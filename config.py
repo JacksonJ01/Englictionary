@@ -44,6 +44,7 @@ CAMERA_EYE_Y = 1.8
 CAMERA_EYE_Z = 1.4
 
 PLOT_AUTO_OPEN = True
+USE_EXISTING_OUTPUTS = True  # When True, open the last generated outputs instead of rerunning the pipeline.
 PLOT_2D_FILE = OUTPUT_DIR / "semantic_map_2d.html"
 PLOT_3D_FILE = OUTPUT_DIR / "semantic_map_3d.html"
 NODES_FILE = OUTPUT_DIR / "nodes.csv"
@@ -59,7 +60,7 @@ SPHERICAL_HIERARCHY_FILE = SPHERICAL_OUTPUT_DIR / "hierarchy_nodes.csv"
 SPHERICAL_COORDS_FILE = SPHERICAL_OUTPUT_DIR / "spherical_coords.csv"
 SPHERICAL_MEMBERSHIPS_FILE = SPHERICAL_OUTPUT_DIR / "secondary_memberships.csv"
 SPHERICAL_SURFACE_POINTS_FILE = SPHERICAL_OUTPUT_DIR / "surface_points.csv"
-SPHERICAL_SURFACE_HTML = SPHERICAL_OUTPUT_DIR / "sphere_surface_all_nodes.html"
+SPHERICAL_SURFACE_HTML = SPHERICAL_OUTPUT_DIR / "Englictionary.html"
 MAX_RECENT_RUNS = 8
 
 SPHERE_TOP_CLUSTERS = 12

@@ -1,6 +1,11 @@
+import argparse
 import json
 from datetime import datetime
+import time
 import webbrowser
+from pathlib import Path
+
+import pandas as pd
 
 from cluster import cluster_data
 from config import (
@@ -33,6 +38,7 @@ from vectorize import vectorize_embeddings, vectorize_tfidf
 from visualize import plot_2d, plot_3d
 from visualize_spherical import render_spherical_surface
 from run_history import archive_current_spherical_outputs, open_launcher
+from pipeline_runner import run_from_csv
 
 
 def _current_plot_path():
@@ -97,22 +103,187 @@ def _read_existing_metadata():
         return None
 
 
-def _open_existing_outputs(plot_path):
-    if VISUALIZATION_MODE == "spherical":
-        metadata = _read_existing_metadata()
-        launcher_path = open_launcher(current_metadata=metadata)
-        print(f"Opened launcher: {launcher_path}")
-        if SPHERICAL_SURFACE_POINTS_FILE.exists():
-            print(f"Existing spherical points: {SPHERICAL_SURFACE_POINTS_FILE}")
-    else:
-        import webbrowser
+def _is_stale(target_path, source_paths):
+    target_path = Path(target_path)
+    if not target_path.exists():
+        return True
 
-        webbrowser.open(plot_path.resolve().as_uri())
+    target_mtime = target_path.stat().st_mtime_ns
+    for source_path in source_paths:
+        source_path = Path(source_path)
+        if source_path.exists() and source_path.stat().st_mtime_ns > target_mtime:
+            return True
+    return False
+
+
+def _load_cached_spherical_surface():
+    if not SPHERICAL_SURFACE_POINTS_FILE.exists():
+        return None
+
+    try:
+        surface_df = pd.read_csv(SPHERICAL_SURFACE_POINTS_FILE)
+    except OSError:
+        return None
+
+    metadata = _read_existing_metadata() or {}
+    surface_df.attrs["source_file"] = metadata.get("source_file", FILE_PATH)
+    surface_df.attrs["definition_column"] = metadata.get("definition_column", "Definition")
+    surface_df.attrs["pos_column"] = metadata.get("pos_column", "")
+    surface_df.attrs["detail_columns"] = metadata.get("detail_columns", [])
+    surface_df.attrs["source_row_count"] = metadata.get("source_row_count", len(surface_df))
+    return surface_df
+
+
+def _render_cached_spherical_output(live_reload=False):
+    surface_df = _load_cached_spherical_surface()
+    if surface_df is None:
+        return False
+
+    root_path = render_spherical_surface(
+        surface_df,
+        SPHERICAL_SURFACE_HTML,
+        live_reload=bool(live_reload),
+    )
+    print(f"Re-rendered spherical HTML from cached surface points: {root_path}")
+    return True
+
+
+def _open_plot_file(plot_path):
+    webbrowser.open(Path(plot_path).resolve().as_uri())
+
+
+def _current_visualization_label():
+    if VISUALIZATION_MODE == "spherical":
+        return f"spherical ({SPHERICAL_SURFACE_HTML})"
+    if DIMENSIONS == 2:
+        return f"2D ({PLOT_2D_FILE})"
+    return f"3D ({PLOT_3D_FILE})"
+
+
+def _recreate_visualization_menu():
+    options = [
+        ("current", f"Current visualization: {_current_visualization_label()}"),
+        ("spherical", f"Spherical HTML ({SPHERICAL_SURFACE_HTML})"),
+        ("2d", f"2D HTML ({PLOT_2D_FILE})"),
+        ("3d", f"3D HTML ({PLOT_3D_FILE})"),
+        ("back", "Back"),
+    ]
+
+    print("Which visualization do you want to recreate?")
+    for index, (_, label) in enumerate(options, start=1):
+        print(f"{index}) {label}")
+
+    while True:
+        choice = input(f"Enter 1-{len(options)}: ").strip().lower()
+        if choice in {str(len(options)), "b", "back", "q", "quit", "exit"}:
+            return None
+        if not choice.isdigit():
+            print(f"Please enter a number from 1 to {len(options)}.")
+            continue
+
+        selected_index = int(choice) - 1
+        if selected_index < 0 or selected_index >= len(options) - 1:
+            print(f"Please enter a number from 1 to {len(options)}.")
+            continue
+
+        selected_kind, _ = options[selected_index]
+        if selected_kind == "current":
+            return _current_plot_path()
+        return selected_kind
+
+
+def _recreate_visualization_output(selection):
+    if selection is None:
+        return False
+
+    if isinstance(selection, Path):
+        if selection == SPHERICAL_SURFACE_HTML:
+            if _is_stale(SPHERICAL_SURFACE_HTML, [Path(__file__).with_name("visualize_spherical.py"), Path(__file__).with_name("config.py")]):
+                if not _render_cached_spherical_output(live_reload=False):
+                    print("No cached spherical surface points were found.")
+                    return False
+            if SPHERICAL_SURFACE_HTML.exists():
+                _open_plot_file(SPHERICAL_SURFACE_HTML)
+                print(f"Opened existing spherical plot: {SPHERICAL_SURFACE_HTML}")
+                if SPHERICAL_SURFACE_POINTS_FILE.exists():
+                    print(f"Existing spherical points: {SPHERICAL_SURFACE_POINTS_FILE}")
+                return True
+            print(f"No cached spherical visualization was found at {SPHERICAL_SURFACE_HTML}.")
+            return False
+
+        if selection.exists():
+            _open_plot_file(selection)
+            print(f"Opened existing plot: {selection}")
+            return True
+
+        print(f"No cached visualization was found at {selection}.")
+        return False
+
+    if selection == "spherical":
+        if _render_cached_spherical_output(live_reload=False):
+            _open_plot_file(SPHERICAL_SURFACE_HTML)
+            print(f"Opened existing spherical plot: {SPHERICAL_SURFACE_HTML}")
+            if SPHERICAL_SURFACE_POINTS_FILE.exists():
+                print(f"Existing spherical points: {SPHERICAL_SURFACE_POINTS_FILE}")
+            return True
+        print("No cached spherical surface points were found.")
+        return False
+
+    if selection == "2d":
+        if PLOT_2D_FILE.exists():
+            _open_plot_file(PLOT_2D_FILE)
+            print(f"Opened existing plot: {PLOT_2D_FILE}")
+            return True
+        print(f"No cached 2D visualization was found at {PLOT_2D_FILE}.")
+        return False
+
+    if selection == "3d":
+        if PLOT_3D_FILE.exists():
+            _open_plot_file(PLOT_3D_FILE)
+            print(f"Opened existing plot: {PLOT_3D_FILE}")
+            return True
+        print(f"No cached 3D visualization was found at {PLOT_3D_FILE}.")
+        return False
+
+    return False
+
+
+def _reuse_existing_output_if_available():
+    if VISUALIZATION_MODE == "spherical":
+        if SPHERICAL_SURFACE_HTML.exists():
+            if _is_stale(SPHERICAL_SURFACE_HTML, [Path(__file__).with_name("visualize_spherical.py"), Path(__file__).with_name("config.py")]):
+                if _render_cached_spherical_output(live_reload=False) is False:
+                    return False
+            _open_plot_file(SPHERICAL_SURFACE_HTML)
+            print(f"Opened existing spherical plot: {SPHERICAL_SURFACE_HTML}")
+            if SPHERICAL_SURFACE_POINTS_FILE.exists():
+                print(f"Existing spherical points: {SPHERICAL_SURFACE_POINTS_FILE}")
+            return True
+
+        if _render_cached_spherical_output(live_reload=False):
+            _open_plot_file(SPHERICAL_SURFACE_HTML)
+            print(f"Opened existing spherical plot: {SPHERICAL_SURFACE_HTML}")
+            if SPHERICAL_SURFACE_POINTS_FILE.exists():
+                print(f"Existing spherical points: {SPHERICAL_SURFACE_POINTS_FILE}")
+            return True
+
+        return False
+
+    plot_path = _current_plot_path()
+    if plot_path.exists():
+        _open_plot_file(plot_path)
         print(f"Opened existing plot: {plot_path}")
         if NODES_FILE.exists():
             print(f"Existing node data: {NODES_FILE}")
         if EDGES_FILE.exists():
             print(f"Existing edge data: {EDGES_FILE}")
+        return True
+
+    return False
+
+
+def _open_existing_outputs(plot_path):
+    return _reuse_existing_output_if_available()
 
 
 def _csv_data_row_count(file_path):
@@ -224,9 +395,7 @@ def _run_spherical_pipeline(df, X):
     print(f"Saved spherical points to {SPHERICAL_SURFACE_POINTS_FILE}")
 
 
-def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
+def _run_model_pipeline():
     if VISUALIZATION_MODE == "spherical":
         archive_current_spherical_outputs()
 
@@ -256,6 +425,100 @@ def main():
         _run_flat_pipeline(df, X)
 
     _write_run_metadata(data_context)
+
+
+def _menu_choice():
+    print("Choose an action:")
+    print("1) Recreate HTML visualization")
+    print("2) Run new model")
+    print("3) Quit")
+
+    while True:
+        choice = input("Enter 1, 2, or 3: ").strip().lower()
+        if choice in {"1", "recreate", "html", "visualization"}:
+            return "recreate"
+        if choice in {"2", "run", "model", "new"}:
+            return "model"
+        if choice in {"3", "q", "quit", "exit"}:
+            return "quit"
+        print("Please enter 1, 2, or 3.")
+
+
+def _watch_paths():
+    candidates = [
+        Path(__file__),
+        Path(__file__).with_name("config.py"),
+        Path(__file__).with_name("data_loader.py"),
+        Path(__file__).with_name("preprocess.py"),
+        Path(__file__).with_name("vectorize.py"),
+        Path(__file__).with_name("cluster.py"),
+        Path(__file__).with_name("reduce_dim.py"),
+        Path(__file__).with_name("spherical_surface_layout.py"),
+        Path(__file__).with_name("visualize_spherical.py"),
+        Path(FILE_PATH),
+    ]
+    seen = set()
+    paths = []
+    for candidate in candidates:
+        resolved = Path(candidate).resolve()
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        paths.append(resolved)
+    return paths
+
+
+def _snapshot(paths):
+    return {str(path): path.stat().st_mtime_ns if path.exists() else None for path in paths}
+
+
+def _watch_and_rebuild(poll_interval=1.0):
+    print("Watch mode enabled. Edit the pipeline or HTML generator files and save to rebuild.")
+    watched_paths = _watch_paths()
+    last_snapshot = _snapshot(watched_paths)
+    first_run = True
+
+    while True:
+        result = run_from_csv(FILE_PATH, overrides={"LIVE_RELOAD": True})
+        if first_run:
+            webbrowser.open(Path(result["result_path"]).resolve().as_uri())
+            first_run = False
+        print(f"Rebuilt spherical output: {result['result_path']}")
+
+        while True:
+            time.sleep(poll_interval)
+            current_snapshot = _snapshot(watched_paths)
+            if current_snapshot != last_snapshot:
+                last_snapshot = current_snapshot
+                print("Change detected. Rebuilding...")
+                break
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Run the Englictionary pipeline.")
+    parser.add_argument("--watch", action="store_true", help="Rebuild automatically when source files change.")
+    parser.add_argument("--poll-interval", type=float, default=1.0, help="Seconds between file change checks in watch mode.")
+    args = parser.parse_args(argv)
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    if args.watch:
+        _watch_and_rebuild(poll_interval=max(0.25, float(args.poll_interval)))
+        return
+
+    action = _menu_choice()
+    if action == "quit":
+        print("No changes made.")
+        return
+    if action == "recreate":
+        selection = _recreate_visualization_menu()
+        if selection is None:
+            print("No changes made.")
+            return
+        _recreate_visualization_output(selection)
+        return
+
+    _run_model_pipeline()
 
 
 if __name__ == "__main__":
