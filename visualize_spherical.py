@@ -317,7 +317,7 @@ def _html(payload):
       max-width: 420px;
     }}
     #tooltip {{
-      position: fixed; display: none; z-index: 1001; pointer-events: none;
+      position: fixed; display: none; z-index: 1001;
       max-width: 420px; padding: 8px 10px; background: rgba(17, 24, 39, 0.92);
       color: #fff; border-radius: 8px; font-family: Segoe UI, Arial, sans-serif;
       font-size: 12px; line-height: 1.35;
@@ -577,7 +577,6 @@ def _html(payload):
       activeClusterId = clusterId;
       pinnedIndex = null;
       tooltip.style.display = 'none';
-      focusCluster(clusterId);
       updateDrilldownControls();
       renderLegendList(legendSearchInput.value);
     }}
@@ -677,9 +676,7 @@ def _html(payload):
       if (rowKind === 'word') {{
         const metaIndex = Number(row.dataset.metaIndex);
         if (!Number.isNaN(metaIndex) && payload.metadata[metaIndex]) {{
-          tooltip.innerHTML = renderInfo(payload.metadata[metaIndex], false);
-          tooltip.style.display = 'block';
-          positionTooltipAtHud();
+          showTooltip(evt, payload.metadata[metaIndex], false);
         }}
         return;
       }}
@@ -691,28 +688,16 @@ def _html(payload):
 
       const representative = getClusterRepresentative(clusterId);
       if (representative) {{
-        tooltip.innerHTML = renderInfo(representative, false);
-        tooltip.style.display = 'block';
-        positionTooltipAtHud();
+        showTooltip(evt, representative, false);
       }} else {{
         const clusterInfo = payload.cluster_summary.find((item) => item.cluster === clusterId);
         if (clusterInfo) {{
           tooltip.innerHTML = `<b>${{escapeHtml(clusterInfo.name)}}</b><br>cluster number: ${{clusterInfo.cluster}}<br>cluster node count: ${{clusterInfo.count}}`;
           tooltip.style.display = 'block';
-          positionTooltipAtHud();
+          tooltip.style.left = (evt.clientX + 14) + 'px';
+          tooltip.style.top = (evt.clientY + 14) + 'px';
         }}
       }}
-    }}
-
-    function positionTooltipAtHud() {{
-      const hudRect = hud.getBoundingClientRect();
-      const tooltipWidth = tooltip.offsetWidth || 420;
-      const tooltipHeight = tooltip.offsetHeight || 180;
-      const gap = 14;
-      const left = Math.min(window.innerWidth - tooltipWidth - 12, hudRect.right + gap);
-      const top = Math.max(12, Math.min(window.innerHeight - tooltipHeight - 12, hudRect.top));
-      tooltip.style.left = `${{Math.max(12, left)}}px`;
-      tooltip.style.top = `${{top}}px`;
     }}
 
     function hideLegendRowTooltip() {{
@@ -989,7 +974,8 @@ def _html(payload):
       function setTooltipFromMetadata(info) {{
         tooltip.innerHTML = renderInfo(info, true);
         tooltip.style.display = 'block';
-        positionTooltipAtHud();
+        tooltip.style.left = '24px';
+        tooltip.style.top = '120px';
       }}
 
       function focusCluster(clusterId) {{
@@ -1181,9 +1167,11 @@ def _html(payload):
           return;
         }}
 
-        focusCluster(clusterId);
+        activeClusterId = clusterId;
         pinnedIndex = null;
         tooltip.style.display = 'none';
+        updateDrilldownControls();
+        renderLegendList(legendSearchInput.value);
       }});
 
       legendBackToClusters.addEventListener('click', () => {{
@@ -1200,13 +1188,6 @@ def _html(payload):
         if (Number.isNaN(clusterId)) {{
           return;
         }}
-
-        const drilldownFile = String(row.dataset.drilldownFile || '').trim();
-        if (drilldownFile) {{
-          window.location.href = drilldownFile;
-          return;
-        }}
-
         enterClusterDrilldown(clusterId);
       }});
 
