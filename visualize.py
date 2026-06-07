@@ -48,6 +48,20 @@ def _help_panel_html():
     """
 
 
+def _hover_columns(df):
+    columns = ["Word", "Definition"]
+    if "pos_group" in df.columns:
+        columns.append("pos_group")
+
+    detail_columns = [
+        column
+        for column in df.attrs.get("detail_columns", ())
+        if column in df.columns and column not in columns
+    ]
+    columns.extend(detail_columns)
+    return columns
+
+
 def _write_figure(fig, output_path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     figure_html = pio.to_html(fig, full_html=False, include_plotlyjs=True)
@@ -158,7 +172,7 @@ def plot_2d(df, edges=None):
         x="x",
         y="y",
         color=plot_df["cluster"].astype(str),
-        hover_data=["Word", "Definition", "pos_group"],
+        hover_data=_hover_columns(plot_df),
         title="Dictionary Semantic Map (2D)",
     )
 
@@ -176,7 +190,7 @@ def plot_3d(df, edges=None):
         y="y",
         z="z",
         color=plot_df["cluster"].astype(str),
-        hover_data=["Word", "Definition", "pos_group"],
+        hover_data=_hover_columns(plot_df),
         title="Dictionary Semantic Map (3D)",
     )
 

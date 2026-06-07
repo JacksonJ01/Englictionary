@@ -9,6 +9,7 @@ import pandas as pd
 
 from cluster import cluster_data
 from config import (
+    CSV_DIR,
     DIMENSIONS,
     EDGES_FILE,
     FILE_PATH,
@@ -158,6 +159,25 @@ def _current_visualization_label():
     if DIMENSIONS == 2:
         return f"2D ({PLOT_2D_FILE})"
     return f"3D ({PLOT_3D_FILE})"
+
+
+def _recreate_html_only():
+    if VISUALIZATION_MODE == "spherical":
+        if _render_cached_spherical_output(live_reload=False):
+            _open_plot_file(SPHERICAL_SURFACE_HTML)
+            print(f"Opened regenerated spherical HTML: {SPHERICAL_SURFACE_HTML}")
+            return True
+        print("No cached spherical surface points were found.")
+        return False
+
+    plot_path = _current_plot_path()
+    if plot_path.exists():
+        _open_plot_file(plot_path)
+        print(f"Opened existing plot HTML without regenerating data: {plot_path}")
+        return True
+
+    print(f"No cached HTML was found at {plot_path}.")
+    return False
 
 
 def _recreate_visualization_menu():
@@ -365,6 +385,8 @@ def _run_flat_pipeline(df, X):
     result_df = attach_results(df, labels, coordinates)
 
     print("Saving outputs...")
+    NODES_FILE.parent.mkdir(parents=True, exist_ok=True)
+    EDGES_FILE.parent.mkdir(parents=True, exist_ok=True)
     build_nodes_export(result_df).to_csv(NODES_FILE, index=False)
     build_edges_export(edges).to_csv(EDGES_FILE, index=False)
 
@@ -381,6 +403,7 @@ def _run_flat_pipeline(df, X):
 
 def _run_spherical_pipeline(df, X):
     SPHERICAL_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    SPHERICAL_SURFACE_POINTS_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     print("Building full-surface spherical layout...")
     surface_df = build_spherical_surface_points(df=df, X=X, use_umap=USE_UMAP)
@@ -430,18 +453,21 @@ def _run_model_pipeline():
 def _menu_choice():
     print("Choose an action:")
     print("1) Recreate HTML visualization")
-    print("2) Run new model")
-    print("3) Quit")
+    print("2) Recreate HTML only")
+    print("3) Run new model")
+    print("4) Quit")
 
     while True:
-        choice = input("Enter 1, 2, or 3: ").strip().lower()
+        choice = input("Enter 1, 2, 3, or 4: ").strip().lower()
         if choice in {"1", "recreate", "html", "visualization"}:
             return "recreate"
-        if choice in {"2", "run", "model", "new"}:
+        if choice in {"2", "html-only", "htmlonly", "html only"}:
+            return "html_only"
+        if choice in {"3", "run", "model", "new"}:
             return "model"
-        if choice in {"3", "q", "quit", "exit"}:
+        if choice in {"4", "q", "quit", "exit"}:
             return "quit"
-        print("Please enter 1, 2, or 3.")
+        print("Please enter 1, 2, 3, or 4.")
 
 
 def _watch_paths():
@@ -501,6 +527,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    CSV_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.watch:
         _watch_and_rebuild(poll_interval=max(0.25, float(args.poll_interval)))
@@ -516,6 +543,10 @@ def main(argv=None):
             print("No changes made.")
             return
         _recreate_visualization_output(selection)
+        return
+
+    if action == "html_only":
+        _recreate_html_only()
         return
 
     _run_model_pipeline()

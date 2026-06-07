@@ -99,6 +99,7 @@ def run_from_csv(source_file, overrides=None):
         X = vectorize_module.vectorize_tfidf(df)
 
     if config_module.VISUALIZATION_MODE == "spherical":
+        config_module.SPHERICAL_SURFACE_POINTS_FILE.parent.mkdir(parents=True, exist_ok=True)
         surface_df = spherical_surface_layout.build_spherical_surface_points(
             df=df,
             X=X,
@@ -116,6 +117,8 @@ def run_from_csv(source_file, overrides=None):
         labels = cluster_module.cluster_data(X, config_module.N_CLUSTERS)
         coordinates = reduce_dim_module.reduce_dimensions(X, config_module.DIMENSIONS, config_module.USE_UMAP)
         result_df = importlib.import_module("utils").attach_results(df, labels, coordinates)
+        config_module.NODES_FILE.parent.mkdir(parents=True, exist_ok=True)
+        config_module.EDGES_FILE.parent.mkdir(parents=True, exist_ok=True)
         importlib.import_module("utils").build_nodes_export(result_df).to_csv(config_module.NODES_FILE, index=False)
         importlib.import_module("utils").build_edges_export(edges).to_csv(config_module.EDGES_FILE, index=False)
         if config_module.DIMENSIONS == 2:

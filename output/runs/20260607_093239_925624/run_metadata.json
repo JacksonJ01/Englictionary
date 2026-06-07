@@ -1,0 +1,28 @@
+{
+  "visualization_mode": "spherical",
+  "spherical_full_surface": true,
+  "file_path": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\csv\\A+StudyTerms(GF)-FormResponses1.csv",
+  "use_embeddings": true,
+  "dimensions": 3,
+  "use_umap": true,
+  "n_clusters": 20,
+  "k_neighbors": 10,
+  "source_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\csv\\A+StudyTerms(GF)-FormResponses1.csv",
+  "source_row_count": 202,
+  "focus_column": "TERM",
+  "definition_column": "DEFINITION ",
+  "pos_column": "",
+  "detail_columns": [
+    "ERROR SYMPTOMS",
+    "TROUBLESHOOTING",
+    "PRIMARY CATEGORY",
+    "SUB CATEGORY",
+    "CORE",
+    "CORE 1: DOMAIN"
+  ],
+  "run_id": "20260601_052400_506999",
+  "run_timestamp": "2026-06-01T05:24:00",
+  "plot_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\Englictionary.html",
+  "nodes_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\spherical\\csv\\surface_points.csv",
+  "edges_file": ""
+}

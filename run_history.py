@@ -44,6 +44,14 @@ def _timestamp_token(now=None):
     return now.strftime("%Y%m%d_%H%M%S_%f")
 
 
+def _first_existing_path(*paths):
+  for path in paths:
+    path = Path(path)
+    if path.exists():
+      return path
+  return Path(paths[0])
+
+
 def archive_current_spherical_outputs():
   if not SPHERICAL_OUTPUT_DIR.exists():
     return None
@@ -69,7 +77,10 @@ def _read_run_metadata(run_dir):
     return None
 
   plot_path = run_dir / "spherical" / "sphere_surface_all_nodes.html"
-  points_path = run_dir / "spherical" / "surface_points.csv"
+  points_path = _first_existing_path(
+    run_dir / "spherical" / "csv" / "surface_points.csv",
+    run_dir / "spherical" / "surface_points.csv",
+  )
   metadata = dict(metadata)
   metadata["archive_dir"] = str(run_dir)
   metadata["plot_file"] = str(plot_path)

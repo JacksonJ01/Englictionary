@@ -148,6 +148,7 @@ def build_spherical_surface_points(df, X, use_umap):
             rows.append(row_payload)
 
     surface_df = pd.DataFrame(rows)
+
     surface_df.attrs.update(df.attrs)
     surface_df.attrs["detail_columns"] = tuple(detail_columns)
     return surface_df

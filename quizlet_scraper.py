@@ -13,7 +13,7 @@ TERM_BLOCK_PATTERN = re.compile(
 )
 TERM_TEXT_PATTERN = re.compile(r'<span class="TermText notranslate lang-en">(.*?)</span>', re.S)
 DEFAULT_INPUT_PATH = Path(__file__).with_name("quizlet_input.txt")
-DEFAULT_OUTPUT_PATH = Path(__file__).with_name("output").joinpath("quizlet_scraped.csv")
+DEFAULT_OUTPUT_PATH = Path(__file__).with_name("csv").joinpath("quizlet_scraped.csv")
 
 
 def _read_input_text(source: str) -> str:

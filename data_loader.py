@@ -1,6 +1,6 @@
 import pandas as pd
 
-from config import DEFINITION_COLUMN, FOCUS_COLUMN, POS_COLUMN
+from config import DEFINITION_COLUMN, FOCUS_COLUMN, POS_COLUMN, SOURCE_COLUMN_LIMIT
 
 
 STANDARD_COLUMNS = ("Word", "POS", "Definition")
@@ -55,8 +55,17 @@ def _normalize_text(series):
     return series.fillna("").astype(str).str.strip()
 
 
+def _default_column(columns, index):
+    if 0 <= index < len(columns):
+        return columns[index]
+    return None
+
+
 def load_data(file_path, focus_column=None, definition_column=None, pos_column=None):
     df = pd.read_csv(file_path)
+    if SOURCE_COLUMN_LIMIT:
+        df = df.iloc[:, :SOURCE_COLUMN_LIMIT].copy()
+    columns = list(df.columns)
 
     focus_source = _resolve_column(
         df,
@@ -75,10 +84,13 @@ def load_data(file_path, focus_column=None, definition_column=None, pos_column=N
     )
 
     if focus_source is None:
-        focus_source = _prompt_for_column(df, "focused", default_name=FOCUS_COLUMN)
+        focus_source = _default_column(columns, 0)
 
     if definition_source is None:
-        definition_source = _prompt_for_column(df, "definition", default_name=DEFINITION_COLUMN)
+        definition_source = _default_column(columns, 1) or focus_source
+
+    if focus_source is None or definition_source is None:
+        raise ValueError("The source CSV must contain at least one column.")
 
     normalized = pd.DataFrame(index=df.index)
     normalized["Word"] = _normalize_text(df[focus_source])

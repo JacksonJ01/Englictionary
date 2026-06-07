@@ -102,6 +102,39 @@ def render_menu_page(api_base_url):
     .nav-tabs {{ display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }}
     .nav-tab {{ padding: 9px 12px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.18); background: rgba(15,23,42,0.72); color: var(--text); cursor: pointer; font-size: 12px; font-weight: 700; }}
     .nav-tab.active {{ background: var(--accent-soft); border-color: var(--border-strong); }}
+      .dataset-bar {{ display: flex; align-items: stretch; gap: 10px; padding: 18px 20px 0; }}
+      .dataset-tabs {{ display: flex; gap: 10px; flex: 1 1 auto; min-width: 0; }}
+      .dataset-tab {{
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(148,163,184,0.18);
+        background: rgba(15,23,42,0.72);
+        color: var(--text);
+        cursor: pointer;
+        text-align: left;
+        transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      }}
+      .dataset-tab:hover {{ transform: translateY(-1px); border-color: rgba(56,189,248,0.42); }}
+      .dataset-tab.active {{ background: var(--accent-soft); border-color: var(--border-strong); }}
+      .dataset-label {{ display: block; font-size: 13px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+      .dataset-meta {{ display: block; margin-top: 4px; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+      .dataset-add {{
+        flex: 0 0 48px;
+        width: 48px;
+        border-radius: 16px;
+        border: 1px solid rgba(148,163,184,0.18);
+        background: rgba(15,23,42,0.72);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1;
+        display: grid;
+        place-items: center;
+      }}
+      .dataset-add:hover {{ border-color: rgba(56,189,248,0.42); background: var(--accent-soft); }}
     .status {{ margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }}
     .main {{ display: grid; grid-template-rows: auto 1fr; min-width: 0; }}
     .header {{ display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 20px 0 20px; }}
@@ -162,6 +195,10 @@ def render_menu_page(api_base_url):
     </aside>
 
     <main class=\"main\">
+        <div class="dataset-bar">
+          <div id="datasetTabs" class="dataset-tabs"></div>
+          <button id="addDatasetBtn" class="dataset-add" type="button" aria-label="Create a new CSV tab">+</button>
+        </div>
       <div class=\"header\">
         <div>
           <div id=\"viewerTitle\" class=\"header-title\">Ready for a CSV</div>
@@ -207,15 +244,65 @@ def render_menu_page(api_base_url):
     const configPrev = document.getElementById('configPrev');
     const configNext = document.getElementById('configNext');
     const resetPresetBtn = document.getElementById('resetPresetBtn');
+    const datasetTabs = document.getElementById('datasetTabs');
+    const addDatasetBtn = document.getElementById('addDatasetBtn');
 
-    let selectedFile = null;
-    const state = {{ configIndex: 0, configOverrides: {{}} }};
+    function escapeHtml(value) {{
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }}
+
+    function newTabId() {{
+      return `tab-${{Date.now()}}-${{Math.random().toString(16).slice(2)}}`;
+    }}
+
+    function createDatasetTab(seed = {{}}) {{
+      return {{
+        id: seed.id || newTabId(),
+        label: seed.label || 'Tab',
+        file: seed.file || null,
+        rows: seed.rows || 0,
+        headers: Array.isArray(seed.headers) ? seed.headers : [],
+        preview: Array.isArray(seed.preview) ? seed.preview : [],
+        resultUrl: seed.resultUrl || '',
+        resultTitle: seed.resultTitle || '',
+        resultSub: seed.resultSub || '',
+        configIndex: Number.isInteger(seed.configIndex) ? seed.configIndex : 0,
+        configOverrides: seed.configOverrides && typeof seed.configOverrides === 'object' ? seed.configOverrides : {{}},
+        status: seed.status || 'The sphere stays vacant until you import a CSV and start processing.',
+      }};
+    }}
+
+    const state = {{
+      view: 'home',
+      activeRunIndex: null,
+      tabs: [createDatasetTab({{ label: 'Tab 1' }})],
+      activeTabId: null,
+    }};
+    state.activeTabId = state.tabs[0].id;
 
     function setStatus(message) {{
       statusBox.textContent = message;
     }}
 
+    function loadState() {{}}
+
+    function saveState() {{}}
+
+    function getActiveTab() {{
+      return state.tabs.find((tab) => tab.id === state.activeTabId) || state.tabs[0];
+    }}
+
+    function getTabLabel(tab, index) {{
+      return tab.label || (tab.file && tab.file.name) || `Tab ${{index + 1}}`;
+    }}
+
     function setActivePanel(panelName) {{
+      state.view = panelName;
       panels.forEach((button) => button.classList.toggle('active', button.dataset.panel === panelName));
       homePanel.classList.toggle('hidden', panelName !== 'home');
       settingsPanel.classList.toggle('hidden', panelName !== 'settings');
@@ -247,27 +334,155 @@ def render_menu_page(api_base_url):
       return values;
     }}
 
-    async function previewCsv(file) {{
-      const text = await file.text();
+    function parseCsvPreview(text) {{
       const lines = String(text || '').replace(/\r/g, '').split('\n').filter((line) => line.trim() !== '');
       const headers = parseCsvLine(lines[0] || '');
       const preview = lines.slice(1, 4);
+      return {{
+        headers,
+        rows: Math.max(0, lines.length - 1),
+        preview,
+      }};
+    }}
+
+    function renderDatasetTabs() {{
+      datasetTabs.innerHTML = state.tabs.map((tab, index) => `
+        <button class="dataset-tab ${{tab.id === state.activeTabId ? 'active' : ''}}" data-tab-id="${{tab.id}}" type="button">
+          <span class="dataset-label">${{escapeHtml(getTabLabel(tab, index))}}</span>
+          <span class="dataset-meta">${{tab.file ? `${{tab.rows}} rows · ${{tab.headers.length}} columns` : 'Empty tab'}}${{tab.resultUrl ? ' · processed' : ''}}</span>
+        </button>
+      `).join('');
+
+      datasetTabs.querySelectorAll('.dataset-tab').forEach((button) => {{
+        button.addEventListener('click', () => activateDatasetTab(button.dataset.tabId));
+      }});
+    }}
+
+    function renderSourceChip() {{
+      const tab = getActiveTab();
+      if (!tab || !tab.file) {{
+        sourceChip.innerHTML = '<div><strong>No source loaded</strong><div class="tiny">No CSV selected yet.</div></div>';
+        csvPreview.textContent = 'Import a CSV to preview its headers and row count here.';
+        startBtn.disabled = true;
+        return;
+      }}
+
+      const headers = tab.headers.length ? tab.headers.join(', ') : 'No headers detected';
       sourceChip.innerHTML = `
         <div>
-          <strong>${{file.name}}</strong>
-          <div class="tiny">${{Math.max(0, lines.length - 1)}} data rows · ${{headers.length}} columns</div>
+          <strong>${{escapeHtml(tab.file.name)}}</strong>
+          <div class="tiny">${{tab.rows}} data rows · ${{tab.headers.length}} columns</div>
         </div>
-        <div class="tiny">CSV loaded</div>
+        <div class="tiny">${{tab.resultUrl ? 'Processed' : 'CSV loaded'}}</div>
       `;
-      csvPreview.textContent = `Headers:\n${{headers.join(', ') || 'None'}}\n\nPreview rows:\n${{preview.join('\n') || 'No preview rows'}}`;
-      setStatus('CSV loaded. Adjust settings if needed, then click Start processing.');
+      csvPreview.textContent = `Headers:\n${{headers}}\n\nPreview rows:\n${{tab.preview.join('\n') || 'No preview rows'}}`;
+      startBtn.disabled = false;
+      setStatus(tab.resultUrl
+        ? 'This tab already has processed output. You can rerun the same CSV or replace it.'
+        : 'CSV loaded. Adjust settings if needed, then click Start processing.');
+    }}
+
+    function renderCurrentDatasetView() {{
+      const tab = getActiveTab();
+      if (!tab) return;
+
+      if (tab.resultUrl) {{
+        resultFrame.src = tab.resultUrl;
+        resultFrame.classList.remove('hidden');
+        homeView.classList.add('hidden');
+        viewerTitle.textContent = tab.resultTitle || tab.file?.name || tab.label || 'Processed Sphere';
+        viewerSub.textContent = tab.resultSub || (tab.file ? `${{tab.file.name}} processed successfully.` : 'Loaded processed output.');
+        openInNewTab.href = tab.resultUrl;
+        return;
+      }}
+
+      resultFrame.classList.add('hidden');
+      homeView.classList.remove('hidden');
+      viewerTitle.textContent = tab.file ? (tab.file.name || tab.label || 'Ready for a CSV') : (tab.label || 'Ready for a CSV');
+      viewerSub.textContent = tab.file
+        ? 'This tab has a CSV selected. Click Start processing to build the sphere.'
+        : 'Import a CSV to enable vectorizing and batch processing.';
+      openInNewTab.href = '#';
+    }}
+
+    function renderSelectedRun(run) {{
+      if (!run) return;
+      resultFrame.src = run.plot_uri;
+      resultFrame.classList.remove('hidden');
+      homeView.classList.add('hidden');
+      viewerTitle.textContent = run.run_label || 'Saved Run';
+      viewerSub.textContent = `${{run.run_timestamp || 'n/a'}} · ${{run.source_file || 'saved output'}}`;
+      openInNewTab.href = run.plot_uri;
+    }}
+
+    function renderMainView() {{
+      if (state.view === 'runs') {{
+        const run = runs[state.activeRunIndex ?? 0];
+        if (run) {{
+          renderSelectedRun(run);
+          return;
+        }}
+      }}
+
+      renderCurrentDatasetView();
+    }}
+
+    function activateDatasetTab(tabId) {{
+      state.activeTabId = tabId;
+      state.activeRunIndex = null;
+      setActivePanel('home');
+      renderDatasetTabs();
+      renderSourceChip();
+      renderConfigField();
+      renderMainView();
+      saveState();
+    }}
+
+    function addDatasetTab() {{
+      const tab = createDatasetTab({{ label: `Tab ${{state.tabs.length + 1}}` }});
+      state.tabs.push(tab);
+      activateDatasetTab(tab.id);
+      setStatus('New tab created. Import a CSV to populate it.');
+    }}
+
+    async function startProcessing() {{
+      const tab = getActiveTab();
+      if (!tab || !tab.file) {{
+        setStatus('Select a CSV first.');
+        return;
+      }}
+      startBtn.disabled = true;
+      setStatus('Processing selected CSV...');
+      const formData = new FormData();
+      formData.append('source_csv', tab.file, tab.file.name);
+      formData.append('config_overrides', JSON.stringify(tab.configOverrides));
+      const response = await fetch(`${{apiBaseUrl}}/start`, {{ method: 'POST', body: formData }});
+      if (!response.ok) {{
+        startBtn.disabled = false;
+        setStatus('Processing failed.');
+        return;
+      }}
+      const payload = await response.json();
+      tab.resultUrl = payload.result_url;
+      tab.resultTitle = payload.title || 'Processed Sphere';
+      tab.resultSub = payload.message || 'Loaded processed output.';
+      tab.status = 'Processing complete.';
+      renderDatasetTabs();
+      renderCurrentDatasetView();
+      openInNewTab.href = payload.result_url;
+      setStatus('Processing complete.');
+      startBtn.disabled = false;
     }}
 
     function renderConfigField() {{
       if (!configSchema.length) return;
-      const field = configSchema[state.configIndex % configSchema.length];
-      const value = Object.prototype.hasOwnProperty.call(state.configOverrides, field.name)
-        ? state.configOverrides[field.name]
+      const tab = getActiveTab();
+      if (!tab) return;
+      const currentIndex = Number.isInteger(tab.configIndex) ? tab.configIndex : 0;
+      const field = configSchema[currentIndex % configSchema.length];
+      tab.configIndex = currentIndex;
+      const value = Object.prototype.hasOwnProperty.call(tab.configOverrides, field.name)
+        ? tab.configOverrides[field.name]
         : field.value;
       configName.textContent = field.name;
       configMeta.textContent = `Category: ${{field.category}} · Type: ${{field.kind}}`;
@@ -282,13 +497,15 @@ def render_menu_page(api_base_url):
         const textInput = document.getElementById('cfgText');
         boolInput.addEventListener('change', () => {{
           const nextValue = boolInput.checked;
-          state.configOverrides[field.name] = nextValue;
+          tab.configOverrides[field.name] = nextValue;
           textInput.value = String(nextValue);
+          saveState();
         }});
         textInput.addEventListener('change', () => {{
           const nextValue = String(textInput.value).trim().toLowerCase() === 'true';
-          state.configOverrides[field.name] = nextValue;
+          tab.configOverrides[field.name] = nextValue;
           boolInput.checked = nextValue;
+          saveState();
         }});
         return;
       }}
@@ -306,9 +523,10 @@ def render_menu_page(api_base_url):
         const numberInput = document.getElementById('cfgNumber');
         const updateValue = (next) => {{
           const parsed = field.kind === 'int' ? Math.round(Number(next)) : Number(next);
-          state.configOverrides[field.name] = Number.isFinite(parsed) ? parsed : value;
-          rangeInput.value = String(state.configOverrides[field.name]);
-          numberInput.value = String(state.configOverrides[field.name]);
+          tab.configOverrides[field.name] = Number.isFinite(parsed) ? parsed : value;
+          rangeInput.value = String(tab.configOverrides[field.name]);
+          numberInput.value = String(tab.configOverrides[field.name]);
+          saveState();
         }};
         rangeInput.addEventListener('input', () => updateValue(rangeInput.value));
         numberInput.addEventListener('change', () => updateValue(numberInput.value));
@@ -318,78 +536,135 @@ def render_menu_page(api_base_url):
       configControl.innerHTML = `<input id="cfgText" type="text" value="${{String(value).replace(/"/g, '&quot;')}}">`;
       const textInput = document.getElementById('cfgText');
       textInput.addEventListener('change', () => {{
-        state.configOverrides[field.name] = textInput.value;
+        tab.configOverrides[field.name] = textInput.value;
+        saveState();
       }});
     }}
 
-    async function startProcessing() {{
-      if (!selectedFile) {{
-        setStatus('Select a CSV first.');
+    function renderRuns() {{
+      if (!runs.length) {{
+        runList.innerHTML = '<div class="card-meta">No archived runs yet.</div>';
         return;
       }}
-      startBtn.disabled = true;
-      setStatus('Processing selected CSV...');
-      const formData = new FormData();
-      formData.append('source_csv', selectedFile, selectedFile.name);
-      formData.append('config_overrides', JSON.stringify(state.configOverrides));
-      const response = await fetch(`${{apiBaseUrl}}/start`, {{ method: 'POST', body: formData }});
-      if (!response.ok) {{
-        startBtn.disabled = false;
-        setStatus('Processing failed.');
-        return;
-      }}
-      const payload = await response.json();
-      resultFrame.src = payload.result_url;
-      resultFrame.classList.remove('hidden');
-      homeView.classList.add('hidden');
-      viewerTitle.textContent = payload.title || 'Processed Sphere';
-      viewerSub.textContent = payload.message || 'Loaded processed output.';
-      openInNewTab.href = payload.result_url;
-      setStatus('Processing complete.');
-      startBtn.disabled = false;
+      runList.innerHTML = runs.map((run, index) => `
+        <button class="run-card ${{state.activeRunIndex === index ? 'active' : ''}}" data-index="${{index}}">
+          <div class="card-title">${{run.run_label || ('Run ' + (index + 1))}}</div>
+          <div class="card-meta">${{run.run_timestamp || 'n/a'}}<br>${{run.source_row_count || run.count || run.row_count || 'n/a'}} rows</div>
+        </button>
+      `).join('');
+
+      runList.querySelectorAll('.run-card').forEach((button) => {{
+        button.addEventListener('click', () => {{
+          const index = Number(button.dataset.index);
+          state.activeRunIndex = index;
+          setActivePanel('runs');
+          renderMainView();
+          renderRuns();
+          saveState();
+        }});
+      }});
     }}
 
-    panels.forEach((button) => button.addEventListener('click', () => setActivePanel(button.dataset.panel)));
+    panels.forEach((button) => button.addEventListener('click', () => {{
+      setActivePanel(button.dataset.panel);
+      renderMainView();
+      saveState();
+    }}));
+
+    addDatasetBtn.addEventListener('click', addDatasetTab);
+
     csvInput.addEventListener('change', async () => {{
       const file = csvInput.files && csvInput.files[0];
       if (!file) return;
-      selectedFile = file;
+      const tab = getActiveTab();
       csvPreview.textContent = 'Loading preview...';
-      startBtn.disabled = false;
-      setStatus('CSV loaded. Adjust settings if needed, then click Start processing.');
+      startBtn.disabled = true;
       try {{
-        await previewCsv(file);
+        const text = await file.text();
+        const parsed = parseCsvPreview(text);
+        tab.file = file;
+        tab.label = file.name;
+        tab.rows = parsed.rows;
+        tab.headers = parsed.headers;
+        tab.preview = parsed.preview;
+        tab.resultUrl = '';
+        tab.resultTitle = '';
+        tab.resultSub = '';
+        tab.status = 'CSV loaded. Adjust settings if needed, then click Start processing.';
+        renderDatasetTabs();
+        renderSourceChip();
+        renderConfigField();
+        renderCurrentDatasetView();
+        setStatus(tab.status);
+        saveState();
       }} catch (error) {{
-        sourceChip.innerHTML = `
-          <div>
-            <strong>${{file.name}}</strong>
-            <div class="tiny">Selected file</div>
-          </div>
-          <div class="tiny">Ready</div>
-        `;
-        csvPreview.textContent = 'File selected, but a preview could not be generated.';
-        setStatus('CSV loaded. Preview unavailable, but it can still be processed.');
+        tab.file = file;
+        tab.label = file.name;
+        tab.rows = 0;
+        tab.headers = [];
+        tab.preview = [];
+        tab.resultUrl = '';
+        tab.resultTitle = '';
+        tab.resultSub = '';
+        tab.status = 'CSV loaded. Preview unavailable, but it can still be processed.';
+        renderDatasetTabs();
+        renderSourceChip();
+        renderConfigField();
+        renderCurrentDatasetView();
+        setStatus(tab.status);
+        saveState();
       }}
     }});
     startBtn.addEventListener('click', startProcessing);
     clearCsvBtn.addEventListener('click', () => {{
-      selectedFile = null;
+      const tab = getActiveTab();
+      tab.file = null;
+      tab.rows = 0;
+      tab.headers = [];
+      tab.preview = [];
+      tab.resultUrl = '';
+      tab.resultTitle = '';
+      tab.resultSub = '';
+      tab.status = 'CSV cleared.';
       csvInput.value = '';
-      startBtn.disabled = true;
-      sourceChip.innerHTML = '<div><strong>No source loaded</strong><div class="tiny">No CSV selected yet.</div></div>';
-      csvPreview.textContent = 'Import a CSV to preview its headers and row count here.';
+      renderDatasetTabs();
+      renderSourceChip();
+      renderConfigField();
+      renderCurrentDatasetView();
       setStatus('CSV cleared.');
+      saveState();
     }});
-    configPrev.addEventListener('click', () => {{ state.configIndex = (state.configIndex - 1 + configSchema.length) % configSchema.length; renderConfigField(); }});
-    configNext.addEventListener('click', () => {{ state.configIndex = (state.configIndex + 1) % configSchema.length; renderConfigField(); }});
-    resetPresetBtn.addEventListener('click', () => {{ state.configOverrides = {{}}; state.configIndex = 0; renderConfigField(); }});
+    configPrev.addEventListener('click', () => {{
+      const tab = getActiveTab();
+      tab.configIndex = (tab.configIndex - 1 + configSchema.length) % configSchema.length;
+      renderConfigField();
+      saveState();
+    }});
+    configNext.addEventListener('click', () => {{
+      const tab = getActiveTab();
+      tab.configIndex = (tab.configIndex + 1) % configSchema.length;
+      renderConfigField();
+      saveState();
+    }});
+    resetPresetBtn.addEventListener('click', () => {{
+      const tab = getActiveTab();
+      tab.configOverrides = {{}};
+      tab.configIndex = 0;
+      renderConfigField();
+      saveState();
+    }});
     document.addEventListener('keydown', (event) => {{
-      if (event.key === 'Enter' && !startBtn.disabled) {{
+      if (event.key === 'Enter' && !startBtn.disabled && document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) === false) {{
         startProcessing();
       }}
     }});
 
+    loadState();
+    renderDatasetTabs();
+    renderSourceChip();
     renderConfigField();
+    renderMainView();
+    renderRuns();
     setActivePanel('home');
     setStatus('The sphere stays vacant until you import a CSV and click Start processing.');
   </script>

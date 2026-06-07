@@ -1,8 +1,10 @@
 from pathlib import Path
 
 
-SOURCE_FILE = Path(__file__).with_name("dictionary.csv")
+CSV_DIR = Path(__file__).with_name("csv")
+SOURCE_FILE = CSV_DIR / "A+StudyTerms.csv"
 FILE_PATH = SOURCE_FILE  # Backward-compatible alias.
+SOURCE_COLUMN_LIMIT = 9
 OUTPUT_DIR = Path(__file__).with_name("output")
 VISUALIZATION_MODE = "spherical"  # flat | spherical
 FOCUS_COLUMN = "Word"
@@ -47,19 +49,20 @@ PLOT_AUTO_OPEN = True
 USE_EXISTING_OUTPUTS = True  # When True, open the last generated outputs instead of rerunning the pipeline.
 PLOT_2D_FILE = OUTPUT_DIR / "semantic_map_2d.html"
 PLOT_3D_FILE = OUTPUT_DIR / "semantic_map_3d.html"
-NODES_FILE = OUTPUT_DIR / "nodes.csv"
-EDGES_FILE = OUTPUT_DIR / "edges.csv"
+NODES_FILE = CSV_DIR / "nodes.csv"
+EDGES_FILE = CSV_DIR / "edges.csv"
 RUN_METADATA_FILE = OUTPUT_DIR / "run_metadata.json"
 RUN_HISTORY_FILE = OUTPUT_DIR / "run_history.json"
 
 SPHERICAL_OUTPUT_DIR = OUTPUT_DIR / "spherical"
+SPHERICAL_CSV_DIR = SPHERICAL_OUTPUT_DIR / "csv"
 SPHERICAL_RUNS_DIR = OUTPUT_DIR / "runs"
 SPHERICAL_LAUNCHER_HTML = OUTPUT_DIR / "spherical_launcher.html"
 SPHERICAL_ROOT_HTML = SPHERICAL_OUTPUT_DIR / "sphere_level0.html"
 SPHERICAL_HIERARCHY_FILE = SPHERICAL_OUTPUT_DIR / "hierarchy_nodes.csv"
 SPHERICAL_COORDS_FILE = SPHERICAL_OUTPUT_DIR / "spherical_coords.csv"
 SPHERICAL_MEMBERSHIPS_FILE = SPHERICAL_OUTPUT_DIR / "secondary_memberships.csv"
-SPHERICAL_SURFACE_POINTS_FILE = SPHERICAL_OUTPUT_DIR / "surface_points.csv"
+SPHERICAL_SURFACE_POINTS_FILE = SPHERICAL_CSV_DIR / "surface_points.csv"
 SPHERICAL_SURFACE_HTML = SPHERICAL_OUTPUT_DIR / "Englictionary.html"
 MAX_RECENT_RUNS = 8
 

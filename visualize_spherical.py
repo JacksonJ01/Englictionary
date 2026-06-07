@@ -98,6 +98,7 @@ def _build_render_payload(surface_df, definition_lookup=None):
     include_definitions = len(surface_df) <= SPHERE_DEFINITION_MAX_POINTS or bool(definition_lookup)
     metadata = []
     total_rows = int(len(surface_df))
+    source_row_count = int(surface_df.attrs.get("source_row_count", total_rows) or total_rows)
     detail_columns = _detail_columns(surface_df)
     has_pos_column = bool(str(surface_df.attrs.get("pos_column", "")).strip())
 
@@ -156,6 +157,14 @@ def _build_render_payload(surface_df, definition_lookup=None):
                 "pos_group": str(row["pos_group"]),
             "row_number": row_number,
             "details": detail_fields,
+              "search_text": " ".join(
+                [
+                  str(row["word"]),
+                  row_definition,
+                  str(row["pos_group"]),
+                  " ".join(f"{item['label']} {item['value']}" for item in detail_fields),
+                ]
+              ),
             }
         )
 
@@ -170,6 +179,7 @@ def _build_render_payload(surface_df, definition_lookup=None):
         "point_size": float(SPHERE_NODE_PIXEL_SIZE),
         "radius": float(SPHERE_RENDER_RADIUS),
         "count": total_rows,
+        "source_row_count": source_row_count,
     }
 
 
@@ -190,7 +200,7 @@ def _cluster_drilldown_html(payload):
       ".row:hover{background:rgba(15,23,42,0.08);}"
       ".row.active{background:rgba(30,64,175,0.14);outline:1px solid rgba(30,64,175,0.3);}"
       ".sw{width:10px;height:10px;border-radius:999px;border:1px solid rgba(0,0,0,0.25);margin-right:6px;display:inline-block;}"
-      "#tip{position:fixed;right:16px;top:16px;z-index:1001;display:none;max-width:400px;padding:8px 10px;background:rgba(17,24,39,0.92);"
+      "#tip{position:fixed;right:16px;top:240px;z-index:1001;display:none;max-width:400px;max-height:calc(100vh - 250px);overflow:auto;padding:8px 10px;background:rgba(17,24,39,0.92);"
       "color:#fff;border-radius:8px;font-family:Segoe UI,Arial,sans-serif;font-size:12px;line-height:1.35;}"
       "</style></head><body>"
       "<div id=\"hud\">"
@@ -317,8 +327,13 @@ def _html(payload):
       max-width: 420px;
     }}
     #tooltip {{
-      position: fixed; display: none; z-index: 1001;
-      max-width: 420px; padding: 8px 10px; background: rgba(17, 24, 39, 0.92);
+      display: none;
+      margin-top: 10px;
+      max-width: 420px;
+      max-height: calc(100vh - 260px);
+      overflow-y: auto;
+      padding: 8px 10px;
+      background: rgba(17, 24, 39, 0.92);
       color: #fff; border-radius: 8px; font-family: Segoe UI, Arial, sans-serif;
       font-size: 12px; line-height: 1.35;
     }}
@@ -335,8 +350,17 @@ def _html(payload):
       padding: 10px 12px; font-family: Segoe UI, Arial, sans-serif; font-size: 12px;
       min-width: 230px;
     }}
+    #infoPanel {{
+      position: fixed; right: 18px; top: 168px; z-index: 1002;
+      background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px; box-shadow: 0 10px 26px rgba(0,0,0,0.14);
+      padding: 10px 12px; font-family: Segoe UI, Arial, sans-serif; font-size: 12px;
+      min-width: 230px; max-width: 420px; height: calc(100vh - 110px); display: flex; flex-direction: column; overflow: hidden;
+    }}
+    .info-title {{ font-weight: 700; margin-bottom: 6px; color: #0f172a; }}
     .controls-title {{ font-weight: 700; margin-bottom: 6px; }}
     .control-row {{ display: flex; align-items: center; gap: 8px; margin-top: 6px; }}
+    .controls-stack {{ display: flex; flex-direction: column; }}
     .legend-reset-btn {{
       width: 100%;
       box-sizing: border-box;
@@ -355,9 +379,11 @@ def _html(payload):
     }}
     #legendList {{
       margin-top: 8px;
-      max-height: 260px;
+      max-height: calc(100vh - 300px);
       overflow-y: auto;
       padding-right: 4px;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
     }}
     #legendSearch {{
       width: 100%;
@@ -430,7 +456,7 @@ def _html(payload):
 <body>
   <div id=\"hud\">
     <div style=\"font-weight:700;margin-bottom:6px;\">Spherical Semantic Surface (All Nodes)</div>
-    <div>Rows plotted: <b>{payload['count']}</b></div>
+    <div>Rows plotted: <b>{payload['source_row_count']}</b></div>
     <div style=\"margin-top:4px;\">Drag to rotate, hover or click nodes for details, wheel to zoom.</div>
     <div id=\"detailHint\" style=\"margin-top:4px;color:#334155;\"></div>
     <button id="legendBackToClusters" class="legend-reset-btn" type="button">Back to all clusters</button>
@@ -439,13 +465,16 @@ def _html(payload):
     <div style=\"margin-top:8px;font-weight:600;color:#0f172a;\">Cluster Legend</div>
     <div id=\"legendList\"></div>
   </div>
-  <div id=\"controlsPanel\">
+  <div id="controlsPanel" class="controls-stack">
     <div class=\"controls-title\">Mouse Controls</div>
     <label class=\"control-row\"><input id=\"invertHorizontal\" type=\"checkbox\">Invert left-right drag</label>
     <label class=\"control-row\"><input id=\"invertVertical\" type=\"checkbox\">Invert up-down drag</label>
     <label class=\"control-row\"><input id=\"invertZoom\" type=\"checkbox\">Invert zoom scroll</label>
   </div>
-  <div id=\"tooltip\"></div>
+  <div id="infoPanel">
+    <div class="info-title">Hover Details</div>
+    <div id="tooltip"></div>
+  </div>
   <div id=\"status\"></div>
   <canvas id=\"viewport\"></canvas>
   <script>
@@ -472,6 +501,7 @@ def _html(payload):
     }}
     let activeClusterId = null;
     let selectedLegendMetaIndex = null;
+    let pinnedIndex = null;
 
     function escapeHtml(value) {{
       return String(value)
@@ -491,6 +521,31 @@ def _html(payload):
         .trim();
     }}
 
+    function formatDetailFields(details) {{
+      if (!Array.isArray(details) || !details.length) {{
+        return '';
+      }}
+
+      return details.map((item) => `
+        <div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(148,163,184,0.24);">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:#94a3b8;">${{escapeHtml(item.label)}}</div>
+          <div style="margin-top:2px;white-space:pre-wrap;">${{escapeHtml(item.value)}}</div>
+        </div>
+      `).join('');
+    }}
+
+    function renderMetadataHtml(info, pinned) {{
+      return `<b>${{escapeHtml(info.word)}}</b>` +
+        `<br>cluster number: ${{info.cluster}}` +
+        `<br>cluster node count: ${{info.cluster_count}}` +
+        `<br>source row: ${{info.row_number}} of ${{payload.source_row_count}}` +
+        `<br>cluster row: ${{info.cluster_row_number}} of ${{info.cluster_count}}` +
+        `<br>pos: ${{escapeHtml(info.pos_group || 'other')}}` +
+        (info.definition ? `<div style="margin-top:8px;white-space:pre-wrap;">${{escapeHtml(String(info.definition))}}</div>` : '') +
+        formatDetailFields(info.details) +
+        (pinned ? '<br><span style="opacity:0.8">click empty space to clear</span>' : '');
+    }}
+
     function getLegendMatchTier(info, query) {{
       const normalizedQuery = normalizeSearchValue(query);
       if (!normalizedQuery) {{
@@ -499,6 +554,7 @@ def _html(payload):
 
       const normalizedWord = normalizeSearchValue(info.word);
       const normalizedDefinition = normalizeSearchValue(info.definition);
+      const normalizedSearchText = normalizeSearchValue(info.search_text);
 
       if (normalizedWord && normalizedWord.startsWith(normalizedQuery)) {{
         return 0;
@@ -514,6 +570,14 @@ def _html(payload):
 
       if (normalizedDefinition && normalizedDefinition.includes(normalizedQuery)) {{
         return 3;
+      }}
+
+      if (normalizedSearchText && normalizedSearchText.startsWith(normalizedQuery)) {{
+        return 4;
+      }}
+
+      if (normalizedSearchText && normalizedSearchText.includes(normalizedQuery)) {{
+        return 5;
       }}
 
       return null;
@@ -564,9 +628,20 @@ def _html(payload):
       }});
     }}
 
+    function resetLegendScroll() {{
+      legendList.scrollTop = 0;
+      requestAnimationFrame(() => {{
+        legendList.scrollTop = 0;
+      }});
+      setTimeout(() => {{
+        legendList.scrollTop = 0;
+      }}, 0);
+    }}
+
     function resetClusterDrilldown() {{
       activeClusterId = null;
       pinnedIndex = null;
+      selectedLegendMetaIndex = null;
       legendSearchInput.value = '';
       tooltip.style.display = 'none';
       updateDrilldownControls();
@@ -576,6 +651,7 @@ def _html(payload):
     function enterClusterDrilldown(clusterId) {{
       activeClusterId = clusterId;
       pinnedIndex = null;
+      selectedLegendMetaIndex = null;
       tooltip.style.display = 'none';
       updateDrilldownControls();
       renderLegendList(legendSearchInput.value);
@@ -604,7 +680,9 @@ def _html(payload):
 
           const clusterWordCount = clusterIndices.length;
           legendInfo.textContent = `${{clusterInfo ? clusterInfo.name : `Cluster ${{activeClusterId}}`}} • ${{clusterWordCount}} words`;
+          resetLegendScroll();
           syncLegendSelection();
+          bindLegendRowHoverHandlers();
           return;
         }}
 
@@ -625,9 +703,10 @@ def _html(payload):
           `</div>`;
         }}).join('');
 
-        const clipped = matches.length > 140 ? ' (showing first 140)' : '';
-        legendInfo.textContent = `${{clusterInfo ? clusterInfo.name : `Cluster ${{activeClusterId}}`}} • ${{matches.length}} words${{clipped}}`;
+        legendInfo.textContent = `${{clusterInfo ? clusterInfo.name : `Cluster ${{activeClusterId}}`}} • ${{matches.length}} words`;
+        resetLegendScroll();
         syncLegendSelection();
+        bindLegendRowHoverHandlers();
         return;
       }}
 
@@ -642,14 +721,15 @@ def _html(payload):
           `</div>`
         ).join('');
         legendInfo.textContent = `${{payload.cluster_summary.length}} clusters`;
+        resetLegendScroll();
         syncLegendSelection();
+        bindLegendRowHoverHandlers();
         return;
       }}
 
-      const maxResults = 140;
       const matches = collectLegendMatches(payload.metadata.map((_, index) => index), query);
       const totalMatches = matches.length;
-      const visibleMatches = matches.slice(0, maxResults);
+      const visibleMatches = matches;
 
       legendList.innerHTML = visibleMatches.map(({{ metaIndex }}) => {{
         const info = payload.metadata[metaIndex];
@@ -666,9 +746,24 @@ def _html(payload):
         `</div>`;
       }}).join('');
 
-      const clipped = totalMatches > maxResults ? ` (showing first ${{maxResults}})` : '';
-      legendInfo.textContent = `${{totalMatches}} word matches${{clipped}}`;
+      legendInfo.textContent = `${{totalMatches}} word matches`;
+      resetLegendScroll();
       syncLegendSelection();
+      bindLegendRowHoverHandlers();
+    }}
+
+    function bindLegendRowHoverHandlers() {{
+      legendList.querySelectorAll('.legend-row').forEach((row) => {{
+        row.addEventListener('mouseenter', (evt) => {{
+          if (pinnedIndex !== null || selectedLegendMetaIndex !== null) {{
+            return;
+          }}
+          showLegendRowTooltip(evt, row);
+        }});
+        row.addEventListener('mouseleave', () => {{
+          hideLegendRowTooltip();
+        }});
+      }});
     }}
 
     function showLegendRowTooltip(evt, row) {{
@@ -681,27 +776,46 @@ def _html(payload):
         return;
       }}
 
-      const clusterId = Number(row.dataset.cluster);
-      if (Number.isNaN(clusterId)) {{
-        return;
-      }}
-
-      const representative = getClusterRepresentative(clusterId);
-      if (representative) {{
-        showTooltip(evt, representative, false);
-      }} else {{
-        const clusterInfo = payload.cluster_summary.find((item) => item.cluster === clusterId);
-        if (clusterInfo) {{
-          tooltip.innerHTML = `<b>${{escapeHtml(clusterInfo.name)}}</b><br>cluster number: ${{clusterInfo.cluster}}<br>cluster node count: ${{clusterInfo.count}}`;
-          tooltip.style.display = 'block';
-          tooltip.style.left = (evt.clientX + 14) + 'px';
-          tooltip.style.top = (evt.clientY + 14) + 'px';
-        }}
+      if (rowKind === 'cluster') {{
+        hideTooltip();
       }}
     }}
 
+    function focusClusterSelection(clusterId) {{
+      activeClusterId = clusterId;
+      focusCluster(clusterId);
+    }}
+
+    function selectCluster(clusterId, focus = true) {{
+      activeClusterId = clusterId;
+      pinnedIndex = null;
+      tooltip.style.display = 'none';
+      if (focus) {{
+        focusClusterSelection(clusterId);
+      }}
+      updateDrilldownControls();
+      renderLegendList(legendSearchInput.value);
+    }}
+
+    function selectLegendWord(metaIndex, focus = true) {{
+      const info = payload.metadata[metaIndex];
+      if (!info) {{
+        return;
+      }}
+
+      selectedLegendMetaIndex = metaIndex;
+      pinnedIndex = metaIndex;
+      if (focus) {{
+        focusClusterSelection(info.cluster);
+      }}
+      setTooltipFromMetadata(info);
+      updateDrilldownControls();
+      renderLegendList(legendSearchInput.value);
+      syncLegendSelection();
+    }}
+
     function hideLegendRowTooltip() {{
-      if (pinnedIndex !== null) {{
+      if (pinnedIndex !== null || selectedLegendMetaIndex !== null) {{
         return;
       }}
       hideTooltip();
@@ -725,7 +839,7 @@ def _html(payload):
       for (const url of urls) {{
         const ok = await new Promise((resolve) => {{
           const s = document.createElement('script');
-          s.src = url; s.async = true;
+          s.src = url;
           s.onload = () => resolve(true);
           s.onerror = () => resolve(false);
           document.head.appendChild(s);
@@ -757,7 +871,6 @@ def _html(payload):
       let movedDuringDrag = false;
       let lastX = 0;
       let lastY = 0;
-      let pinnedIndex = null;
       let invertHorizontal = false;
       let invertVertical = false;
       let invertZoom = false;
@@ -954,28 +1067,29 @@ def _html(payload):
       }}
 
       function renderInfo(info, pinned) {{
-        return `<b>${{info.word}}</b>` +
-          `<br>cluster number: ${{info.cluster}}` +
-          `<br>cluster node count: ${{info.cluster_count}}` +
-          `<br>global row: ${{info.row_number}} of ${{payload.count}}` +
-          `<br>cluster row: ${{info.cluster_row_number}} of ${{info.cluster_count}}` +
-          `<br>pos: ${{info.pos_group}}` +
-          (info.definition ? `<br>${{String(info.definition).slice(0, 220)}}` : '') +
-          (pinned ? '<br><span style="opacity:0.8">click empty space to clear</span>' : '');
+        return renderMetadataHtml(info, pinned);
+      }}
+
+      function resetTooltipScroll() {{
+        tooltip.scrollTop = 0;
+        requestAnimationFrame(() => {{
+          tooltip.scrollTop = 0;
+        }});
+        setTimeout(() => {{
+          tooltip.scrollTop = 0;
+        }}, 0);
       }}
 
       function showTooltip(evt, info, pinned) {{
         tooltip.innerHTML = renderInfo(info, pinned);
         tooltip.style.display = 'block';
-        tooltip.style.left = (evt.clientX + 14) + 'px';
-        tooltip.style.top = (evt.clientY + 14) + 'px';
+        resetTooltipScroll();
       }}
 
       function setTooltipFromMetadata(info) {{
         tooltip.innerHTML = renderInfo(info, true);
         tooltip.style.display = 'block';
-        tooltip.style.left = '24px';
-        tooltip.style.top = '120px';
+        resetTooltipScroll();
       }}
 
       function focusCluster(clusterId) {{
@@ -1016,7 +1130,7 @@ def _html(payload):
       }}
 
       function hideTooltip() {{
-        if (pinnedIndex !== null) {{
+        if (pinnedIndex !== null || selectedLegendMetaIndex !== null) {{
           return;
         }}
         tooltip.style.display = 'none';
@@ -1033,7 +1147,7 @@ def _html(payload):
       }}
 
       function onHover(evt) {{
-        if (dragging || pinnedIndex !== null) {{
+        if (dragging || pinnedIndex !== null || selectedLegendMetaIndex !== null) {{
           return;
         }}
 
@@ -1057,13 +1171,14 @@ def _html(payload):
         const idx = pickPoint(evt);
         if (idx === null) {{
           pinnedIndex = null;
+          selectedLegendMetaIndex = null;
           tooltip.style.display = 'none';
           renderer.domElement.style.cursor = 'grab';
           return;
         }}
 
         pinnedIndex = idx;
-        showTooltip(evt, payload.metadata[idx], true);
+        selectLegendWord(idx, true);
         renderer.domElement.style.cursor = 'pointer';
       }}
 
@@ -1128,22 +1243,6 @@ def _html(payload):
         updateDrilldownControls();
       }});
 
-      legendList.addEventListener('mousemove', (evt) => {{
-        if (pinnedIndex !== null) {{
-          return;
-        }}
-        const row = evt.target.closest('.legend-row');
-        if (!row) {{
-          hideLegendRowTooltip();
-          return;
-        }}
-        showLegendRowTooltip(evt, row);
-      }});
-
-      legendList.addEventListener('mouseleave', () => {{
-        hideLegendRowTooltip();
-      }});
-
       legendList.addEventListener('click', (evt) => {{
         const row = evt.target.closest('.legend-row');
         if (!row) {{
@@ -1154,10 +1253,7 @@ def _html(payload):
         if (rowKind === 'word') {{
           const metaIndex = Number(row.dataset.metaIndex);
           if (!Number.isNaN(metaIndex) && payload.metadata[metaIndex]) {{
-            selectedLegendMetaIndex = metaIndex;
-            pinnedIndex = metaIndex;
-            setTooltipFromMetadata(payload.metadata[metaIndex]);
-            syncLegendSelection();
+            selectLegendWord(metaIndex, true);
           }}
           return;
         }}
@@ -1167,11 +1263,7 @@ def _html(payload):
           return;
         }}
 
-        activeClusterId = clusterId;
-        pinnedIndex = null;
-        tooltip.style.display = 'none';
-        updateDrilldownControls();
-        renderLegendList(legendSearchInput.value);
+        selectCluster(clusterId, true);
       }});
 
       legendBackToClusters.addEventListener('click', () => {{
@@ -1189,6 +1281,31 @@ def _html(payload):
           return;
         }}
         enterClusterDrilldown(clusterId);
+      }});
+
+      legendList.addEventListener('keydown', (evt) => {{
+        if (evt.key !== 'Enter' && evt.key !== ' ') {{
+          return;
+        }}
+
+        const row = evt.target.closest('.legend-row');
+        if (!row) {{
+          return;
+        }}
+
+        evt.preventDefault();
+        if (row.dataset.kind === 'word') {{
+          const metaIndex = Number(row.dataset.metaIndex);
+          if (!Number.isNaN(metaIndex)) {{
+            selectLegendWord(metaIndex, true);
+          }}
+          return;
+        }}
+
+        const clusterId = Number(row.dataset.cluster);
+        if (!Number.isNaN(clusterId)) {{
+          selectCluster(clusterId, true);
+        }}
       }});
 
       renderer.domElement.addEventListener('mousemove', onHover);

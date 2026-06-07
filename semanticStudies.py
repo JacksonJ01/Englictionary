@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import re
 
@@ -14,7 +16,7 @@ USE_EMBEDDINGS = False
 # ----------------------------
 # USER SETTINGS (EDIT THESE)
 # ----------------------------
-FILE_PATH = "C:/Users/BB/VSCodeProjects/Englictionary/dictionary.csv"
+FILE_PATH = str(Path(__file__).with_name("csv").joinpath("dictionary.csv"))
 
 DIMENSIONS = 2      # choose 2 or 3
 N_CLUSTERS = 20     # adjust based on dataset size
@@ -24,10 +26,21 @@ USE_UMAP = False    # better structure, slower
 # 1. LOAD DATA
 # ----------------------------
 df = pd.read_csv(FILE_PATH)
+source_columns = list(df.columns)
+word_column = source_columns[0]
+definition_column = source_columns[1] if len(source_columns) > 1 else source_columns[0]
+pos_column = next(
+    (
+        column
+        for column in source_columns
+        if str(column).strip().lower() in {"pos", "part_of_speech", "category", "type"}
+    ),
+    None,
+)
 
-df["Word"] = df["Word"].astype(str).str.strip()
-df["POS"] = df["POS"].fillna("").astype(str).str.strip().str.lower()
-df["Definition"] = df["Definition"].fillna("").astype(str).str.strip()
+df["Word"] = df[word_column].astype(str).str.strip()
+df["Definition"] = df[definition_column].fillna("").astype(str).str.strip()
+df["POS"] = df[pos_column].fillna("").astype(str).str.strip().str.lower() if pos_column is not None else ""
 
 # ----------------------------
 # 2. NORMALIZE POS
@@ -108,7 +121,7 @@ if DIMENSIONS == 2:
         x="x",
         y="y",
         color=df["cluster"].astype(str),
-        hover_data=["Word", "Definition", "pos_group"],
+        hover_data=[column for column in ["Word", "Definition", "pos_group"] if column in df.columns],
         title="Dictionary Semantic Map (2D)"
     )
 
@@ -119,7 +132,7 @@ elif DIMENSIONS == 3:
         y="y",
         z="z",
         color=df["cluster"].astype(str),
-        hover_data=["Word", "Definition", "pos_group"],
+        hover_data=[column for column in ["Word", "Definition", "pos_group"] if column in df.columns],
         title="Dictionary Semantic Map (3D)"
     )
 
