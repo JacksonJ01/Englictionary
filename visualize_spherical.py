@@ -303,7 +303,7 @@ def _write_cluster_drilldown_pages(surface_df, output_dir, definition_lookup=Non
         file_name = f"cluster_{cluster_id_int}.html"
         file_path = drilldown_dir / file_name
         file_path.write_text(_cluster_drilldown_html(cluster_payload), encoding="utf-8")
-        mapping[cluster_id_int] = file_path.resolve().as_uri()
+        mapping[cluster_id_int] = f"clusters/{file_name}"
 
     return mapping
 

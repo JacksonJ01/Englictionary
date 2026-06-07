@@ -1,0 +1,28 @@
+name: Vercel Static Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  static-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify deploy entry exists
+        run: test -f output/spherical/Englictionary.html
+
+      - name: Verify no local file URI links in deploy html
+        run: |
+          if grep -R "file:///" output/spherical/Englictionary.html; then
+            echo "Found file:/// links in deploy HTML. Use relative links for hosting."
+            exit 1
+          fi
+
+      - name: Verify Vercel config exists
+        run: test -f vercel.json

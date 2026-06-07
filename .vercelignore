@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+output/runs/
+output/_legend_uri_check/
+*.log
