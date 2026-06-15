@@ -8,7 +8,8 @@ const OUTPUT_DIR = path.join(ROOT, "output");
 const SPHERICAL_DIR = path.join(OUTPUT_DIR, "spherical");
 const RUN_METADATA_FILE = path.join(OUTPUT_DIR, "run_metadata.json");
 const TARGET_HTML = path.join(SPHERICAL_DIR, "Englictionary.html");
-const FALLBACK_INDEX = path.join(ROOT, "index.html");
+const DEPLOY_INDEX = path.join(OUTPUT_DIR, "index.html");
+const SPHERICAL_ROUTE_INDEX = path.join(SPHERICAL_DIR, "index.html");
 
 export async function exists(filePath: string): Promise<boolean> {
   try {
@@ -68,7 +69,11 @@ function buildFallbackHtml(): string {
 
 async function ensureIndexRedirect(): Promise<void> {
   const html = "<!doctype html><html><head><meta charset=\"utf-8\"><meta http-equiv=\"refresh\" content=\"0; url=/spherical\"><title>Redirecting</title></head><body><p>Redirecting to <a href=\"/spherical\">/spherical</a>...</p></body></html>";
-  await writeFile(FALLBACK_INDEX, html, "utf8");
+  await writeFile(DEPLOY_INDEX, html, "utf8");
+}
+
+async function ensureSphericalRoute(targetHtml: string): Promise<void> {
+  await copyFile(targetHtml, SPHERICAL_ROUTE_INDEX);
 }
 
 export async function prepareVercelArtifacts(): Promise<{ targetHtml: string; sourceHtml: string | null }> {
@@ -87,6 +92,9 @@ export async function prepareVercelArtifacts(): Promise<{ targetHtml: string; so
 
   await ensureIndexRedirect();
   console.log("Prepared index redirect for Vercel root route.");
+
+  await ensureSphericalRoute(TARGET_HTML);
+  console.log("Prepared /spherical route at output/spherical/index.html.");
 
   return {
     targetHtml: TARGET_HTML,
