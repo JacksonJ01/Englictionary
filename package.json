@@ -1,0 +1,12 @@
+{
+  "name": "englictionary-vercel-pipeline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "vercel:build": "tsx scripts/vercel-pipeline.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
