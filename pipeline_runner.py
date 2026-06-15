@@ -1,9 +1,11 @@
 import importlib
+import json
 from datetime import datetime
 from pathlib import Path
 
 import config as config_module
 from preprocess import clean_text
+from runtime_config import apply_adaptive_settings
 
 MODULES_TO_RELOAD = [
     "data_loader",
@@ -22,6 +24,18 @@ def _set_runtime_config(source_file, overrides=None):
     source_path = Path(source_file)
     config_module.SOURCE_FILE = source_path
     config_module.FILE_PATH = source_path
+
+    adaptive = apply_adaptive_settings(
+        config_module=config_module,
+        source_file=source_path,
+        explicit_overrides=overrides,
+    )
+    profile = adaptive["profile"]
+
+    config_module.RUNTIME_ROW_COUNT = int(profile["row_count"])
+    config_module.RUNTIME_COLUMN_COUNT = int(profile["column_count"])
+    config_module.RUNTIME_TOKEN_COUNT = int(profile["token_count"])
+
     for key, value in overrides.items():
         setattr(config_module, key, value)
 
@@ -56,9 +70,10 @@ def _build_run_metadata(data_context=None):
         "k_neighbors": config_module.K_NEIGHBORS,
         "source_file": str(data_context.get("source_file", config_module.FILE_PATH)),
         "source_row_count": data_context.get("source_row_count", ""),
-        "focus_column": data_context.get("focus_column", "Word"),
+        "source_column_count": int(getattr(config_module, "RUNTIME_COLUMN_COUNT", 0) or 0),
+        "source_token_count": int(getattr(config_module, "RUNTIME_TOKEN_COUNT", 0) or 0),
+        "focus_column": data_context.get("focus_column", "Term"),
         "definition_column": data_context.get("definition_column", "Definition"),
-        "pos_column": data_context.get("pos_column", ""),
         "detail_columns": list(data_context.get("detail_columns", ())),
         "run_id": data_context.get("run_id", ""),
         "run_timestamp": data_context.get("run_timestamp", ""),
@@ -126,6 +141,10 @@ def run_from_csv(source_file, overrides=None):
         else:
             plot_file = visualize_module.plot_3d(result_df, edges=edges)
 
+    metadata = _build_run_metadata(data_context)
+    config_module.RUN_METADATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    config_module.RUN_METADATA_FILE.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+
     return {
         "run_id": run_id,
         "run_timestamp": data_context["run_timestamp"],
@@ -134,5 +153,5 @@ def run_from_csv(source_file, overrides=None):
         "source_row_count": data_context["source_row_count"],
         "plot_file": str(plot_file),
         "data_context": data_context,
-        "metadata": _build_run_metadata(data_context),
+        "metadata": metadata,
     }

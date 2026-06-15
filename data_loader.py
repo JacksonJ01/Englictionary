@@ -1,9 +1,15 @@
 import pandas as pd
 
-from config import DEFINITION_COLUMN, FOCUS_COLUMN, POS_COLUMN, SOURCE_COLUMN_LIMIT
+from config import (
+    DEFINITION_COLUMN,
+    DEFINITION_COLUMN_CANDIDATES,
+    SOURCE_COLUMN_LIMIT,
+    TERM_COLUMN,
+    TERM_COLUMN_CANDIDATES,
+)
 
 
-STANDARD_COLUMNS = ("Word", "POS", "Definition")
+STANDARD_COLUMNS = ("Term", "Definition")
 
 
 def _case_insensitive_lookup(columns):
@@ -61,7 +67,7 @@ def _default_column(columns, index):
     return None
 
 
-def load_data(file_path, focus_column=None, definition_column=None, pos_column=None):
+def load_data(file_path, focus_column=None, definition_column=None):
     df = pd.read_csv(file_path)
     if SOURCE_COLUMN_LIMIT:
         df = df.iloc[:, :SOURCE_COLUMN_LIMIT].copy()
@@ -69,18 +75,13 @@ def load_data(file_path, focus_column=None, definition_column=None, pos_column=N
 
     focus_source = _resolve_column(
         df,
-        focus_column or FOCUS_COLUMN,
-        fallback_candidates=("Word", "term", "study_term", "title", "name"),
+        focus_column or TERM_COLUMN,
+        fallback_candidates=TERM_COLUMN_CANDIDATES,
     )
     definition_source = _resolve_column(
         df,
         definition_column or DEFINITION_COLUMN,
-        fallback_candidates=("Definition", "definition", "meaning", "explanation", "description"),
-    )
-    pos_source = _resolve_column(
-        df,
-        pos_column or POS_COLUMN,
-        fallback_candidates=("POS", "pos", "part_of_speech", "category", "type"),
+        fallback_candidates=DEFINITION_COLUMN_CANDIDATES,
     )
 
     if focus_source is None:
@@ -93,13 +94,14 @@ def load_data(file_path, focus_column=None, definition_column=None, pos_column=N
         raise ValueError("The source CSV must contain at least one column.")
 
     normalized = pd.DataFrame(index=df.index)
-    normalized["Word"] = _normalize_text(df[focus_source])
+    normalized["Term"] = _normalize_text(df[focus_source])
     normalized["Definition"] = _normalize_text(df[definition_source])
-    normalized["POS"] = _normalize_text(df[pos_source]) if pos_source is not None else ""
+    # Backward-compatible alias for older modules that still read Word.
+    normalized["Word"] = normalized["Term"]
 
     excluded_columns = {
         str(column).strip().lower()
-        for column in (focus_source, definition_source, pos_source, *STANDARD_COLUMNS)
+        for column in (focus_source, definition_source, *STANDARD_COLUMNS, "Word")
         if column is not None
     }
     detail_columns = [column for column in df.columns if str(column).strip().lower() not in excluded_columns]
@@ -110,9 +112,8 @@ def load_data(file_path, focus_column=None, definition_column=None, pos_column=N
     normalized.attrs["source_file"] = str(file_path)
     normalized.attrs["focus_column"] = str(focus_source)
     normalized.attrs["definition_column"] = str(definition_source)
-    normalized.attrs["pos_column"] = str(pos_source) if pos_source is not None else ""
     normalized.attrs["detail_columns"] = tuple(detail_columns)
     normalized.attrs["source_columns"] = tuple(df.columns)
 
-    ordered_columns = [*STANDARD_COLUMNS, *detail_columns]
+    ordered_columns = [*STANDARD_COLUMNS, "Word", *detail_columns]
     return normalized.loc[:, ordered_columns].copy()

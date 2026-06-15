@@ -1,0 +1,30 @@
+{
+  "visualization_mode": "flat",
+  "spherical_full_surface": true,
+  "file_path": "csv\\A+StudyTerms(GF).csv",
+  "use_embeddings": false,
+  "dimensions": 2,
+  "use_umap": true,
+  "n_clusters": 120,
+  "k_neighbors": 35,
+  "source_file": "csv\\A+StudyTerms(GF).csv",
+  "source_row_count": 3001,
+  "source_column_count": 9,
+  "source_token_count": 86833,
+  "focus_column": "TERM",
+  "definition_column": "DEFINITION",
+  "detail_columns": [
+    "ERROR SYMPTOMS",
+    "TROUBLESHOOTING",
+    "PRIMARY CATEGORY",
+    "SUB CATEGORY",
+    "CORE",
+    "CORE 1: DOMAIN",
+    "CORE 2: DOMAIN"
+  ],
+  "run_id": "20260614_225504_209130",
+  "run_timestamp": "2026-06-14T22:55:04",
+  "plot_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\output\\semantic_map_2d.html",
+  "nodes_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\csv\\nodes.csv",
+  "edges_file": "C:\\Users\\BB\\VSCodeProjects\\Englictionary\\csv\\edges.csv"
+}

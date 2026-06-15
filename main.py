@@ -78,9 +78,8 @@ def _build_run_metadata(data_context=None):
         "k_neighbors": K_NEIGHBORS,
         "source_file": str(data_context.get("source_file", FILE_PATH)),
         "source_row_count": data_context.get("source_row_count", ""),
-        "focus_column": data_context.get("focus_column", "Word"),
+        "focus_column": data_context.get("focus_column", "Term"),
         "definition_column": data_context.get("definition_column", "Definition"),
-        "pos_column": data_context.get("pos_column", ""),
         "detail_columns": list(data_context.get("detail_columns", ())),
         "run_id": data_context.get("run_id", ""),
         "run_timestamp": data_context.get("run_timestamp", ""),
@@ -129,7 +128,6 @@ def _load_cached_spherical_surface():
     metadata = _read_existing_metadata() or {}
     surface_df.attrs["source_file"] = metadata.get("source_file", FILE_PATH)
     surface_df.attrs["definition_column"] = metadata.get("definition_column", "Definition")
-    surface_df.attrs["pos_column"] = metadata.get("pos_column", "")
     surface_df.attrs["detail_columns"] = metadata.get("detail_columns", [])
     surface_df.attrs["source_row_count"] = metadata.get("source_row_count", len(surface_df))
     return surface_df
@@ -422,32 +420,9 @@ def _run_model_pipeline():
     if VISUALIZATION_MODE == "spherical":
         archive_current_spherical_outputs()
 
-    run_started_at = datetime.now()
-    run_id = run_started_at.strftime("%Y%m%d_%H%M%S_%f")
-
-    print("Loading data...")
-    df = load_data(FILE_PATH)
-    data_context = dict(getattr(df, "attrs", {}))
-    data_context["source_row_count"] = int(len(df))
-    data_context["run_id"] = run_id
-    data_context["run_timestamp"] = run_started_at.isoformat(timespec="seconds")
-
-    print("Preprocessing...")
-    df = clean_text(df)
-
-    print("Vectorizing...")
-    if USE_EMBEDDINGS:
-        X = vectorize_embeddings(df)
-    else:
-        X = vectorize_tfidf(df)
-
-    if VISUALIZATION_MODE == "spherical":
-        _run_spherical_pipeline(df, X)
-        webbrowser.open(SPHERICAL_SURFACE_HTML.resolve().as_uri())
-    else:
-        _run_flat_pipeline(df, X)
-
-    _write_run_metadata(data_context)
+    result = run_from_csv(FILE_PATH)
+    plot_path = Path(result["result_path"]).resolve()
+    webbrowser.open(plot_path.as_uri())
 
 
 def _menu_choice():

@@ -89,7 +89,20 @@ def _load_definition_lookup(source_file=None, definition_column=None):
 
 
 def _detail_columns(surface_df):
-  return [column for column in surface_df.attrs.get("detail_columns", ()) if column in surface_df.columns]
+  attr_columns = [column for column in surface_df.attrs.get("detail_columns", ()) if column in surface_df.columns]
+  if attr_columns:
+    return attr_columns
+
+  base_columns = {
+    "node_id",
+    "word",
+    "definition",
+    "cluster",
+    "x",
+    "y",
+    "z",
+  }
+  return [column for column in surface_df.columns if column not in base_columns]
 
 
 def _build_render_payload(surface_df, definition_lookup=None):
@@ -100,7 +113,6 @@ def _build_render_payload(surface_df, definition_lookup=None):
     total_rows = int(len(surface_df))
     source_row_count = int(surface_df.attrs.get("source_row_count", total_rows) or total_rows)
     detail_columns = _detail_columns(surface_df)
-    has_pos_column = bool(str(surface_df.attrs.get("pos_column", "")).strip())
 
     cluster_counts = {
         int(cluster_id): int(count)
@@ -154,14 +166,12 @@ def _build_render_payload(surface_df, definition_lookup=None):
                 "cluster_name": cluster_names[cluster_id],
                 "cluster_count": cluster_counts[cluster_id],
                 "cluster_row_number": cluster_positions[cluster_id],
-                "pos_group": str(row["pos_group"]),
             "row_number": row_number,
             "details": detail_fields,
               "search_text": " ".join(
                 [
                   str(row["word"]),
                   row_definition,
-                  str(row["pos_group"]),
                   " ".join(f"{item['label']} {item['value']}" for item in detail_fields),
                 ]
               ),
@@ -175,7 +185,6 @@ def _build_render_payload(surface_df, definition_lookup=None):
         "cluster_summary": cluster_summary,
         "definitions_enabled": include_definitions,
         "detail_columns": detail_columns,
-        "has_pos_column": has_pos_column,
         "point_size": float(SPHERE_NODE_PIXEL_SIZE),
         "radius": float(SPHERE_RENDER_RADIUS),
         "count": total_rows,
@@ -212,7 +221,7 @@ def _cluster_drilldown_html(payload):
       "<option value=\"sparse\">Sparse (current distribution)</option>"
       "<option value=\"even\">Even spacing</option>"
       "</select>"
-      "<div style=\"margin-top:8px;\">Subcluster legend</div>"
+      "<div style=\"margin-top:8px;\">Node legend</div>"
       "<div id=\"legend\"></div></div>"
       "<div id=\"tip\"></div><canvas id=\"canvas\"></canvas>"
       "<script>(async function(){"
@@ -225,7 +234,7 @@ def _cluster_drilldown_html(payload):
       "async function ensureThree(){if(window.THREE)return true;const urls=['https://unpkg.com/three@0.160.0/build/three.min.js','https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js','https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js'];"
       "for(const url of urls){const ok=await new Promise((resolve)=>{const s=document.createElement('script');s.src=url;s.async=true;s.onload=()=>resolve(true);s.onerror=()=>resolve(false);document.head.appendChild(s);});if(ok&&window.THREE)return true;}return false;}"
       "if(!(await ensureThree()))return;"
-      "const subclusterKey=(n)=>String(n.pos_group||'other');const groups=new Map();"
+      "const subclusterKey=(_n)=>'cluster nodes';const groups=new Map();"
       "for(let i=0;i<payload.nodes.length;i+=1){const k=subclusterKey(payload.nodes[i]);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(i);}"
       "const groupEntries=Array.from(groups.entries()).sort((a,b)=>b[1].length-a[1].length);"
       "const palette=['#1d4ed8','#0f766e','#b45309','#7c3aed','#be123c','#0e7490','#65a30d','#c2410c','#4f46e5','#0369a1'];"
@@ -247,7 +256,7 @@ def _cluster_drilldown_html(payload):
       "legend.addEventListener('click',(evt)=>{const row=evt.target.closest('.row');if(!row)return;activeGroup=row.dataset.group;legend.querySelectorAll('.row').forEach((r)=>r.classList.toggle('active',r.dataset.group===activeGroup));rebuildLines(activeGroup);});legend.querySelectorAll('.row').forEach((r)=>r.classList.toggle('active',r.dataset.group===activeGroup));"
       "layoutMode.addEventListener('change',()=>applyLayout(layoutMode.value));applyLayout('sparse');"
       "const raycaster=new THREE.Raycaster();raycaster.params.Points.threshold=4.0;const mouse=new THREE.Vector2();function setMouse(evt){const rect=renderer.domElement.getBoundingClientRect();mouse.x=((evt.clientX-rect.left)/rect.width)*2-1;mouse.y=-((evt.clientY-rect.top)/rect.height)*2+1;}"
-      "renderer.domElement.addEventListener('mousemove',(evt)=>{setMouse(evt);raycaster.setFromCamera(mouse,camera);const hits=raycaster.intersectObject(pointCloud);if(!hits.length){tip.style.display='none';return;}const idx=hits[0].index;const info=payload.nodes[idx];tip.innerHTML='<b>'+info.word+'</b><br>row: '+info.row_number+'<br>subcluster: '+(info.pos_group||'other')+(info.definition?'<br>'+String(info.definition).slice(0,220):'');tip.style.display='block';});"
+      "renderer.domElement.addEventListener('mousemove',(evt)=>{setMouse(evt);raycaster.setFromCamera(mouse,camera);const hits=raycaster.intersectObject(pointCloud);if(!hits.length){tip.style.display='none';return;}const idx=hits[0].index;const info=payload.nodes[idx];tip.innerHTML='<b>'+info.word+'</b><br>row: '+info.row_number+(info.definition?'<br>'+String(info.definition).slice(0,220):'');tip.style.display='block';});"
       "renderer.domElement.addEventListener('mousedown',(evt)=>{dragging=true;lastX=evt.clientX;lastY=evt.clientY;});window.addEventListener('mouseup',()=>{dragging=false;});window.addEventListener('mousemove',(evt)=>{if(!dragging)return;const dx=evt.clientX-lastX,dy=evt.clientY-lastY;lastX=evt.clientX;lastY=evt.clientY;yaw-=dx*0.0038;pitch-=dy*0.0038;pitch=Math.max(-1.35,Math.min(1.35,pitch));});"
       "renderer.domElement.addEventListener('wheel',(evt)=>{evt.preventDefault();distance*=evt.deltaY>0?0.94:1.06;distance=Math.max(payload.radius*1.1,Math.min(payload.radius*8.0,distance));},{passive:false});"
       "window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});"
@@ -287,7 +296,6 @@ def _write_cluster_drilldown_pages(surface_df, output_dir, definition_lookup=Non
                     "y": float(getattr(row, "y")),
                     "z": float(getattr(row, "z")),
                     "word": str(getattr(row, "word")),
-                    "pos_group": str(getattr(row, "pos_group")),
                     "row_number": row_number,
                     "definition": definition_text,
                     "details": detail_fields,
@@ -540,7 +548,6 @@ def _html(payload):
         `<br>cluster node count: ${{info.cluster_count}}` +
         `<br>source row: ${{info.row_number}} of ${{payload.source_row_count}}` +
         `<br>cluster row: ${{info.cluster_row_number}} of ${{info.cluster_count}}` +
-        `<br>pos: ${{escapeHtml(info.pos_group || 'other')}}` +
         (info.definition ? `<div style="margin-top:8px;white-space:pre-wrap;">${{escapeHtml(String(info.definition))}}</div>` : '') +
         formatDetailFields(info.details) +
         (pinned ? '<br><span style="opacity:0.8">click empty space to clear</span>' : '');
@@ -1224,7 +1231,7 @@ def _html(payload):
 
       detailHint.textContent = payload.definitions_enabled
         ? 'Definitions are shown in node details.'
-        : 'Definitions are omitted at this scale, but word, cluster, and part of speech remain available for every node.';
+        : 'Definitions are omitted at this scale, but word and cluster remain available for every node.';
 
       invertHorizontalCheckbox.checked = false;
       invertVerticalCheckbox.checked = false;

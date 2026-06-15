@@ -29,34 +29,9 @@ df = pd.read_csv(FILE_PATH)
 source_columns = list(df.columns)
 word_column = source_columns[0]
 definition_column = source_columns[1] if len(source_columns) > 1 else source_columns[0]
-pos_column = next(
-    (
-        column
-        for column in source_columns
-        if str(column).strip().lower() in {"pos", "part_of_speech", "category", "type"}
-    ),
-    None,
-)
 
-df["Word"] = df[word_column].astype(str).str.strip()
+df["Term"] = df[word_column].astype(str).str.strip()
 df["Definition"] = df[definition_column].fillna("").astype(str).str.strip()
-df["POS"] = df[pos_column].fillna("").astype(str).str.strip().str.lower() if pos_column is not None else ""
-
-# ----------------------------
-# 2. NORMALIZE POS
-# ----------------------------
-def normalize_pos(pos):
-    if "n" in pos:
-        return "noun"
-    if "v" in pos:
-        return "verb"
-    if "adj" in pos or "a" in pos:
-        return "adjective"
-    if "adv" in pos:
-        return "adverb"
-    return "other"
-
-df["pos_group"] = df["POS"].apply(normalize_pos)
 
 # ----------------------------
 # 3. TOKENIZER
@@ -121,7 +96,7 @@ if DIMENSIONS == 2:
         x="x",
         y="y",
         color=df["cluster"].astype(str),
-        hover_data=[column for column in ["Word", "Definition", "pos_group"] if column in df.columns],
+        hover_data=[column for column in ["Term", "Definition"] if column in df.columns],
         title="Dictionary Semantic Map (2D)"
     )
 
@@ -132,7 +107,7 @@ elif DIMENSIONS == 3:
         y="y",
         z="z",
         color=df["cluster"].astype(str),
-        hover_data=[column for column in ["Word", "Definition", "pos_group"] if column in df.columns],
+        hover_data=[column for column in ["Term", "Definition"] if column in df.columns],
         title="Dictionary Semantic Map (3D)"
     )
 

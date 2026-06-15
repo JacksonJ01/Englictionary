@@ -124,6 +124,7 @@ def build_spherical_surface_points(df, X, use_umap):
     cluster_radius_map = {cluster_id: angular_radii[idx] for idx, cluster_id in enumerate(cluster_ids)}
 
     rows = []
+    term_column = "Term" if "Term" in df.columns else "Word"
     detail_columns = [column for column in df.attrs.get("detail_columns", ()) if column in df.columns]
     for cluster_id, member_indices in _cluster_members(labels, requested_clusters):
         center = cluster_center_map[cluster_id]
@@ -134,9 +135,8 @@ def build_spherical_surface_points(df, X, use_umap):
             definition = str(df.at[row_index, "Definition"])
             row_payload = {
                 "node_id": f"W{int(row_index)}",
-                "word": str(df.at[row_index, "Word"]),
+                "word": str(df.at[row_index, term_column]),
                 "definition": definition if SPHERE_INCLUDE_DEFINITION_IN_HTML else "",
-                "pos_group": str(df.at[row_index, "pos_group"]),
                 "cluster": int(cluster_id),
                 "x": float(point[0]),
                 "y": float(point[1]),

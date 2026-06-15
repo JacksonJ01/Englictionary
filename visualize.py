@@ -41,7 +41,7 @@ def _help_panel_html():
             <div><strong>Rotate:</strong> click and drag</div>
             <div><strong>Pan:</strong> right-click and drag</div>
             <div><strong>Zoom:</strong> mouse wheel or trackpad pinch</div>
-            <div><strong>Inspect:</strong> hover a node for word, definition, and part of speech</div>
+            <div><strong>Inspect:</strong> hover a node for term and definition</div>
             <div><strong>Clusters:</strong> node colors show semantic cluster membership</div>
         </div>
     </aside>
@@ -49,9 +49,8 @@ def _help_panel_html():
 
 
 def _hover_columns(df):
-    columns = ["Word", "Definition"]
-    if "pos_group" in df.columns:
-        columns.append("pos_group")
+    term_column = "Term" if "Term" in df.columns else "Word"
+    columns = [term_column, "Definition"]
 
     detail_columns = [
         column

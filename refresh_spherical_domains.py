@@ -18,7 +18,7 @@ if "CORE 2: DOMAIN" in source_df.columns and "CORE 2: DOMAIN" not in surface_df.
 
 surface_df.attrs["source_row_count"] = int(len(source_df))
 
-standard_columns = {"node_id", "word", "definition", "pos_group", "cluster", "x", "y", "z"}
+standard_columns = {"node_id", "word", "definition", "cluster", "x", "y", "z"}
 detail_columns = [column for column in surface_df.columns if column not in standard_columns]
 surface_df.attrs["detail_columns"] = tuple(detail_columns)
 surface_df.to_csv(surface_path, index=False)

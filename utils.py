@@ -15,19 +15,18 @@ def attach_results(df, labels, coordinates):
 
 
 def build_nodes_export(df):
+    term_column = "Term" if "Term" in df.columns else "Word"
+
     export_df = pd.DataFrame(
         {
             "id": range(len(df)),
-            "word": df["Word"],
+            "word": df[term_column],
             "definition": df["Definition"],
             "cluster": df["cluster"],
             "x": df["x"],
             "y": df["y"],
         }
     )
-
-    if "pos_group" in df.columns:
-        export_df["pos_group"] = df["pos_group"]
 
     if "z" in df.columns:
         export_df["z"] = df["z"]

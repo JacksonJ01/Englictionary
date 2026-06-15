@@ -40,7 +40,8 @@ def _representative_word(df, X, member_indices, centroid_vector):
     similarities = cosine_similarity(X[member_indices], centroid_vector.reshape(1, -1)).ravel()
     best_position = int(np.argmax(similarities))
     best_index = int(member_indices[best_position])
-    word = str(df.at[best_index, "Word"]).strip()
+    term_column = "Term" if "Term" in df.columns else "Word"
+    word = str(df.at[best_index, term_column]).strip()
     return word if word else f"word_{best_index}"
 
 
@@ -127,14 +128,15 @@ def build_spherical_hierarchy(
 
             for row_index in member_indices:
                 word_node_id = f"W{int(row_index)}"
+                term_column = "Term" if "Term" in df.columns else "Word"
                 hierarchy_rows.append(
                     {
                         "node_id": word_node_id,
                         "parent_id": sub_node_id,
                         "depth": 2,
                         "node_type": "word",
-                        "label": str(df.at[row_index, "Word"]),
-                        "display_name": str(df.at[row_index, "Word"]),
+                        "label": str(df.at[row_index, term_column]),
+                        "display_name": str(df.at[row_index, term_column]),
                         "size": 1,
                         "word_index": int(row_index),
                         "top_cluster": top_node_id,
