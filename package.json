@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "tsx scripts/dev-server.ts",
     "vercel:build": "tsx scripts/vercel-pipeline.ts"
   },
   "devDependencies": {

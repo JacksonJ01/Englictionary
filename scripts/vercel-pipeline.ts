@@ -1,6 +1,7 @@
 import { access, copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { constants } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const ROOT = process.cwd();
 const OUTPUT_DIR = path.join(ROOT, "output");
@@ -9,7 +10,7 @@ const RUN_METADATA_FILE = path.join(OUTPUT_DIR, "run_metadata.json");
 const TARGET_HTML = path.join(SPHERICAL_DIR, "Englictionary.html");
 const FALLBACK_INDEX = path.join(ROOT, "index.html");
 
-async function exists(filePath: string): Promise<boolean> {
+export async function exists(filePath: string): Promise<boolean> {
   try {
     await access(filePath, constants.F_OK);
     return true;
@@ -70,7 +71,7 @@ async function ensureIndexRedirect(): Promise<void> {
   await writeFile(FALLBACK_INDEX, html, "utf8");
 }
 
-async function main(): Promise<void> {
+export async function prepareVercelArtifacts(): Promise<{ targetHtml: string; sourceHtml: string | null }> {
   await mkdir(SPHERICAL_DIR, { recursive: true });
 
   const sourceHtml = await chooseSourceHtml();
@@ -86,6 +87,15 @@ async function main(): Promise<void> {
 
   await ensureIndexRedirect();
   console.log("Prepared index redirect for Vercel root route.");
+
+  return {
+    targetHtml: TARGET_HTML,
+    sourceHtml,
+  };
 }
 
-await main();
+const entryFile = process.argv[1] ? pathToFileURL(process.argv[1]).href : "";
+
+if (import.meta.url === entryFile) {
+  await prepareVercelArtifacts();
+}
