@@ -2,3 +2,5 @@ node_modules/
 .venv/
 *.log
 *.tmp
+output/index.html
+output/spherical/index.html
